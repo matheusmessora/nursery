@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("br.com.pandox.nursery")
 public class NurseryBoot {
 
-    public NurseryBoot(){
-        System.out.println("true = " + true);
+    public NurseryBoot() {
+        System.out.println("\"OPA\"\" = " + "OPA");
     }
 }

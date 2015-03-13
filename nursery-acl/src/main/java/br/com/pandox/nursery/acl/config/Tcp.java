@@ -7,11 +7,9 @@ import java.net.URL;
 
 public class Tcp {
 
+    private static final int SSL_PORT = 443;
     private String url;
     private Integer port;
-
-    public Tcp() {
-    }
 
     public Tcp(String url) {
         this.url = url.split(":")[0];
@@ -36,13 +34,18 @@ public class Tcp {
 
     public URI toURI() {
         try {
-            return new URL("http", getUrl(), getPort(), "/").toURI();
+            String protocol = isSSL() ? "https" : "http";
+            return new URL(protocol, getUrl(), getPort(), "/").toURI();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private boolean isSSL(){
+        return getPort().equals(SSL_PORT);
     }
 
     @Override public String toString() {

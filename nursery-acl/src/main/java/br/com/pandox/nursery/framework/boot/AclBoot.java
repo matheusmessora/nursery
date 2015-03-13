@@ -7,11 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @ComponentScan("br.com.pandox.nursery.acl")
 @EnableScheduling
-public class NurseryAclBoot {
-
-    public NurseryAclBoot() {
-        System.out.println("\"OPA\" = " + "OPA");
-    }
-
+public class AclBoot {
 
 }

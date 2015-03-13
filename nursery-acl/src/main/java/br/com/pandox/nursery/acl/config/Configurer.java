@@ -29,8 +29,4 @@ public class Configurer {
     public List<Tcp> getTcp() {
         return tcp;
     }
-
-    public void setTcp(List<Tcp> tcp) {
-        this.tcp = tcp;
-    }
 }
