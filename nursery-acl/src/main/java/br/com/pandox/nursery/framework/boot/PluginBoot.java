@@ -7,6 +7,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @ComponentScan("br.com.pandox.nursery.acl")
 @EnableScheduling
-public class AclBoot {
+public class PluginBoot {
+
+    public static final String PLUGIN_NAME = "acl";
 
 }

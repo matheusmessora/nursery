@@ -4,5 +4,5 @@ public enum ScreamLevel {
 
     FATAL,
     WARNING,
-    OK;
+    INFO;
 }

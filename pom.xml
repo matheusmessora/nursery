@@ -14,6 +14,7 @@
         <module>nursery-web</module>
         <module>nursery-acl</module>
         <module>nursery-example-app</module>
+        <module>nursery-filesystem</module>
     </modules>
 
     <name>Maven Quick Start Archetype</name>

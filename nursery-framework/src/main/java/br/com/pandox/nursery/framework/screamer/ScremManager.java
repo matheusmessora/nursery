@@ -16,7 +16,7 @@ public class ScremManager {
         screams = new HashSet<Scream>();
     }
 
-    public void add(Scream scream) {
+    public void setScream(Scream scream) {
         screams.add(scream);
     }
 

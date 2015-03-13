@@ -1,5 +1,6 @@
 package br.com.pandox.nursery.web.jetty;
 
+import br.com.pandox.nursery.framework.boot.NurseryBoot;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -51,6 +52,7 @@ public class NurseryServer {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocation(CONFIG_LOCATION);
         context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE);
+        context.setClassLoader(NurseryServer.class.getClassLoader());
         return context;
     }
 }

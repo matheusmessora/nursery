@@ -21,12 +21,16 @@ public class LoggerScreamer implements Scream {
 
     @PostConstruct
     public void init() {
-        manager.add(this);
+        manager.setScream(this);
 
     }
 
     @Override
     public void shout(ScreamLevel level, String message) {
-        LOGGER.info(message);
+        if(ScreamLevel.INFO.equals(level)){
+            LOGGER.info(message);
+        }else {
+            LOGGER.error(message);
+        }
     }
 }

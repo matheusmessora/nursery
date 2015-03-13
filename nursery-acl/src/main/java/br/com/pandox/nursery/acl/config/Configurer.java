@@ -1,5 +1,7 @@
 package br.com.pandox.nursery.acl.config;
 
+import br.com.pandox.nursery.framework.boot.PluginBoot;
+import br.com.pandox.nursery.framework.classloading.ResourceLoader;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.springframework.stereotype.Component;
@@ -10,23 +12,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component(value = "acl-configurer")
 public class Configurer {
+
+    private List<Tcp> tcps;
 
     @PostConstruct
     public void init() throws IOException {
-        tcp = new ArrayList<Tcp>();
-        URL resource = Resources.getResource("nursery/acl/acl.properties");
-        List<String> urls = Resources.readLines(resource, Charsets.UTF_8);
+        tcps = new ArrayList<Tcp>();
 
-        for (String url : urls) {
-            tcp.add(new Tcp(url));
+        List<URL> resources = ResourceLoader.loadResources(PluginBoot.PLUGIN_NAME);
+        List<String> properties = new ArrayList<String>();
+
+        for (URL resource : resources) {
+            properties.addAll(Resources.readLines(resource, Charsets.UTF_8));
+        }
+
+        for (String prop : properties) {
+            tcps.add(new Tcp(prop));
         }
     }
 
-    private List<Tcp> tcp;
-
-    public List<Tcp> getTcp() {
-        return tcp;
+    public List<Tcp> getTcps() {
+        return tcps;
     }
 }

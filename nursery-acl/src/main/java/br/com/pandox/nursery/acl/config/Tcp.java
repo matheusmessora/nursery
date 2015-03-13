@@ -11,9 +11,9 @@ public class Tcp {
     private String url;
     private Integer port;
 
-    public Tcp(String url) {
-        this.url = url.split(":")[0];
-        this.port = Integer.valueOf(url.split(":")[1]);
+    public Tcp(String prop) {
+        this.url = prop.split(":")[0];
+        this.port = Integer.valueOf(prop.split(":")[1]);
     }
 
     public String getUrl() {

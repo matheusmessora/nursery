@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.FailedLoginException;
-import javax.swing.*;
-
 @Service
 public class Checker {
 
@@ -27,7 +24,7 @@ public class Checker {
 
     @Scheduled(fixedRate = 5000)
     public void scheduler(){
-        for (Tcp tcp : config.getTcp()) {
+        for (Tcp tcp : config.getTcps()) {
             check(tcp);
         }
     }
@@ -35,9 +32,9 @@ public class Checker {
     private void check(Tcp tcp){
         StatusLine status = restClient.execute(tcp);
         if(status.getStatusCode() == 200){
-            // Call
-            manager.shout(ScreamLevel.FATAL, "falhou. uri=" + tcp.toURI());
+            manager.shout(ScreamLevel.INFO, "uri=" + tcp.toURI());
         }else {
+            manager.shout(ScreamLevel.FATAL, "uri=" + tcp.toURI());
         }
     }
 }
