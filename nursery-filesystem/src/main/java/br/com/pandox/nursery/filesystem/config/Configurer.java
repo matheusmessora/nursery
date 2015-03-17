@@ -1,6 +1,6 @@
 package br.com.pandox.nursery.filesystem.config;
 
-import br.com.pandox.nursery.filesystem.PluginBoot;
+import br.com.pandox.nursery.framework.boot.PluginBoot;
 import br.com.pandox.nursery.framework.classloading.ResourceLoader;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;

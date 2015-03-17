@@ -1,4 +1,4 @@
 br/com/pandox/nursery/filesystem/config/Configurer.class
 br/com/pandox/nursery/filesystem/check/Checker.class
 br/com/pandox/nursery/filesystem/config/Folder.class
-br/com/pandox/nursery/filesystem/PluginBoot.class
+br/com/pandox/nursery/framework/boot/PluginBoot.class

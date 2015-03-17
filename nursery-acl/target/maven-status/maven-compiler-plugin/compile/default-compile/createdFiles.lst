@@ -1,5 +1,5 @@
-br/com/pandox/nursery/acl/PluginBoot.class
 br/com/pandox/nursery/acl/config/Tcp.class
 br/com/pandox/nursery/acl/checker/Checker.class
 br/com/pandox/nursery/acl/rest/RestClient.class
+br/com/pandox/nursery/framework/boot/PluginBoot.class
 br/com/pandox/nursery/acl/config/Configurer.class

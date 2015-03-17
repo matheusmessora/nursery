@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.acl;
+package br.com.pandox.nursery.framework.boot;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,6 +13,10 @@ public class PluginBoot {
 
     @PostConstruct
     public void init(){
+        System.out.println("PLUGIN-ACL2 booting...");
+    }
+
+    public PluginBoot(){
         System.out.println("PLUGIN-ACL2 booting...");
     }
 
