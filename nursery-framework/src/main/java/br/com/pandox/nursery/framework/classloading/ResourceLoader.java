@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.framework.classloading;
 
 import com.google.common.io.Resources;
-import com.sun.istack.internal.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +21,7 @@ public class ResourceLoader {
 //    * - Plugins properties for default configurations must be located in classpath:/nursery/{plugin-name}/config.properties
 //     * - Override properties must be located under classpath:/nursery/custom/{plugin-name}/*.properties
 
-    public static List<URL> loadResources(@NotNull String plugin) throws IOException {
+    public static List<URL> loadResources(String plugin) throws IOException {
         checkNotNull(plugin, "plugin must be specified");
 
         List<URL> urls = new ArrayList<URL>();

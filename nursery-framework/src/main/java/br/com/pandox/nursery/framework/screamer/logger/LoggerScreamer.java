@@ -29,8 +29,10 @@ public class LoggerScreamer implements Scream {
     public void shout(ScreamLevel level, String message) {
         if(ScreamLevel.INFO.equals(level)){
             LOGGER.info(message);
+            System.out.println("message = " + message);
         }else {
             LOGGER.error(message);
+            System.out.println("message = " + message);
         }
     }
 }

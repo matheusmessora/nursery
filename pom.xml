@@ -10,9 +10,7 @@
     <version>0.1-SNAPSHOT</version>
 
     <modules>
-        <module>nursery-framework</module>
         <module>nursery-web</module>
-        <module>nursery-acl</module>
         <module>nursery-example-app</module>
         <module>nursery-filesystem</module>
     </modules>
