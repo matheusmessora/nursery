@@ -22,11 +22,11 @@
             <artifactId>nursery-filesystem</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>br.com.pandox</groupId>sub
-            <artifactId>nursery-acl</artifactId>
-            <version>0.1-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>br.com.pandox</groupId>-->
+            <!--<artifactId>nursery-acl</artifactId>-->
+            <!--<version>0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

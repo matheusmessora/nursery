@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Version: 0.1-SNAPSHOT
-Implementation-Vendor-Id: br.com.pandox
-Build-Jdk: 1.7.0_71
-Built-By: matheus
-Created-By: IntelliJ IDEA
-Specification-Version: 0.1-SNAPSHOT
-

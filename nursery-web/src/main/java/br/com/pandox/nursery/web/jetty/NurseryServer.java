@@ -2,7 +2,6 @@ package br.com.pandox.nursery.web.jetty;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppClassLoader;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
@@ -11,9 +10,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -60,15 +56,6 @@ public class NurseryServer {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocation(CONFIG_LOCATION);
         context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE);
-
-//        List<URL> urls = new ArrayList<>();
-//        for (File plugin : getPlugins()) {
-//            urls.add(plugin.toURL());
-//        }
-//        URL[] urlsArray = new URL[urls.size()];
-//        urls.toArray(urlsArray);
-//        context.setClassLoader(new URLClassLoader(urlsArray, NurseryServer.class.getClassLoader()));
-
         return context;
     }
 
