@@ -27,13 +27,13 @@ public class Checker {
     private ScremManager manager;
 
     @Scheduled(fixedRate = 5000)
-    public void scheduler(){
+    public void scheduler() {
         for (Folder folder : configurer.getFolders()) {
             check(folder);
         }
     }
 
-    private void check(Folder folder){
+    private void check(Folder folder) {
         String location = folder.getLocation();
 
         try {

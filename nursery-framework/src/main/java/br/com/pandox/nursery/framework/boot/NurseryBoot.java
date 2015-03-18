@@ -53,7 +53,5 @@ public class NurseryBoot {
     }
 
     private void initializeBeans(Plugin plugin){
-//        plugin.
-
     }
 }
