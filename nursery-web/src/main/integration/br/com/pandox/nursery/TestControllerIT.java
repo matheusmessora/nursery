@@ -1,7 +1,5 @@
 package br.com.pandox.nursery;
 
-
-import br.com.pandox.nursery.boot.NurseryServer;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.fluent.Request;
