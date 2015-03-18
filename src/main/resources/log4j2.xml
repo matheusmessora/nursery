@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="br.com.pandox" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.hibernate" level="trace" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Root level="WARN">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
