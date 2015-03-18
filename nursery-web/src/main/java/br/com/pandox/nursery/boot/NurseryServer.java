@@ -13,7 +13,8 @@ public class NurseryServer {
     private static final String CONFIG_LOCATION = "br.com.pandox.nursery.boot";
 
     private static final int DEFAULT_PORT = 15081;
-    private static final String CONTEXT_PATH = "/";
+    private static final String VERSION = "vSNAPSHOT";
+    private static final String CONTEXT_PATH = "/" + VERSION;
     private static final String MAPPING_URL = "/*";
     private static final String DEFAULT_PROFILE = "staging";
 

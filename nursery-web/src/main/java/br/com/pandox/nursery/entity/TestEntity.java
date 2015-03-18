@@ -15,6 +15,14 @@ public class TestEntity {
     @Column
     private String name;
 
+    public TestEntity() {
+    }
+
+    public TestEntity(long l, String name) {
+        id = l;
+        this.name = name;
+    }
+
 
     public Long getId() {
         return id;
