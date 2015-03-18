@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.web.jetty;
+package br.com.pandox.nursery.boot;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -7,20 +7,15 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class NurseryServer {
-    private static final String CONFIG_LOCATION = "br.com.pandox.nursery.framework.boot";
+    private static final String CONFIG_LOCATION = "br.com.pandox.nursery.boot";
 
     private static final int DEFAULT_PORT = 15081;
     private static final String CONTEXT_PATH = "/";
     private static final String MAPPING_URL = "/*";
-    private static final String DEFAULT_PROFILE = "dev";
+    private static final String DEFAULT_PROFILE = "staging";
 
     private static int jettyPort;
 
@@ -47,8 +42,6 @@ public class NurseryServer {
         webApp.addServlet(new ServletHolder(new DispatcherServlet(context)), MAPPING_URL);
         webApp.addEventListener(new ContextLoaderListener(context));
         webApp.setResourceBase("src/main/webapp/");
-//        webApp.setExtraClasspath(getPluginsClassPath());
-
         return webApp;
     }
 
@@ -57,40 +50,5 @@ public class NurseryServer {
         context.setConfigLocation(CONFIG_LOCATION);
         context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE);
         return context;
-    }
-
-    public static String getPluginsClassPath() {
-        StringBuilder pluginsClasspath = new StringBuilder();
-        boolean delim = false;
-        List<File> extraClasspath = getPlugins();
-
-        for (File cp : extraClasspath)
-        {
-            if (delim)
-            {
-                pluginsClasspath.append(",");
-            }
-            pluginsClasspath.append(cp.getAbsolutePath());
-            delim = true;
-        }
-
-
-
-        return pluginsClasspath.toString();
-    }
-
-    public static List<File> getPlugins() {
-        List<File> plugins = new ArrayList<>();
-
-        File pluginsDir = new File("/home/matheus/apps/nursery/");
-        for (File jar : pluginsDir.listFiles()) {
-            if (!jar.isFile()) {
-                continue;
-            }
-            if (jar.getName().toLowerCase(Locale.ENGLISH).endsWith(".jar")) {
-                plugins.add(jar);
-            }
-        }
-        return plugins;
     }
 }
