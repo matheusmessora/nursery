@@ -2,17 +2,17 @@ package br.com.pandox.nursery.integration;
 
 
 import br.com.pandox.nursery.boot.NurseryServer;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 public class ITHelper {
 
-    @BeforeMethod
+    @BeforeClass
     public void init() throws Exception {
         NurseryServer.start(6666);
     }
 
-    @AfterMethod
+    @AfterClass
     public void destroy() throws Exception {
         NurseryServer.stop();
     }
