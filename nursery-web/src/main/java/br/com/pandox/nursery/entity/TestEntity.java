@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.entity;
 
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 
 @Entity

@@ -1,4 +1,4 @@
-package br.com.pandox.nursery;
+package br.com.pandox.nursery.integration;
 
 
 import br.com.pandox.nursery.boot.NurseryServer;

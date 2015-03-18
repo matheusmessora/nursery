@@ -1,4 +1,4 @@
-package br.com.pandox.nursery;
+package br.com.pandox.nursery.integration;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
