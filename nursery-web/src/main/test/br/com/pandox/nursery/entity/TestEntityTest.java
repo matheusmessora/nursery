@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 public class TestEntityTest {
 
-
     @Test
     public void should_return_id() {
         TestEntity entity = new TestEntity(1L, "Mama");
