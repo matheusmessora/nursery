@@ -14,42 +14,11 @@
         <Logger name="org.springframework" level="info" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
+        <Logger name="org.hibernate" level="trace" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
         <Root level="WARN">
             <AppenderRef ref="console"/>
         </Root>
     </Loggers>
 </Configuration>
-
-
-<!--<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">-->
-<!--<log4j:configuration debug="true"-->
-                     <!--xmlns:log4j='http://jakarta.apache.org/log4j/'>-->
-
-    <!--<appender name="console" class="org.apache.log4j.ConsoleAppender">-->
-        <!--<layout class="org.apache.log4j.PatternLayout">-->
-            <!--<param name="ConversionPattern"-->
-                   <!--value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />-->
-        <!--</layout>-->
-    <!--</appender>-->
-
-    <!--<appender class="org.apache.log4j.DailyRollingFileAppender" name="FileAppender">-->
-        <!--<param name="File" value="/export/logs/sac/app.log"/>-->
-        <!--<layout class="org.apache.log4j.PatternLayout">-->
-            <!--<param value="%d{ABSOLUTE} %-5p [%c{1}] %m%n" name="ConversionPattern"/>-->
-        <!--</layout>-->
-        <!--<param value="true" name="ImmediateFlush"/>-->
-    <!--</appender>-->
-
-    <!--<logger name="br.com.pandox">-->
-        <!--<level value="DEBUG"/>-->
-    <!--</logger>-->
-    <!--<logger name="org.springframework">-->
-        <!--<level value="INFO"/>-->
-    <!--</logger>-->
-    <!--<root>-->
-        <!--<level value="WARN" />-->
-        <!--<appender-ref ref="console" />-->
-        <!--<appender-ref ref="FileAppender" />-->
-    <!--</root>-->
-
-<!--</log4j:configuration>-->
