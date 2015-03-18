@@ -9,9 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface PluginConfiguration {
-
-    String value() default "";
-
-    String[] scan();
+public @interface PluginService {
 }

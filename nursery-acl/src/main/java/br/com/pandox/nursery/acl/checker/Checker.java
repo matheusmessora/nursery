@@ -5,12 +5,12 @@ import br.com.pandox.nursery.acl.config.Tcp;
 import br.com.pandox.nursery.acl.rest.RestClient;
 import br.com.pandox.nursery.framework.screamer.ScreamLevel;
 import br.com.pandox.nursery.framework.screamer.ScremManager;
+import br.com.pandox.nursery.framework.stereotype.PluginService;
 import org.apache.http.StatusLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
-@Service
+@PluginService
 public class Checker {
 
     @Autowired

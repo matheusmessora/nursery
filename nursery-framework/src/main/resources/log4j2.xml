@@ -11,10 +11,10 @@
         <Logger name="br.com.pandox" level="debug" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
-        <Logger name="org.springframework" level="debug" additivity="false">
+        <Logger name="org.springframework" level="info" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
-        <Root level="debug" additivity="false">
+        <Root level="WARN">
             <AppenderRef ref="console"/>
         </Root>
     </Loggers>
