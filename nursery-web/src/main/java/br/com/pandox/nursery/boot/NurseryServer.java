@@ -20,6 +20,8 @@ public class NurseryServer {
 
     private static int jettyPort;
 
+    private static Server server;
+
     public static void main(String[] args) throws Exception {
         start(DEFAULT_PORT);
     }
@@ -29,8 +31,12 @@ public class NurseryServer {
         start();
     }
 
+    public static void stop() throws Exception {
+        server.stop();
+    }
+
     private static void start() throws Exception {
-        Server server = new Server(jettyPort);
+        server = new Server(jettyPort);
         server.setHandler(getServletContextHandler(getContext()));
         server.start();
     }
