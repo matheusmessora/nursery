@@ -22,12 +22,12 @@ public class MonitorController implements ResourceController<Monitor> {
     @RequestMapping(value = "/monitor")
     @Override public ResponseEntity<List<Monitor>> findAll() {
         List<Monitor> monitors = service.findAll();
-        return new ResponseEntity<List<Monitor>>(monitors, HttpStatus.OK);
+        return new ResponseEntity<>(monitors, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/monitor/{id}")
     @Override public ResponseEntity<Monitor> findById(@PathVariable Long id) {
-        Monitor monitor = service.persist(new Monitor());
+        Monitor monitor = service.findById(id);
 
         return new ResponseEntity<>(monitor, HttpStatus.CREATED);
     }

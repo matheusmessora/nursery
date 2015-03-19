@@ -34,13 +34,13 @@ public class MonitorControllerIT extends ITHelper {
     public void should_get() throws Exception {
         // Execute a GET with timeout settings and return response content as String.
 
-        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor")
+        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor/1")
             .connectTimeout(1000)
             .socketTimeout(1000)
             .execute().returnResponse();
 
-        if(statusLine.getStatusCode() != HttpStatus.SC_OK){
-            Assert.fail();
-        }
+        Monitor monitor = RestUtil.createResponseObject(httpResponse, Monitor.class);
+
+        Assert.assertEquals(monitor.getId().longValue(), 1L);
     }
 }

@@ -23,4 +23,7 @@ public class MonitorService {
     }
 
 
+    public Monitor findById(Long id) {
+        return repository.findOne(id);
+    }
 }
