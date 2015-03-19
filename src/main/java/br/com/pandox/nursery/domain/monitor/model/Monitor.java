@@ -12,4 +12,5 @@ public interface Monitor extends Model{
     String getStatus();
 
     String getName();
+
 }

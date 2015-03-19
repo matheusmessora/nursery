@@ -32,4 +32,5 @@ public class MonitorFactoryImpl implements MonitorFactory {
         BeanUtils.copyProperties(monitor, dto);
         return dto;
     }
+
 }

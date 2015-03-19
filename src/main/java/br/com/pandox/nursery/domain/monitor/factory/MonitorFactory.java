@@ -6,9 +6,10 @@ import br.com.pandox.nursery.domain.monitor.view.MonitorDTO;
 
 public interface MonitorFactory extends Factory<Monitor, MonitorDTO> {
 
-//    @Override
-//    Monitor fabric(MonitorDTO monitorDTO);
-//
-//    @Override
-//    MonitorDTO fabric(Monitor model);
+    @Override
+    Monitor fabric(MonitorDTO monitorDTO);
+
+    @Override
+    MonitorDTO fabric(Monitor model);
+
 }

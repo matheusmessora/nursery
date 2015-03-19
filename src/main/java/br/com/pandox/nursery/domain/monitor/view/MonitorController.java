@@ -1,6 +1,7 @@
 package br.com.pandox.nursery.domain.monitor.view;
 
 
+import br.com.pandox.nursery.FactoryStrategy;
 import br.com.pandox.nursery.controller.ResourceController;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
@@ -14,8 +15,11 @@ import java.util.List;
 @RestController
 public class MonitorController implements ResourceController<MonitorDTO> {
 
+//    @Autowired
+//    private FactoryStrategy factory;
+
     @Autowired
-    private MonitorFactory factory;
+    private MonitorFactory monitorFactory;
 
     @RequestMapping(value = "/monitor")
     @Override public ResponseEntity<List<MonitorDTO>> findAll() {
@@ -33,10 +37,10 @@ public class MonitorController implements ResourceController<MonitorDTO> {
 
     @RequestMapping(value = "/monitor", method = RequestMethod.POST)
     public ResponseEntity<MonitorDTO> save(@RequestBody MonitorDTO monitorDTO) {
-        Monitor monitor = factory.fabric(monitorDTO);
+        Monitor monitor = monitorFactory.fabric(monitorDTO);
         monitor.save();
 
-        monitorDTO = factory.fabric(monitor);
+        monitorDTO = monitorFactory.fabric(monitor);
         return new ResponseEntity<>(monitorDTO, HttpStatus.CREATED);
     }
 }
