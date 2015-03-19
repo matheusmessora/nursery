@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.entity;
+package br.com.pandox.nursery.model;
 
 
 import javax.persistence.*;

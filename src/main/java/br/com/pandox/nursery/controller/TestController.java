@@ -1,6 +1,6 @@
 package br.com.pandox.nursery.controller;
 
-import br.com.pandox.nursery.entity.TestEntity;
+import br.com.pandox.nursery.model.TestEntity;
 import br.com.pandox.nursery.repository.TestRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class TestController {
     @RequestMapping(value = "/test", produces = "application/json")
     public ResponseEntity teste() {
         TestEntity entity = new TestEntity();
-//        entity.setId(1L);
+//        model.setId(1L);
         entity.setName("ABC");
         entity = testRepository.save(entity);
 

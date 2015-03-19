@@ -22,7 +22,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan("br.com.pandox.nursery")
-@EnableJpaRepositories("br.com.pandox.nursery.repository")
+@EnableJpaRepositories({"br.com.pandox.nursery.repository", "br.com.pandox.nursery.domain.monitor.repository"})
 @EnableTransactionManagement
 public class ApplicationBoot extends WebMvcConfigurerAdapter {
 

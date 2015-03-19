@@ -1,13 +1,11 @@
-package br.com.pandox.nursery.entity;
+package br.com.pandox.nursery.domain.monitor.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import br.com.pandox.nursery.domain.monitor.repository.MonitorRepository;
+
+import javax.persistence.*;
 
 @Entity
-public class Monitor implements Resource {
+public class MonitorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +22,9 @@ public class Monitor implements Resource {
 
     @Column
     private String version;
+
+    @Transient
+    private transient MonitorRepository repository;
 
     public Long getId() {
         return id;
@@ -63,5 +64,17 @@ public class Monitor implements Resource {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public MonitorEntity persist(MonitorRepository repository) {
+        return repository.save(this);
+    }
+
+    public void setRepository(MonitorRepository repository) {
+        this.repository = repository;
+    }
+
+    public void save() {
+        repository.save(this);
     }
 }
