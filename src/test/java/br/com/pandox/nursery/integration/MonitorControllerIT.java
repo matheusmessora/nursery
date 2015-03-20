@@ -57,7 +57,7 @@ public class MonitorControllerIT extends ITHelper {
     @Test
     public void should_create_another() throws Exception {
         // Execute a GET with timeout settings and return response content as String.
-        Monitor dto = new MonitorBuilder().setMachine("localhost").setName("testMonitor").build();
+        Monitor dto = new MonitorBuilder().setMachine("localhost").setName("testMonitor2").build();
 
 
         HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
