@@ -35,7 +35,7 @@ public class MonitorController implements ResourceController<Monitor> {
     @RequestMapping(value = "/monitor/{id}")
     @Override public ResponseEntity<Monitor> findById(@PathVariable Long id) {
         Monitor Monitor = loader.loadByID(id);
-        return new ResponseEntity<>(Monitor, HttpStatus.CREATED);
+        return new ResponseEntity<>(Monitor, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/monitor", method = RequestMethod.POST)

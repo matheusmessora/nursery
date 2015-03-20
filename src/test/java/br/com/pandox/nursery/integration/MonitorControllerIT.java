@@ -19,7 +19,6 @@ public class MonitorControllerIT extends ITHelper {
 
     @Test
     public void should_create() throws Exception {
-        // Execute a GET with timeout settings and return response content as String.
         Monitor dto = new MonitorBuilder().setMachine("localhost").setName("testMonitor").build();
 
         HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
@@ -48,11 +47,24 @@ public class MonitorControllerIT extends ITHelper {
             .socketTimeout(1000)
             .execute().returnResponse();
 
+        Assert.assertEquals(httpResponse.getStatusLine().getStatusCode(), HttpStatus.SC_OK);
+
         MonitorDTO response = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
 
         Assert.assertEquals(response.getId().longValue(), 1L);
         Assert.assertEquals(response.getName(), "testMonitor");
         Assert.assertEquals(response.getMachine(), "localhost");
+        Assert.assertEquals(response.getStatus(), MonitorEntity.Status.READY.name());
+    }
+
+//    @Test
+    public void should_return_notFound() throws Exception {
+        StatusLine httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor/0")
+            .connectTimeout(1000)
+            .socketTimeout(1000)
+            .execute().returnResponse().getStatusLine();
+
+        Assert.assertEquals(httpResponse.getStatusCode(), HttpStatus.SC_NOT_FOUND);
     }
 
 
@@ -77,6 +89,7 @@ public class MonitorControllerIT extends ITHelper {
             Assert.assertEquals(response.getId().longValue(), 2L);
             Assert.assertEquals(response.getName(), "testMonitor2");
             Assert.assertEquals(response.getMachine(), "localhost");
+            Assert.assertEquals(response.getStatus(), MonitorEntity.Status.READY.name());
         }
     }
 
@@ -94,9 +107,12 @@ public class MonitorControllerIT extends ITHelper {
         Assert.assertEquals(response.get(0).getId().longValue(), 1L);
         Assert.assertEquals(response.get(0).getName(), "testMonitor");
         Assert.assertEquals(response.get(0).getMachine(), "localhost");
+        Assert.assertEquals(response.get(0).getStatus(), MonitorEntity.Status.READY.name());
+
 
         Assert.assertEquals(response.get(1).getId().longValue(), 2L);
         Assert.assertEquals(response.get(1).getName(), "testMonitor2");
         Assert.assertEquals(response.get(1).getMachine(), "localhost");
+        Assert.assertEquals(response.get(1).getStatus(), MonitorEntity.Status.READY.name());
     }
 }

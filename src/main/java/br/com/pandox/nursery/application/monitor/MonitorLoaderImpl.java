@@ -18,7 +18,11 @@ public class MonitorLoaderImpl implements MonitorLoader {
     private MonitorRepository repository;
 
     public Monitor loadByID(Long id) {
-        return service.findByID(id);
+        Monitor monitor = service.findByID(id);
+//        if(monitor == null){
+//            throw new EntityNotFoundException()
+//        }
+        return monitor;
     }
 
     public List<Monitor> loadAll() {
