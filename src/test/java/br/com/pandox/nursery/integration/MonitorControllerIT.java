@@ -78,7 +78,6 @@ public class MonitorControllerIT extends ITHelper {
         }
     }
 
-
     @Test
     public void should_get_all() throws Exception {
         HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor")
