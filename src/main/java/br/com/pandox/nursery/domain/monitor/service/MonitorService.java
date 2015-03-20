@@ -9,5 +9,5 @@ public interface MonitorService {
 
     Monitor findByID(Long id);
 
-    List<Monitor> findAll();
+    List<Monitor> loadAll();
 }

@@ -1,7 +1,7 @@
 package br.com.pandox.nursery.rest;
 
 
-import br.com.pandox.nursery.DataTO;
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class RestUtil {
 
-    public static String toJson(DataTO entity) throws JsonProcessingException {
+    public static String toJson(Monitor entity) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(entity);
         return json;

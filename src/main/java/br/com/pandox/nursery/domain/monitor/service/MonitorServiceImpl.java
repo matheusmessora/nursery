@@ -19,7 +19,7 @@ public class MonitorServiceImpl implements MonitorService {
         return repository.findOne(id);
     }
 
-    @Override public List<Monitor> findAll() {
+    @Override public List<Monitor> loadAll() {
         Iterable<MonitorEntity> all = repository.findAll();
 
         ImmutableList.Builder<Monitor> builder = ImmutableList.builder();

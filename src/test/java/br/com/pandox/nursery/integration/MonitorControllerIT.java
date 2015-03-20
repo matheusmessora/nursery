@@ -1,5 +1,7 @@
 package br.com.pandox.nursery.integration;
 
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorBuilder;
 import br.com.pandox.nursery.rest.RestUtil;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.apache.http.HttpResponse;
@@ -17,9 +19,7 @@ public class MonitorControllerIT extends ITHelper {
     @Test
     public void should_create() throws Exception {
         // Execute a GET with timeout settings and return response content as String.
-        MonitorDTO dto = new MonitorDTO();
-        dto.setMachine("localhost");
-        dto.setName("testMonitor");
+        Monitor dto = new MonitorBuilder().setMachine("localhost").setName("testMonitor").build();
 
         HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
                 .connectTimeout(1000)
@@ -30,7 +30,7 @@ public class MonitorControllerIT extends ITHelper {
 
         int httpExpected = HttpStatus.SC_CREATED;
         if (statusLine.getStatusCode() != httpExpected) {
-            Assert.fail(String.format("http status must be %s", httpExpected));
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
         }else {
             MonitorDTO response = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
             Assert.assertEquals(response.getId().longValue(), 1L);
@@ -57,9 +57,8 @@ public class MonitorControllerIT extends ITHelper {
     @Test
     public void should_create_another() throws Exception {
         // Execute a GET with timeout settings and return response content as String.
-        MonitorDTO dto = new MonitorDTO();
-        dto.setMachine("localhost");
-        dto.setName("testMonitor2");
+        Monitor dto = new MonitorBuilder().setMachine("localhost").setName("testMonitor").build();
+
 
         HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
             .connectTimeout(1000)
@@ -70,7 +69,7 @@ public class MonitorControllerIT extends ITHelper {
 
         int httpExpected = HttpStatus.SC_CREATED;
         if (statusLine.getStatusCode() != httpExpected) {
-            Assert.fail(String.format("http status must be %s", httpExpected));
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
         }else {
             MonitorDTO response = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
             Assert.assertEquals(response.getId().longValue(), 2L);
