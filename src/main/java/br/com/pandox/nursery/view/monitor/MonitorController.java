@@ -2,8 +2,8 @@ package br.com.pandox.nursery.view.monitor;
 
 
 import br.com.pandox.nursery.application.monitor.MonitorLoader;
-import br.com.pandox.nursery.domain.monitor.command.CreateMonitorCommand;
-import br.com.pandox.nursery.domain.monitor.command.executor.MonitorCommandExecutorStrategy;
+import br.com.pandox.nursery.domain.monitor.command.impl.CreateMonitorCommand;
+import br.com.pandox.nursery.domain.monitor.command.executor.MonitorCommandExecutor;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.view.ResourceController;
@@ -21,7 +21,7 @@ public class MonitorController implements ResourceController<Monitor> {
     private MonitorLoader loader;
 
     @Autowired
-    private MonitorCommandExecutorStrategy executorStrategy;
+    private MonitorCommandExecutor executor;
 
     @Autowired
     private MonitorFactory factory;
@@ -40,7 +40,8 @@ public class MonitorController implements ResourceController<Monitor> {
 
     @RequestMapping(value = "/monitor", method = RequestMethod.POST)
     public ResponseEntity<MonitorDTO> save(@RequestBody MonitorDTO dto) {
-        Monitor monitor = executorStrategy.execute(new CreateMonitorCommand(dto));
+        CreateMonitorCommand command = new CreateMonitorCommand(dto);
+        Monitor monitor = executor.execute(command);
 
         dto = factory.fabric(monitor);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
