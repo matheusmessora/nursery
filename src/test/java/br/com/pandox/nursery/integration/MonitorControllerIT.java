@@ -2,6 +2,7 @@ package br.com.pandox.nursery.integration;
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorBuilder;
+import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorEntity;
 import br.com.pandox.nursery.rest.RestUtil;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.apache.http.HttpResponse;
@@ -36,6 +37,7 @@ public class MonitorControllerIT extends ITHelper {
             Assert.assertEquals(response.getId().longValue(), 1L);
             Assert.assertEquals(response.getName(), "testMonitor");
             Assert.assertEquals(response.getMachine(), "localhost");
+            Assert.assertEquals(response.getStatus(), MonitorEntity.Status.READY.name());
         }
     }
 

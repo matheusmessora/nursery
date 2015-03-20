@@ -1,6 +1,7 @@
-package br.com.pandox.nursery.domain.monitor.factory;
+package br.com.pandox.nursery.domain.monitor.factory.impl;
 
 
+import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorBuilder;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
@@ -24,6 +25,7 @@ public class MonitorFactoryImpl implements MonitorFactory {
     public MonitorDTO fabric(Monitor monitor){
         MonitorDTO dto = new MonitorDTO();
         BeanUtils.copyProperties(monitor, dto);
+        dto.setStatus(monitor.getStatus().name());
         return dto;
     }
 

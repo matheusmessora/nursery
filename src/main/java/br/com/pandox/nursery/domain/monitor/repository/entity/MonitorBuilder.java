@@ -27,14 +27,15 @@ public class MonitorBuilder {
 
     public MonitorBuilder setStatus(String status) {
         if (!StringUtils.isEmpty(status)) {
-            MonitorEntity.Status monitorStatus = null;
+            MonitorEntity.Status monitorStatus;
             try {
                 monitorStatus = MonitorEntity.Status.valueOf(status);
             } catch (IllegalArgumentException e) {
-                // TODO: Must throw BadRequest
                 throw e;
             }
             this.status = monitorStatus;
+        }else {
+            this.status = MonitorEntity.Status.UNREGISTERED;
         }
 
         return this;

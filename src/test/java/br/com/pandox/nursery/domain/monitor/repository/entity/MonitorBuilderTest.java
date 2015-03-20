@@ -12,7 +12,7 @@ public class MonitorBuilderTest {
         MonitorBuilder builder = new MonitorBuilder();
         Monitor result = builder.setStatus("").build();
 
-        Assert.assertNull(result.getStatus());
+        Assert.assertEquals(result.getStatus(), MonitorEntity.Status.UNREGISTERED);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
