@@ -8,7 +8,5 @@ public interface MonitorFactory {
 
     Monitor fabric(MonitorDTO monitorDTO);
 
-    Monitor fabric();
-
     MonitorDTO fabric(Monitor model);
 }

@@ -1,11 +1,12 @@
 package br.com.pandox.nursery.domain.monitor.repository.entity;
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import org.springframework.util.StringUtils;
 
 public class MonitorBuilder {
     private Long id;
     private String machine;
-    private String status;
+    private MonitorEntity.Status status;
     private String name;
     private String version;
 
@@ -19,8 +20,23 @@ public class MonitorBuilder {
         return this;
     }
 
-    public MonitorBuilder setStatus(String status) {
+    public MonitorBuilder setStatus(MonitorEntity.Status status) {
         this.status = status;
+        return this;
+    }
+
+    public MonitorBuilder setStatus(String status) {
+        if (!StringUtils.isEmpty(status)) {
+            MonitorEntity.Status monitorStatus = null;
+            try {
+                monitorStatus = MonitorEntity.Status.valueOf(status);
+            } catch (IllegalArgumentException e) {
+                // TODO: Must throw BadRequest
+                throw e;
+            }
+            this.status = monitorStatus;
+        }
+
         return this;
     }
 

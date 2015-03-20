@@ -1,9 +1,10 @@
 package br.com.pandox.nursery.view.monitor;
 
 
-import br.com.pandox.nursery.DataTO;
+import br.com.pandox.nursery.DataTransferObject;
 
-public class MonitorDTO implements DataTO{
+
+public class MonitorDTO implements DataTransferObject {
 
     private Long id;
 

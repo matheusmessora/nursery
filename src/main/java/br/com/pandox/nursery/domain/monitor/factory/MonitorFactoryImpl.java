@@ -21,10 +21,6 @@ public class MonitorFactoryImpl implements MonitorFactory {
                 .build();
     }
 
-    public Monitor fabric() {
-        return new MonitorBuilder().build();
-    }
-
     public MonitorDTO fabric(Monitor monitor){
         MonitorDTO dto = new MonitorDTO();
         BeanUtils.copyProperties(monitor, dto);

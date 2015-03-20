@@ -8,6 +8,14 @@ import javax.persistence.*;
 @Entity
 public class MonitorEntity implements Monitor {
 
+    // ALWAYS ADD NEW STATUS AT THE END - because the entityStatus field is
+    // annotated as ordinal in sake of performance
+    public static enum Status {
+        UNREGISTERED, READY, STARTED, RUNNING, STOPPED;
+
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -15,8 +23,8 @@ public class MonitorEntity implements Monitor {
     @Column
     private String machine;
 
-    @Column
-    private String status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status = Status.UNREGISTERED;
 
     @Column(unique = true)
     private String name;
@@ -24,15 +32,21 @@ public class MonitorEntity implements Monitor {
     @Column
     private String version;
 
-    @Deprecated
-    public MonitorEntity(){}
+    @Transient
+    private transient boolean inSync;
 
-    protected MonitorEntity(Long id, String machine, String status, String name, String version) {
+    @Deprecated
+    public MonitorEntity(){
+        this.inSync = false;
+    }
+
+    protected MonitorEntity(Long id, String machine, Status status, String name, String version) {
         this.id = id;
         this.machine = machine;
         this.status = status;
         this.name = name;
         this.version = version;
+        this.inSync = false;
     }
 
     public Long getId() {
@@ -43,7 +57,7 @@ public class MonitorEntity implements Monitor {
         return machine;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -51,7 +65,13 @@ public class MonitorEntity implements Monitor {
         return name;
     }
 
+    @Override
+    public boolean isInSync() {
+        return inSync;
+    }
+
     public void save(MonitorRepository repository) {
         repository.save(this);
+        inSync = true;
     }
 }
