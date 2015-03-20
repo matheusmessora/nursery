@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.controller;
+package br.com.pandox.nursery.view;
 
 
 import org.springframework.http.ResponseEntity;

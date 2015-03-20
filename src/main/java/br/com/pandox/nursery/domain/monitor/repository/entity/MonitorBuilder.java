@@ -1,7 +1,6 @@
-package br.com.pandox.nursery.domain.monitor.model;
+package br.com.pandox.nursery.domain.monitor.repository.entity;
 
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntityFactory;
-import org.springframework.util.Assert;
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
 
 public class MonitorBuilder {
     private Long id;
@@ -9,7 +8,6 @@ public class MonitorBuilder {
     private String status;
     private String name;
     private String version;
-    private MonitorEntityFactory factory;
 
     public MonitorBuilder setId(Long id) {
         this.id = id;
@@ -36,13 +34,7 @@ public class MonitorBuilder {
         return this;
     }
 
-    public MonitorBuilder setFactory(MonitorEntityFactory factory) {
-        this.factory = factory;
-        return this;
-    }
-
-    public MonitorImpl fabric() {
-        Assert.notNull(factory);
-        return new MonitorImpl(id, machine, status, name, version, factory);
+    public Monitor build() {
+        return new MonitorEntity(id, machine, status, name, version);
     }
 }

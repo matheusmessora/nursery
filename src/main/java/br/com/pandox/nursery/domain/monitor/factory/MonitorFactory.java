@@ -2,14 +2,13 @@ package br.com.pandox.nursery.domain.monitor.factory;
 
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.view.MonitorDTO;
+import br.com.pandox.nursery.view.monitor.MonitorDTO;
 
-public interface MonitorFactory extends Factory<Monitor, MonitorDTO> {
+public interface MonitorFactory {
 
-    @Override
     Monitor fabric(MonitorDTO monitorDTO);
 
-    @Override
-    MonitorDTO fabric(Monitor model);
+    Monitor fabric();
 
+    MonitorDTO fabric(Monitor model);
 }

@@ -1,19 +1,14 @@
 package br.com.pandox.nursery.domain.monitor.factory;
 
 
-import br.com.pandox.nursery.domain.monitor.view.MonitorDTO;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntityFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.model.MonitorBuilder;
+import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorBuilder;
+import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MonitorFactoryImpl implements MonitorFactory {
-
-    @Autowired
-    private MonitorEntityFactory entityFactory;
 
     @Override
     public Monitor fabric(MonitorDTO dto) {
@@ -23,8 +18,11 @@ public class MonitorFactoryImpl implements MonitorFactory {
                 .setName(dto.getName())
                 .setStatus(dto.getStatus())
                 .setVersion(dto.getVersion())
-                .setFactory(entityFactory)
-                .fabric();
+                .build();
+    }
+
+    public Monitor fabric() {
+        return new MonitorBuilder().build();
     }
 
     public MonitorDTO fabric(Monitor monitor){

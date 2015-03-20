@@ -1,30 +1,19 @@
-package br.com.pandox.nursery.domain.monitor.entity;
+package br.com.pandox.nursery.view.monitor;
 
-import br.com.pandox.nursery.domain.monitor.repository.MonitorRepository;
 
-import javax.persistence.*;
+import br.com.pandox.nursery.DataTO;
 
-@Entity
-public class MonitorEntity {
+public class MonitorDTO implements DataTO{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
     private String machine;
 
-    @Column
     private String status;
 
-    @Column(unique = true)
     private String name;
 
-    @Column
     private String version;
-
-    @Transient
-    private transient MonitorRepository repository;
 
     public Long getId() {
         return id;
@@ -64,17 +53,5 @@ public class MonitorEntity {
 
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    public MonitorEntity persist(MonitorRepository repository) {
-        return repository.save(this);
-    }
-
-    public void setRepository(MonitorRepository repository) {
-        this.repository = repository;
-    }
-
-    public void save() {
-        repository.save(this);
     }
 }

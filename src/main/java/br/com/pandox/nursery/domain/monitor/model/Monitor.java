@@ -1,9 +1,12 @@
 package br.com.pandox.nursery.domain.monitor.model;
 
 
-public interface Monitor extends Model{
+import br.com.pandox.nursery.Model;
+import br.com.pandox.nursery.domain.monitor.repository.MonitorRepository;
 
-    public void save();
+public interface Monitor extends Model {
+
+    void save(MonitorRepository repository);
 
     Long getId();
 
