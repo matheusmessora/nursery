@@ -14,18 +14,18 @@ public class MonitorFactoryImpl implements MonitorFactory {
     @Override
     public Monitor fabric(MonitorDTO dto) {
         return new MonitorBuilder()
-                .setId(dto.getId())
-                .setMachine(dto.getMachine())
-                .setName(dto.getName())
-                .setStatus(dto.getStatus())
-                .setVersion(dto.getVersion())
+                .setId(dto.id)
+                .setMachine(dto.machine)
+                .setName(dto.name)
+                .setStatus(dto.status)
+                .setVersion(dto.version)
                 .build();
     }
 
     public MonitorDTO fabric(Monitor monitor){
         MonitorDTO dto = new MonitorDTO();
         BeanUtils.copyProperties(monitor, dto);
-        dto.setStatus(monitor.getStatus().name());
+        dto.status = monitor.getStatus().name();
         return dto;
     }
 

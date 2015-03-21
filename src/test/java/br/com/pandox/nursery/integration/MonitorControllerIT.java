@@ -1,8 +1,7 @@
 package br.com.pandox.nursery.integration;
 
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorBuilder;
 import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorEntity;
+import br.com.pandox.nursery.infrastructure.controller.rest.ErroDTO;
 import br.com.pandox.nursery.rest.RestUtil;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.apache.http.HttpResponse;
@@ -19,7 +18,10 @@ public class MonitorControllerIT extends ITHelper {
 
     @Test
     public void should_create() throws Exception {
-        Monitor dto = new MonitorBuilder().setMachine("localhost").setName("testMonitor").build();
+        MonitorDTO dto = new MonitorDTO();
+        dto.name = "testMonitor";
+        dto.machine = "localhost";
+
 
         HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
                 .connectTimeout(1000)
@@ -31,12 +33,12 @@ public class MonitorControllerIT extends ITHelper {
         int httpExpected = HttpStatus.SC_CREATED;
         if (statusLine.getStatusCode() != httpExpected) {
             Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
-        }else {
+        } else {
             MonitorDTO response = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
-            Assert.assertEquals(response.getId().longValue(), 1L);
-            Assert.assertEquals(response.getName(), "testMonitor");
-            Assert.assertEquals(response.getMachine(), "localhost");
-            Assert.assertEquals(response.getStatus(), MonitorEntity.Status.READY.name());
+            Assert.assertEquals(response.id.longValue(), 1L);
+            Assert.assertEquals(response.name, "testMonitor");
+            Assert.assertEquals(response.machine, "localhost");
+            Assert.assertEquals(response.status, MonitorEntity.Status.READY.name());
         }
     }
 
@@ -51,27 +53,33 @@ public class MonitorControllerIT extends ITHelper {
 
         MonitorDTO response = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
 
-        Assert.assertEquals(response.getId().longValue(), 1L);
-        Assert.assertEquals(response.getName(), "testMonitor");
-        Assert.assertEquals(response.getMachine(), "localhost");
-        Assert.assertEquals(response.getStatus(), MonitorEntity.Status.READY.name());
+        Assert.assertEquals(response.id.longValue(), 1L);
+        Assert.assertEquals(response.name, "testMonitor");
+        Assert.assertEquals(response.machine, "localhost");
+        Assert.assertEquals(response.status, MonitorEntity.Status.READY.name());
     }
 
-//    @Test
+    @Test
     public void should_return_notFound() throws Exception {
-        StatusLine httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor/0")
+        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor/0")
             .connectTimeout(1000)
             .socketTimeout(1000)
-            .execute().returnResponse().getStatusLine();
+            .execute().returnResponse();
 
-        Assert.assertEquals(httpResponse.getStatusCode(), HttpStatus.SC_NOT_FOUND);
+        Assert.assertEquals(httpResponse.getStatusLine().getStatusCode(), HttpStatus.SC_NOT_FOUND);
+
+        ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+        Assert.assertEquals(erroDTO.getError().message, "Monitor não encontrado");
     }
 
 
     @Test
     public void should_create_another() throws Exception {
         // Execute a GET with timeout settings and return response content as String.
-        Monitor dto = new MonitorBuilder().setMachine("localhost").setName("testMonitor2").build();
+        MonitorDTO dto = new MonitorDTO();
+        dto.name = "testMonitor2";
+        dto.machine = "localhost";
 
 
         HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
@@ -86,10 +94,10 @@ public class MonitorControllerIT extends ITHelper {
             Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
         }else {
             MonitorDTO response = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
-            Assert.assertEquals(response.getId().longValue(), 2L);
-            Assert.assertEquals(response.getName(), "testMonitor2");
-            Assert.assertEquals(response.getMachine(), "localhost");
-            Assert.assertEquals(response.getStatus(), MonitorEntity.Status.READY.name());
+            Assert.assertEquals(response.id.longValue(), 2L);
+            Assert.assertEquals(response.name, "testMonitor2");
+            Assert.assertEquals(response.machine, "localhost");
+            Assert.assertEquals(response.status, MonitorEntity.Status.READY.name());
         }
     }
 
@@ -104,15 +112,15 @@ public class MonitorControllerIT extends ITHelper {
 
         Assert.assertEquals(response.size(), 2);
 
-        Assert.assertEquals(response.get(0).getId().longValue(), 1L);
-        Assert.assertEquals(response.get(0).getName(), "testMonitor");
-        Assert.assertEquals(response.get(0).getMachine(), "localhost");
-        Assert.assertEquals(response.get(0).getStatus(), MonitorEntity.Status.READY.name());
+        Assert.assertEquals(response.get(0).id.longValue(), 1L);
+        Assert.assertEquals(response.get(0).name, "testMonitor");
+        Assert.assertEquals(response.get(0).machine, "localhost");
+        Assert.assertEquals(response.get(0).status, MonitorEntity.Status.READY.name());
 
 
-        Assert.assertEquals(response.get(1).getId().longValue(), 2L);
-        Assert.assertEquals(response.get(1).getName(), "testMonitor2");
-        Assert.assertEquals(response.get(1).getMachine(), "localhost");
-        Assert.assertEquals(response.get(1).getStatus(), MonitorEntity.Status.READY.name());
+        Assert.assertEquals(response.get(1).id.longValue(), 2L);
+        Assert.assertEquals(response.get(1).name, "testMonitor2");
+        Assert.assertEquals(response.get(1).machine, "localhost");
+        Assert.assertEquals(response.get(1).status, MonitorEntity.Status.READY.name());
     }
 }

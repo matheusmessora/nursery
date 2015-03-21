@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,13 +17,15 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.util.Locale;
 import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan("br.com.pandox.nursery")
-@EnableJpaRepositories({"br.com.pandox.nursery.repository", "br.com.pandox.nursery.domain.monitor.repository"})
+@EnableJpaRepositories({"br.com.pandox.nursery", "br.com.pandox.nursery.domain.monitor.repository"})
 @EnableTransactionManagement
 public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
@@ -82,5 +85,23 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
+    }
+
+    @Bean
+    public SessionLocaleResolver sessionLocaleResolver(){
+        SessionLocaleResolver localeResolver=new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(Locale.US);
+        return localeResolver;
+    }
+
+    @Bean
+    public ReloadableResourceBundleMessageSource getMessageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setBasename("classpath:locale/messages");
+        messageSource.setUseCodeAsDefaultMessage(true);
+
+
+        return messageSource;
     }
 }

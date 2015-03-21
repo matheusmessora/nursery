@@ -1,12 +1,12 @@
 package br.com.pandox.nursery.view.monitor;
 
 
-import br.com.pandox.nursery.application.monitor.MonitorLoader;
+import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.command.impl.CreateMonitorCommand;
 import br.com.pandox.nursery.domain.monitor.command.executor.MonitorCommandExecutor;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.view.ResourceController;
+import br.com.pandox.nursery.infrastructure.controller.rest.ResourceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

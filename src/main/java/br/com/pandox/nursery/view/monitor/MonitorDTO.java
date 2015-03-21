@@ -6,53 +6,53 @@ import br.com.pandox.nursery.DataTransferObject;
 
 public class MonitorDTO implements DataTransferObject {
 
-    private Long id;
+    public Long id;
 
-    private String machine;
+    public String machine;
 
-    private String status;
+    public String status;
 
-    private String name;
+    public String name;
 
-    private String version;
-
-    public Long getId() {
-        return id;
-    }
+    public String version;
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getMachine() {
-        return machine;
     }
 
     public void setMachine(String machine) {
         this.machine = machine;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getMachine() {
+        return machine;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getVersion() {
+        return version;
     }
 }

@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.application.monitor;
+package br.com.pandox.nursery.domain.monitor.loader;
 
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
