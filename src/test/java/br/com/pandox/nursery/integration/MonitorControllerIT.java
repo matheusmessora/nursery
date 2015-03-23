@@ -102,30 +102,6 @@ public class MonitorControllerIT extends ITHelper {
     }
 
     @Test
-    public void should_get_all() throws Exception {
-        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
-            .connectTimeout(1000)
-            .socketTimeout(1000)
-            .execute().returnResponse();
-
-        List<MonitorDTO> response = RestUtil.createListResponseObject(httpResponse, MonitorDTO.class);
-
-        Assert.assertEquals(response.size(), 2);
-
-        Assert.assertEquals(response.get(0).id.longValue(), 1L);
-        Assert.assertEquals(response.get(0).name, "testMonitor");
-        Assert.assertEquals(response.get(0).machine, "localhost");
-        Assert.assertEquals(response.get(0).status, MonitorEntity.Status.READY.name());
-
-
-        Assert.assertEquals(response.get(1).id.longValue(), 2L);
-        Assert.assertEquals(response.get(1).name, "testMonitor2");
-        Assert.assertEquals(response.get(1).machine, "localhost");
-        Assert.assertEquals(response.get(1).status, MonitorEntity.Status.READY.name());
-    }
-
-
-    @Test
     public void should_return_badRequest_when_sent_an_unknow_status() throws Exception {
         // Execute a GET with timeout settings and return response content as String.
         MonitorDTO dto = new MonitorDTO();
@@ -149,5 +125,56 @@ public class MonitorControllerIT extends ITHelper {
 
             Assert.assertEquals(erroDTO.getError().message, "Status informado não reconhecido");
         }
+    }
+
+    @Test
+    public void should_create_monitor_with_status_READY_even_when_sent_another_status() throws Exception {
+        // Execute a GET with timeout settings and return response content as String.
+        MonitorDTO dto = new MonitorDTO();
+        dto.name = "testMonitor3";
+        dto.machine = "localhost";
+        dto.setStatus(MonitorEntity.Status.RUNNING.name());
+
+
+        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
+                .connectTimeout(1000)
+                .socketTimeout(1000)
+                .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+                .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_CREATED;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        }else {
+            MonitorDTO response = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
+            Assert.assertEquals(response.id.longValue(), 3L);
+            Assert.assertEquals(response.name, "testMonitor3");
+            Assert.assertEquals(response.machine, "localhost");
+            Assert.assertEquals(response.status, MonitorEntity.Status.READY.name());
+        }
+    }
+
+    @Test
+    public void should_get_all() throws Exception {
+        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
+                .connectTimeout(1000)
+                .socketTimeout(1000)
+                .execute().returnResponse();
+
+        List<MonitorDTO> response = RestUtil.createListResponseObject(httpResponse, MonitorDTO.class);
+
+        Assert.assertEquals(response.size(), 3);
+
+        Assert.assertEquals(response.get(0).id.longValue(), 1L);
+        Assert.assertEquals(response.get(0).name, "testMonitor");
+        Assert.assertEquals(response.get(0).machine, "localhost");
+        Assert.assertEquals(response.get(0).status, MonitorEntity.Status.READY.name());
+
+
+        Assert.assertEquals(response.get(1).id.longValue(), 2L);
+        Assert.assertEquals(response.get(1).name, "testMonitor2");
+        Assert.assertEquals(response.get(1).machine, "localhost");
+        Assert.assertEquals(response.get(1).status, MonitorEntity.Status.READY.name());
     }
 }
