@@ -1,5 +1,6 @@
 package br.com.pandox.nursery.infrastructure.controller.rest;
 
+import br.com.pandox.nursery.infrastructure.exception.DomainMandatoryAttributeException;
 import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.infrastructure.exception.NotFoundException;
 import org.apache.logging.log4j.LogManager;
@@ -49,6 +50,21 @@ public class AdviceRestController {
         ErrorMessageDTO messageDTO = new ErrorMessageDTO();
         messageDTO.code = ex.getCode();
         messageDTO.message = messageSource.getMessage(ex.getCode(), null, Locale.getDefault());
+
+        errorDTO.setError(messageDTO);
+        return errorDTO;
+    }
+
+    @ExceptionHandler(DomainMandatoryAttributeException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErroDTO mandatoryAttributeHandler(DomainMandatoryAttributeException ex, HttpServletResponse response) {
+        LOG.debug(ex.getMessage());
+
+        ErroDTO errorDTO = new ErroDTO();
+        ErrorMessageDTO messageDTO = new ErrorMessageDTO();
+        messageDTO.code = ex.getCode();
+        messageDTO.message = messageSource.getMessage("nursery.attribute.mandatory", new Object[]{ex.getCode()}, Locale.getDefault());
 
         errorDTO.setError(messageDTO);
         return errorDTO;

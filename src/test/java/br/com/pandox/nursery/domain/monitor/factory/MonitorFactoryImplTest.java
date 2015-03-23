@@ -11,10 +11,11 @@ import org.testng.annotations.Test;
 public class MonitorFactoryImplTest {
 
 
-
     @Test
     public void should_return_unregistered_by_default() {
         MonitorDTO monitorDTO = new MonitorDTO();
+        monitorDTO.setName("name");
+        monitorDTO.setMachine("localhost");
         Monitor result = new MonitorFactoryImpl().fabric(monitorDTO);
 
         Assert.assertNotNull(result);
@@ -24,6 +25,8 @@ public class MonitorFactoryImplTest {
     @Test(expectedExceptions = DomainIllegalAttributeException.class)
     public void should_throw_illegalArgument_when_status_not_recognized() {
         MonitorDTO monitorDTO = new MonitorDTO();
+        monitorDTO.setName("name");
+        monitorDTO.setMachine("localhost");
         monitorDTO.setStatus("blablabla");
         new MonitorFactoryImpl().fabric(monitorDTO);
     }

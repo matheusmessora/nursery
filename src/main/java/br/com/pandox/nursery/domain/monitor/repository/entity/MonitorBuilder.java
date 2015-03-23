@@ -2,6 +2,7 @@ package br.com.pandox.nursery.domain.monitor.repository.entity;
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
+import br.com.pandox.nursery.infrastructure.util.DomainAssert;
 import org.springframework.util.StringUtils;
 
 public class MonitorBuilder {
@@ -17,6 +18,7 @@ public class MonitorBuilder {
     }
 
     public MonitorBuilder setMachine(String machine) {
+        DomainAssert.hasText(machine, "machine");
         this.machine = machine;
         return this;
     }
@@ -43,6 +45,7 @@ public class MonitorBuilder {
     }
 
     public MonitorBuilder setName(String name) {
+        DomainAssert.hasText(name, "name");
         this.name = name;
         return this;
     }

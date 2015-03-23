@@ -128,6 +128,58 @@ public class MonitorControllerIT extends ITHelper {
     }
 
     @Test
+    public void should_return_badRequest_when_machine_empty() throws Exception {
+        // Execute a GET with timeout settings and return response content as String.
+        MonitorDTO dto = new MonitorDTO();
+        dto.name = "testMonitor2";
+        dto.machine = "";
+        dto.status = "Blablabla";
+
+
+        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
+                .connectTimeout(1000)
+                .socketTimeout(1000)
+                .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+                .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_BAD_REQUEST;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        }else {
+            ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+            Assert.assertEquals(erroDTO.getError().message, "Missing required attribute: machine");
+        }
+    }
+
+    @Test
+    public void should_return_badRequest_when_name_empty() throws Exception {
+        // Execute a GET with timeout settings and return response content as String.
+        MonitorDTO dto = new MonitorDTO();
+        dto.name = "";
+        dto.machine = "localhost";
+        dto.status = "Blablabla";
+
+
+        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
+                .connectTimeout(1000)
+                .socketTimeout(1000)
+                .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+                .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_BAD_REQUEST;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        }else {
+            ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+            Assert.assertEquals(erroDTO.getError().message, "Missing required attribute: name");
+        }
+    }
+
+    @Test
     public void should_create_monitor_with_status_READY_even_when_sent_another_status() throws Exception {
         // Execute a GET with timeout settings and return response content as String.
         MonitorDTO dto = new MonitorDTO();

@@ -7,7 +7,7 @@ public abstract class AbstractException extends RuntimeException{
     private String code;
 
     public AbstractException(String code) {
-        Assert.hasText(code, "Code class must not be null");
+        Assert.hasText(code, "Code must not be null");
         this.code = code.toLowerCase();
     }
 

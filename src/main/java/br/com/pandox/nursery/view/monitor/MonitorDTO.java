@@ -3,7 +3,6 @@ package br.com.pandox.nursery.view.monitor;
 
 import br.com.pandox.nursery.DataTransferObject;
 
-
 public class MonitorDTO implements DataTransferObject {
 
     public Long id;
@@ -55,4 +54,5 @@ public class MonitorDTO implements DataTransferObject {
     public String getVersion() {
         return version;
     }
+
 }
