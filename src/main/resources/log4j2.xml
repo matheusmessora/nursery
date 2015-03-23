@@ -17,7 +17,7 @@
         <Logger name="org.hibernate" level="ERROR" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
-        <Root level="WARN">
+        <Root level="INFO">
             <AppenderRef ref="console"/>
         </Root>
     </Loggers>

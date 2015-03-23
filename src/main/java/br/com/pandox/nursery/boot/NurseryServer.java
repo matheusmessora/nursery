@@ -14,7 +14,7 @@ public class NurseryServer {
 
     private static final int DEFAULT_PORT = 15081;
     private static final String VERSION = "vSNAPSHOT";
-    private static final String CONTEXT_PATH = "/" + VERSION;
+    private static final String CONTEXT_PATH = "/api/" + VERSION;
     private static final String MAPPING_URL = "/*";
     private static final String DEFAULT_PROFILE = "staging";
 

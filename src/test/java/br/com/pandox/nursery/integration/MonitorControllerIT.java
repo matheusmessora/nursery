@@ -23,7 +23,7 @@ public class MonitorControllerIT extends ITHelper {
         dto.machine = "localhost";
 
 
-        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
+        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
                 .connectTimeout(1000)
                 .socketTimeout(1000)
                 .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
@@ -44,7 +44,7 @@ public class MonitorControllerIT extends ITHelper {
 
     @Test
     public void should_get() throws Exception {
-        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor/1")
+        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/api/vSNAPSHOT/monitor/1")
             .connectTimeout(1000)
             .socketTimeout(1000)
             .execute().returnResponse();
@@ -61,7 +61,7 @@ public class MonitorControllerIT extends ITHelper {
 
     @Test
     public void should_return_notFound() throws Exception {
-        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor/0")
+        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/api/vSNAPSHOT/monitor/0")
             .connectTimeout(1000)
             .socketTimeout(1000)
             .execute().returnResponse();
@@ -82,7 +82,7 @@ public class MonitorControllerIT extends ITHelper {
         dto.machine = "localhost";
 
 
-        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
+        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
             .connectTimeout(1000)
             .socketTimeout(1000)
             .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
@@ -103,7 +103,7 @@ public class MonitorControllerIT extends ITHelper {
 
     @Test
     public void should_get_all() throws Exception {
-        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/vSNAPSHOT/monitor")
+        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
             .connectTimeout(1000)
             .socketTimeout(1000)
             .execute().returnResponse();
@@ -134,7 +134,7 @@ public class MonitorControllerIT extends ITHelper {
         dto.status = "Blablabla";
 
 
-        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
+        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
                 .connectTimeout(1000)
                 .socketTimeout(1000)
                 .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
