@@ -123,4 +123,31 @@ public class MonitorControllerIT extends ITHelper {
         Assert.assertEquals(response.get(1).machine, "localhost");
         Assert.assertEquals(response.get(1).status, MonitorEntity.Status.READY.name());
     }
+
+
+    @Test
+    public void should_return_badRequest_when_sent_an_unknow_status() throws Exception {
+        // Execute a GET with timeout settings and return response content as String.
+        MonitorDTO dto = new MonitorDTO();
+        dto.name = "testMonitor2";
+        dto.machine = "localhost";
+        dto.status = "Blablabla";
+
+
+        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/vSNAPSHOT/monitor")
+                .connectTimeout(1000)
+                .socketTimeout(1000)
+                .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+                .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_BAD_REQUEST;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        }else {
+            ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+            Assert.assertEquals(erroDTO.getError().message, "Status informado não reconhecido");
+        }
+    }
 }

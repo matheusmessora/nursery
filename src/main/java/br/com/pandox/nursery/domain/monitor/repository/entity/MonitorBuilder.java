@@ -1,6 +1,7 @@
 package br.com.pandox.nursery.domain.monitor.repository.entity;
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
 import org.springframework.util.StringUtils;
 
 public class MonitorBuilder {
@@ -31,7 +32,7 @@ public class MonitorBuilder {
             try {
                 monitorStatus = MonitorEntity.Status.valueOf(status);
             } catch (IllegalArgumentException e) {
-                throw e;
+                throw new DomainIllegalAttributeException("monitor", "status");
             }
             this.status = monitorStatus;
         }else {
