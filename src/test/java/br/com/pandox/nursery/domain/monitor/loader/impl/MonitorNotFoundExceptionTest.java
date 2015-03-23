@@ -11,7 +11,7 @@ public class MonitorNotFoundExceptionTest {
         try {
             throw new MonitorNotFoundException();
         } catch (MonitorNotFoundException e) {
-            Assert.assertEquals(e.getCode(), "monitor_not_found");
+            Assert.assertEquals(e.getCode(), "monitor.not.found");
         }
     }
 
