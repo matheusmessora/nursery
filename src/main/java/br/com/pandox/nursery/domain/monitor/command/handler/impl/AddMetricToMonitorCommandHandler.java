@@ -16,7 +16,6 @@ public class AddMetricToMonitorCommandHandler implements MetricCommandHandler<Me
     @Autowired
     private MonitorRepository repository;
 
-
     @Autowired
     private MetricFactory metricFactory;
 
@@ -31,6 +30,6 @@ public class AddMetricToMonitorCommandHandler implements MetricCommandHandler<Me
         Long metricId = monitor.addMetric(metric, repository);
 
         monitor = loader.loadByID(command.getMonitorId());
-        return monitor.getMetric(metricId);
+        return null;
     }
 }

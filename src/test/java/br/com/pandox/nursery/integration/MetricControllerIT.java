@@ -5,53 +5,52 @@ import br.com.pandox.nursery.view.metric.MetricDTO;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
 import org.apache.http.client.fluent.Request;
-import org.apache.http.entity.ContentType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class MetricControllerIT extends ITHelper {
 
+    private MonitorDTO createMonitor(MonitorDTO monitorDTO) throws Exception {
+        return new MonitorHelper()
+            .withBaseURL(getBaseURL())
+            .withMonitor(monitorDTO)
+            .create();
+    }
+
+    private MetricDTO createMetric(MetricDTO metricDTO) throws Exception {
+        return new MetricHelper()
+            .withBaseURL(getBaseURL())
+            .withDTO(metricDTO)
+            .create();
+    }
+
     @Test
     public void should_create() throws Exception {
-        MonitorDTO monitorDTO = new MonitorDTO();
-        monitorDTO.name = "testMonitor";
-        monitorDTO.machine = "localhost";
-
-
-        HttpResponse httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/monitor")
-                .bodyString(RestUtil.toJson(monitorDTO), ContentType.APPLICATION_JSON)
-                .execute().returnResponse();
-        StatusLine statusLine = httpResponse.getStatusLine();
-        int httpExpected = HttpStatus.SC_CREATED;
-        if (statusLine.getStatusCode() != httpExpected) {
-            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
-        }
-        monitorDTO = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
+        MonitorDTO monitorDTO = new MonitorDTO("testMonitor", "localhost");
+        monitorDTO = createMonitor(monitorDTO);
 
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(monitorDTO);
         dto.setName("MetricA");
 
-        httpResponse = Request.Post("http://127.0.0.1:6666/api/vSNAPSHOT/metric")
-                .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
-                .execute().returnResponse();
-        statusLine = httpResponse.getStatusLine();
 
-        httpExpected = HttpStatus.SC_CREATED;
-        if (statusLine.getStatusCode() != httpExpected) {
-            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
-        } else {
-            MetricDTO response = RestUtil.createResponseObject(httpResponse, MetricDTO.class);
-            Assert.assertEquals(response.getId().longValue(), 1L);
-            Assert.assertEquals(response.getName(), "MetricA");
-        }
+        dto = createMetric(dto);
+        Assert.assertEquals(dto.getId().longValue(), 1L);
+        Assert.assertEquals(dto.getName(), "MetricA");
     }
 
-//    @Test
+    @Test
     public void should_get() throws Exception {
-        HttpResponse httpResponse = Request.Get("http://127.0.0.1:6666/api/vSNAPSHOT/metric/1")
+        MonitorDTO monitorDTO = new MonitorDTO("testMonitor", "localhost");
+        monitorDTO = createMonitor(monitorDTO);
+
+        MetricDTO dto = new MetricDTO();
+        dto.setMonitor(monitorDTO);
+        dto.setName("MetricA");
+        createMetric(dto);
+
+        HttpResponse httpResponse = Request.Get(getBaseURL() + "metric/1")
             .connectTimeout(10000)
             .socketTimeout(10000)
             .execute().returnResponse();

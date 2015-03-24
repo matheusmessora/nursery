@@ -5,6 +5,20 @@ import br.com.pandox.nursery.DataTransferObject;
 
 public class MonitorDTO implements DataTransferObject {
 
+    public MonitorDTO() {
+    }
+
+    public MonitorDTO(String name, String machine) {
+        this.name = name;
+        this.machine = machine;
+    }
+
+    public MonitorDTO(String name, String machine, String status) {
+        this.machine = machine;
+        this.status = status;
+        this.name = name;
+    }
+
     public Long id;
 
     public String machine;

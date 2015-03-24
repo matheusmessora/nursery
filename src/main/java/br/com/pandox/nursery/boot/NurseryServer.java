@@ -1,47 +1,52 @@
 package br.com.pandox.nursery.boot;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+
 import java.io.IOException;
 
 public class NurseryServer {
-    private static final String CONFIG_LOCATION = "br.com.pandox.nursery.boot";
+    private final String CONFIG_LOCATION = "br.com.pandox.nursery.boot";
 
-    private static final int DEFAULT_PORT = 15081;
-    private static final String VERSION = "vSNAPSHOT";
-    private static final String CONTEXT_PATH = "/api/" + VERSION;
-    private static final String MAPPING_URL = "/*";
-    private static final String DEFAULT_PROFILE = "staging";
+    public static final int DEFAULT_PORT = 15081;
+    public static final String VERSION = "vSNAPSHOT";
+    public static final String CONTEXT_PATH = "/api/" + VERSION;
+    public static final String MAPPING_URL = "/*";
+    public static final String DEFAULT_PROFILE = "staging";
 
-    private static int jettyPort;
+    private int jettyPort;
 
-    private static Server server;
+    private Server server;
 
     public static void main(String[] args) throws Exception {
-        start(DEFAULT_PORT);
+        NurseryServer server = new NurseryServer();
+        server.start(NurseryServer.DEFAULT_PORT);
     }
 
-    public static void start(Integer port) throws Exception {
-        jettyPort = port;
-        start();
+    public void start() throws Exception {
+        start(0);
     }
 
-    public static void stop() throws Exception {
-        server.stop();
-    }
-
-    private static void start() throws Exception {
-        server = new Server(jettyPort);
+    public void start(Integer port) throws Exception {
+        server = new Server(port);
         server.setHandler(getServletContextHandler(getContext()));
         server.start();
+        ServerConnector connector = (ServerConnector) server.getConnectors()[0];
+        jettyPort = connector.getLocalPort();
     }
 
-    private static WebAppContext getServletContextHandler(WebApplicationContext context) throws
+    public void stop() throws Exception {
+        server.stop();
+        server.destroy();
+    }
+
+    private WebAppContext getServletContextHandler(WebApplicationContext context) throws
             IOException {
         WebAppContext webApp = new WebAppContext();
         webApp.setErrorHandler(null);
@@ -52,10 +57,15 @@ public class NurseryServer {
         return webApp;
     }
 
-    private static WebApplicationContext getContext() throws IOException {
+    private WebApplicationContext getContext() throws IOException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocation(CONFIG_LOCATION);
         context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE);
         return context;
     }
+
+    public int getJettyPort() {
+        return jettyPort;
+    }
+
 }

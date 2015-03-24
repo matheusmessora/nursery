@@ -25,7 +25,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan("br.com.pandox.nursery")
-@EnableJpaRepositories({"br.com.pandox.nursery", "br.com.pandox.nursery.domain.monitor.entity.repository"})
+@EnableJpaRepositories({"br.com.pandox.nursery", "br.com.pandox.nursery.domain.monitor.entity.repository", "br.com.pandox.nursery.domain.metric.entity.repository"})
 @EnableTransactionManagement
 public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
@@ -67,7 +67,7 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
         Properties hibernateProperties = new Properties();
 
-        hibernateProperties.put("hibernate.hbm2ddl.auto", "create-drop");
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
 
         hibernateProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProperties.put("hibernate.format_sql", "true");

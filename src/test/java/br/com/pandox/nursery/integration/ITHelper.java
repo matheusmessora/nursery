@@ -2,18 +2,29 @@ package br.com.pandox.nursery.integration;
 
 
 import br.com.pandox.nursery.boot.NurseryServer;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 public class ITHelper {
 
-    @BeforeClass
+    private String baseURL;
+
+    NurseryServer server = new NurseryServer();
+
+    @BeforeMethod(alwaysRun = true)
     public void init() throws Exception {
-        NurseryServer.start(6666);
+        server = new NurseryServer();
+        server.start();
+        baseURL = "http://127.0.0.1:" + server.getJettyPort() + "/api/vSNAPSHOT/";
     }
 
-    @AfterClass
+    @AfterMethod(alwaysRun = true)
     public void destroy() throws Exception {
-        NurseryServer.stop();
+        server.stop();
+        server = null;
+    }
+
+    public String getBaseURL() {
+        return baseURL;
     }
 }
