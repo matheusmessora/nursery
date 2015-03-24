@@ -1,25 +1,15 @@
 package br.com.pandox.nursery.domain.monitor.entity;
 
-import br.com.pandox.nursery.domain.metric.entity.MetricBuilder;
-import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
-import com.google.common.collect.ImmutableList;
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import com.google.common.collect.Iterables;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,7 +40,7 @@ public class MonitorEntity implements Monitor {
     @Column
     private String version;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "monitor", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = MetricEntity.class)
     private List<MetricEntity> metrics;
 
     @Transient
@@ -86,11 +76,17 @@ public class MonitorEntity implements Monitor {
         return name;
     }
 
-    @Override public List<Metric> getMetrics() {
+    @Override public List<MetricEntity> getMetrics() {
         Iterable<MetricEntity> all = this.metrics;
 
-        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
-        return builder.addAll(all).build();
+        List<MetricEntity> results = new ArrayList<>();
+        for (MetricEntity metricEntity : all) {
+            results.add(metricEntity);
+        }
+        return results;
+
+//        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
+//        return builder.addAll(all).build();
     }
 
     @Override
@@ -98,24 +94,46 @@ public class MonitorEntity implements Monitor {
         return inSync;
     }
 
+    @Override
+    public Metric getMetric(Long metricId) {
+        for (MetricEntity metric : metrics) {
+            if (metric.getId().equals(metricId)) {
+                return metric;
+            }
+        }
+
+        throw new MetricNotFoundException();
+    }
+
     public void save(MonitorRepository repository) {
         status = Status.READY;
         repository.save(this);
+        LOGGER.info(this);
         inSync = true;
     }
 
+    public Long addMetric(Metric metric, MonitorRepository repository) {
+        inSync = false;
+
+        MetricEntity metricEntity = (MetricEntity) metric;
+        this.metrics.add(metricEntity);
+
+        MonitorEntity save = repository.save(this);
+
+        metric = Iterables.getLast(save.getMetrics());
+        return metric.getId();
+    }
+
     @Override
-    public void addMetric(Metric metric, MonitorRepository repository) {
-        MetricEntity metricEntity = new MetricBuilder()
-                .setType(metric.getType())
-                .setName(metric.getName())
-                .setTimeInterval(metric.getTimeInterval())
-                .setMonitor(this)
-                .build();
-
-        metrics.add(metricEntity);
-        //        LOGGER.info(this.metrics);
-        repository.save(this);
-
+    public String toString() {
+        return "MonitorEntity{" +
+                "id=" + id +
+                ", inSync=" + inSync +
+                ", machine='" + machine + '\'' +
+                ", status=" + status +
+                ", name='" + name + '\'' +
+                ", version='" + version + '\'' +
+                ", metrics=" + metrics +
+                '}';
     }
 }

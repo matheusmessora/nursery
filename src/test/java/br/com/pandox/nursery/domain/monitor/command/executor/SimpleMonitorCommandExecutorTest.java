@@ -37,7 +37,7 @@ public class SimpleMonitorCommandExecutorTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void should_return_IllegalArgumentException_when_handler_null() {
-        MonitorCommandExecutor executor = new SimpleMonitorCommandExecutor();
+        SimpleMonitorCommandExecutor executor = new SimpleMonitorCommandExecutor();
 
         executor.execute(new NullMonitorCommand());
     }
@@ -45,7 +45,7 @@ public class SimpleMonitorCommandExecutorTest {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void should_return_UnsupportedOperationException_when_no_handler_found() {
         MonitorCommandHandler handler = new NullCommandHandler();
-        MonitorCommandExecutor executor = new SimpleMonitorCommandExecutor(handler);
+        SimpleMonitorCommandExecutor executor = new SimpleMonitorCommandExecutor(handler);
 
         executor.execute(new EmptyMonitorCommand());
     }
@@ -53,7 +53,7 @@ public class SimpleMonitorCommandExecutorTest {
     @Test
     public void should_execute_properly() {
         EmptyCommandHandler handler = new EmptyCommandHandler();
-        MonitorCommandExecutor executor = new SimpleMonitorCommandExecutor(handler);
+        SimpleMonitorCommandExecutor executor = new SimpleMonitorCommandExecutor(handler);
 
         executor.execute(new EmptyMonitorCommand());
     }

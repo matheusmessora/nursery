@@ -7,6 +7,10 @@ import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 
 public interface MonitorCommandExecutor<R extends Monitor, T extends MonitorCommand> extends CommandExecutor<R, T> {
 
-
-    Monitor execute(MonitorCommand command);
+    R execute(MonitorCommand command);
 }
+
+
+//public interface MonitorCommandExecutor {
+//
+//}

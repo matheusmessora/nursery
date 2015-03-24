@@ -1,7 +1,7 @@
 package br.com.pandox.nursery.infrastructure.command.executor;
 
 
-import br.com.pandox.nursery.domain.monitor.command.MonitorCommand;
+import br.com.pandox.nursery.infrastructure.command.Command;
 import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import org.springframework.util.Assert;
 
@@ -20,7 +20,7 @@ public abstract class AbstractCommandExecutor {
         executors.put(commandHandler.getClass(), commandHandler);
     }
 
-    protected CommandHandler getHandler(MonitorCommand command) {
+    protected CommandHandler getHandler(Command command) {
         Assert.notNull(command, "Command must not be null");
         Assert.notNull(command.getExecutorType(), "ExecutorType must not be null");
         CommandHandler commandHandler = executors.get(command.getExecutorType());
@@ -29,7 +29,5 @@ public abstract class AbstractCommandExecutor {
         }
         return commandHandler;
     }
-
-
 
 }

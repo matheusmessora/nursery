@@ -1,13 +1,14 @@
 package br.com.pandox.nursery.view.monitor;
 
 
-import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
+import br.com.pandox.nursery.domain.monitor.command.executor.SimpleMonitorCommandExecutor;
 import br.com.pandox.nursery.domain.monitor.command.impl.CreateMonitorCommand;
-import br.com.pandox.nursery.domain.monitor.command.executor.MonitorCommandExecutor;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
+import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.controller.rest.ResourceController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Scope("request")
 public class MonitorController implements ResourceController<MonitorDTO> {
 
     @Autowired
     private MonitorLoader loader;
 
     @Autowired
-    private MonitorCommandExecutor executor;
+    private SimpleMonitorCommandExecutor executor;
 
     @Autowired
     private MonitorFactory factory;

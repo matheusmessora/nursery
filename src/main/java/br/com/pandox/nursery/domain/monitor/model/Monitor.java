@@ -12,7 +12,7 @@ public interface Monitor extends Model {
 
     void save(MonitorRepository repository);
 
-    void addMetric(Metric metric, MonitorRepository repository);
+    Long addMetric(Metric metric, MonitorRepository repository);
 
     Long getId();
 
@@ -22,10 +22,9 @@ public interface Monitor extends Model {
 
     String getName();
 
-   List<Metric> getMetrics();
+   List<MetricEntity> getMetrics();
 
     boolean isInSync();
 
-
-
+    Metric getMetric(Long metricId);
 }

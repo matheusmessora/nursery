@@ -1,66 +1,64 @@
 package br.com.pandox.nursery.domain.metric.entity;
 
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class MetricEntity implements Metric {
 
-	@Deprecated
-	public MetricEntity() {
-	}
+    @Deprecated
+    public MetricEntity() {
+    }
 
-	protected MetricEntity(String name, String type, Integer timeInterval, Monitor monitor) {
-		this.name = name;
-		this.type = type;
-		this.timeInterval = timeInterval;
-		this.monitor = (MonitorEntity) monitor;
-	}
+    protected MetricEntity(String name, String type, Integer timeInterval) {
+        this.name = name;
+        this.type = type;
+        this.timeInterval = timeInterval;
+    }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column
-	private String name;
+    @Column
+    private String name;
 
-	@Column
-	private String type;
+    @Column
+    private String type;
 
-	@Column
-	private Integer timeInterval;
+    @Column
+    private Integer timeInterval;
 
-	@JoinColumn
-	@ManyToOne(fetch = FetchType.EAGER)
-	private MonitorEntity monitor;
+    @Override
+    public Long getId() {
+        return id;
+    }
 
-	@Override public Long getId() {
-		return id;
-	}
 
-	@Override public Monitor getMonitor() {
-		return monitor;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override public String getName() {
-		return name;
-	}
+    @Override
+    public String getType() {
+        return type;
+    }
 
-	@Override public String getType() {
-		return type;
-	}
+    @Override
+    public Integer getTimeInterval() {
+        return timeInterval;
+    }
 
-	@Override public Integer getTimeInterval() {
-		return timeInterval;
-	}
+    @Override
+    public String toString() {
+        return "MetricEntity{" +
+                "id=" + id +
+                '}';
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

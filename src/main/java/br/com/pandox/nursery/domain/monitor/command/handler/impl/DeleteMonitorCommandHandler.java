@@ -6,7 +6,7 @@ import br.com.pandox.nursery.domain.monitor.model.Monitor;
 
 public class DeleteMonitorCommandHandler implements MonitorCommandHandler<Monitor, DeleteMonitorCommand> {
 
-    @Override public Monitor process(DeleteMonitorCommand command) {
+    public Monitor process(DeleteMonitorCommand command) {
         return null;
     }
 }
