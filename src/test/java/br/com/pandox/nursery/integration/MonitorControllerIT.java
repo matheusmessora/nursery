@@ -1,6 +1,6 @@
 package br.com.pandox.nursery.integration;
 
-import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorEntity;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.infrastructure.controller.rest.ErroDTO;
 import br.com.pandox.nursery.rest.RestUtil;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;

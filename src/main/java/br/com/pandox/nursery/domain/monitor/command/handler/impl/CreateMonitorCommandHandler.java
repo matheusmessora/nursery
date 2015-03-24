@@ -4,7 +4,7 @@ import br.com.pandox.nursery.domain.monitor.command.impl.CreateMonitorCommand;
 import br.com.pandox.nursery.domain.monitor.command.handler.MonitorCommandHandler;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.repository.MonitorRepository;
+import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

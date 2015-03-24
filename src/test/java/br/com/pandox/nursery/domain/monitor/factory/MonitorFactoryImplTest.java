@@ -2,7 +2,7 @@ package br.com.pandox.nursery.domain.monitor.factory;
 
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorEntity;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.testng.Assert;

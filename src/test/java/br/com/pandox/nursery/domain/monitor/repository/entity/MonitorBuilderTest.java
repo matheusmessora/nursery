@@ -1,5 +1,7 @@
 package br.com.pandox.nursery.domain.monitor.repository.entity;
 
+import br.com.pandox.nursery.domain.monitor.entity.MonitorBuilder;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
 import org.testng.Assert;

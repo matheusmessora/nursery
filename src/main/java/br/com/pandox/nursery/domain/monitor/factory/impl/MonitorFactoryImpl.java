@@ -3,7 +3,7 @@ package br.com.pandox.nursery.domain.monitor.factory.impl;
 
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.repository.entity.MonitorBuilder;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorBuilder;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

@@ -28,7 +28,7 @@ public class MonitorController implements ResourceController<MonitorDTO> {
     private MonitorFactory factory;
 
     @RequestMapping(value = "/monitor")
-    @Override public ResponseEntity<List<MonitorDTO>> findAll() {
+    public ResponseEntity<List<MonitorDTO>> findAll() {
         List<Monitor> all = loader.loadAll();
 
         List<MonitorDTO> dtos = parse(all);

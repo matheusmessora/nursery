@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.domain.monitor.repository.entity;
+package br.com.pandox.nursery.domain.monitor.entity;
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
