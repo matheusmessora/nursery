@@ -77,6 +77,81 @@ public class MetricControllerIT extends ITHelper {
     }
 
     @Test
+    public void should_throw_badRequest_when_name_incorrect() throws Exception {
+        MonitorDTO monitorDTO = new MonitorDTO("testMonitor", "localhost");
+        monitorDTO = createMonitor(monitorDTO);
+
+        MetricDTO dto = new MetricDTO();
+        dto.setMonitor(monitorDTO);
+        dto.setName("");
+        dto.setTimeInterval(0);
+
+        HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
+            .connectTimeout(1000)
+            .socketTimeout(1000)
+            .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+            .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_BAD_REQUEST;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        } else {
+            ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+            Assert.assertEquals(erroDTO.getError().message, "Missing required attribute: name");
+        }
+    }
+
+    @Test
+    public void should_throw_badRequest_on_create_when_monitor_null() throws Exception {
+        MetricDTO dto = new MetricDTO();
+        dto.setMonitor(null);
+        dto.setName("MetricA");
+        dto.setTimeInterval(0);
+
+        HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
+            .connectTimeout(1000)
+            .socketTimeout(1000)
+            .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+            .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_BAD_REQUEST;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        } else {
+            ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+            Assert.assertEquals(erroDTO.getError().message, "Missing required attribute: monitor.id");
+        }
+    }
+
+    @Test
+    public void should_throw_badRequest_on_create_when_monitor_id_null() throws Exception {
+        MetricDTO dto = new MetricDTO();
+        dto.setMonitor(new MonitorDTO());
+        dto.setName("MetricA");
+        dto.setTimeInterval(0);
+
+        HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
+            .connectTimeout(1000)
+            .socketTimeout(1000)
+            .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+            .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_BAD_REQUEST;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        } else {
+            ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+            Assert.assertEquals(erroDTO.getError().message, "Missing required attribute: monitor.id");
+        }
+    }
+
+    @Test
     public void should_throw_badRequest_on_create_when_monitor_not_found() throws Exception {
         MonitorDTO monitorDTO = new MonitorDTO("testMonitor", "localhost");
         monitorDTO.setId(0L);

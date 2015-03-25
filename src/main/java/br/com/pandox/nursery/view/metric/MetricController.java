@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.view.metric;
 
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
-import br.com.pandox.nursery.domain.metric.factory.impl.MetricFactoryImpl;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.command.executor.SimpleMetricCommandExecutor;
@@ -56,9 +55,8 @@ public class MetricController {
         List<Metric> metrics = monitor.getMetrics();
 
         List<MetricDTO> result = new ArrayList<>();
-        MetricFactory factory = new MetricFactoryImpl();
         for (Metric metric : metrics) {
-            result.add(factory.fabric(metric));
+            result.add(metricFactory.fabric(metric));
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
