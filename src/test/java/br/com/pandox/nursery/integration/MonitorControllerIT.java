@@ -102,7 +102,6 @@ public class MonitorControllerIT extends ITHelper {
         // Execute a GET with timeout settings and return response content as String.
         MonitorDTO dto = new MonitorDTO("testMonitor", "", "blablabla");
 
-
         HttpResponse httpResponse = Request.Post(getBaseURL() + "monitor")
                 .connectTimeout(1000)
                 .socketTimeout(1000)

@@ -1,9 +1,10 @@
 package br.com.pandox.nursery.domain.monitor.entity;
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
-import br.com.pandox.nursery.infrastructure.util.DomainAssert;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
 
 public class MonitorBuilder {
     private Long id;
@@ -18,7 +19,7 @@ public class MonitorBuilder {
     }
 
     public MonitorBuilder setMachine(String machine) {
-        DomainAssert.hasText(machine, "machine");
+        Assert.hasText(machine);
         this.machine = machine;
         return this;
     }
@@ -34,7 +35,8 @@ public class MonitorBuilder {
             try {
                 monitorStatus = MonitorEntity.Status.valueOf(status);
             } catch (IllegalArgumentException e) {
-                throw new DomainIllegalAttributeException("monitor", "status");
+                throw new IllegalArgumentException("Malformed attribute: status. It should be one of the following " +
+                    Arrays.asList(MonitorEntity.Status.values()));
             }
             this.status = monitorStatus;
         }else {
@@ -45,7 +47,7 @@ public class MonitorBuilder {
     }
 
     public MonitorBuilder setName(String name) {
-        DomainAssert.hasText(name, "name");
+        Assert.hasText(name, "name");
         this.name = name;
         return this;
     }

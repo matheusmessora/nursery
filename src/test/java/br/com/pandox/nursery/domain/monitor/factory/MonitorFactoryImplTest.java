@@ -1,9 +1,8 @@
 package br.com.pandox.nursery.domain.monitor.factory;
 
+import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
-import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -22,7 +21,7 @@ public class MonitorFactoryImplTest {
         Assert.assertEquals(result.getStatus(), MonitorEntity.Status.UNREGISTERED);
     }
 
-    @Test(expectedExceptions = DomainIllegalAttributeException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void should_throw_illegalArgument_when_status_not_recognized() {
         MonitorDTO monitorDTO = new MonitorDTO();
         monitorDTO.setName("name");

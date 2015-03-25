@@ -27,9 +27,7 @@ public class AddMetricToMonitorCommandHandler implements MetricCommandHandler<Me
     public Metric process(AddMetricToMonitorCommand command) {
         Monitor monitor = loader.loadByID(command.getMonitorId());
         Metric metric = metricFactory.fabric(command.getMetricDTO());
-        Long metricId = monitor.addMetric(metric, repository);
-
-        monitor = loader.loadByID(command.getMonitorId());
+        monitor.addMetric(metric, repository);
         return null;
     }
 }

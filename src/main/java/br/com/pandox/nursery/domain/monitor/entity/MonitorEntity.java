@@ -101,8 +101,7 @@ public class MonitorEntity implements Monitor {
                 return metric;
             }
         }
-
-        throw new MetricNotFoundException();
+        return null;
     }
 
     public void save(MonitorRepository repository) {

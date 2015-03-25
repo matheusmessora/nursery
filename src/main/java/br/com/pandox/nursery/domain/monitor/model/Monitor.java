@@ -10,6 +10,11 @@ import java.util.List;
 
 public interface Monitor extends Model {
 
+    public static enum Fields {
+        MACHINE, NAME, STATUS
+    }
+
+
     void save(MonitorRepository repository);
 
     Long addMetric(Metric metric, MonitorRepository repository);

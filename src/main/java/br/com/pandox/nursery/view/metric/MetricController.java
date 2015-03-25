@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MetricController implements ResourceController<MetricDTO> {
 
-    private static Logger LOG = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Autowired
     private SimpleMetricCommandExecutor executor;
@@ -43,8 +43,6 @@ public class MetricController implements ResourceController<MetricDTO> {
     @Override
     public ResponseEntity<MetricDTO> findById(@PathVariable Long id) {
         Metric metric = loader.loadByID(id);
-        LOG.debug(metric);
-
         MetricDTO dto = metricFactory.fabric(metric);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

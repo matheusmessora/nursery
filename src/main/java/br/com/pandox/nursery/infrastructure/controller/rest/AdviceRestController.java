@@ -1,8 +1,8 @@
 package br.com.pandox.nursery.infrastructure.controller.rest;
 
-import br.com.pandox.nursery.infrastructure.exception.DomainMandatoryAttributeException;
-import br.com.pandox.nursery.infrastructure.exception.DomainIllegalAttributeException;
-import br.com.pandox.nursery.infrastructure.exception.NotFoundException;
+import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
+import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
+import br.com.pandox.nursery.view.exception.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.infrastructure.exception;
+package br.com.pandox.nursery.view.exception;
 
 import org.springframework.util.Assert;
 
