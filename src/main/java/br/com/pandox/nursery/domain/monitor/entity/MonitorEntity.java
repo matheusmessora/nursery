@@ -107,7 +107,7 @@ public class MonitorEntity implements Monitor {
     public void save(MonitorRepository repository) {
         status = Status.READY;
         repository.save(this);
-        LOGGER.info(this);
+        LOGGER.debug(this);
         inSync = true;
     }
 

@@ -19,7 +19,7 @@ public class MonitorBuilder {
     }
 
     public MonitorBuilder setMachine(String machine) {
-        Assert.hasText(machine);
+        Assert.hasText(machine, "Machine must have text");
         this.machine = machine;
         return this;
     }

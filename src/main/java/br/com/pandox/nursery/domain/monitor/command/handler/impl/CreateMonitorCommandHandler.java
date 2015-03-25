@@ -21,6 +21,6 @@ public class CreateMonitorCommandHandler implements MonitorCommandHandler<Monito
     public Monitor process(CreateMonitorCommand command) {
         Monitor monitor = factory.fabric(command.getMonitorDTO());
         monitor.save(repository);
-        return monitor;
+        return null;
     }
 }
