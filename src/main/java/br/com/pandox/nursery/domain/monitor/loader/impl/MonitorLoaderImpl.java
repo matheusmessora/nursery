@@ -5,8 +5,8 @@ import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.service.MonitorService;
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -17,15 +17,20 @@ import java.util.List;
 public class MonitorLoaderImpl implements MonitorLoader {
 
     @Autowired
-    private MonitorService service;
-
-    @Autowired
     private MonitorRepository repository;
 
-    public Monitor loadByID(Long id) {
+    public Monitor loadByID(Long id, boolean loadMetrics) {
         Assert.notNull(id, "MonitorID must not be null");
 
-        Monitor monitor = service.findByID(id);
+        Monitor monitor;
+
+        if(loadMetrics) {
+            monitor = repository.findOneLoadMetrics(id);
+        }else {
+            monitor = repository.findOne(id);
+        }
+
+
         if(monitor == null) {
             throw new DomainNotFoundException();
         }
@@ -33,12 +38,16 @@ public class MonitorLoaderImpl implements MonitorLoader {
     }
 
     @Override
-    public Optional<MonitorEntity> loadByName(String name) {
-        MonitorEntity entity = repository.findByName(name);
+    public Optional<Monitor> loadByName(String name) {
+        Monitor entity = repository.findByName(name);
         return Optional.of(entity);
     }
 
     public List<Monitor> loadAll() {
-        return service.loadAll();
+        Iterable<MonitorEntity> all = repository.findAll();
+
+        ImmutableList.Builder<Monitor> builder = ImmutableList.builder();
+        ImmutableList<Monitor> monitors = builder.addAll(all).build();
+        return monitors;
     }
 }

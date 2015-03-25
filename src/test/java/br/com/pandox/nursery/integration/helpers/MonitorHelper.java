@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.integration;
+package br.com.pandox.nursery.integration.helpers;
 
 import br.com.pandox.nursery.rest.RestUtil;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
@@ -38,6 +38,9 @@ public class MonitorHelper {
         if (statusLine.getStatusCode() != httpExpected) {
             Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
         }
-        return RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
+
+        MonitorDTO responseObject = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
+        Assert.assertNotNull(responseObject.getId());
+        return responseObject;
     }
 }

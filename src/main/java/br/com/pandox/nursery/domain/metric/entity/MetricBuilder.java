@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.domain.metric.entity;
 
-import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
-import br.com.pandox.nursery.infrastructure.util.DomainAssert;
+import org.springframework.util.Assert;
 
 public class MetricBuilder {
     private String name;
@@ -9,7 +8,7 @@ public class MetricBuilder {
     private Integer timeInterval;
 
     public MetricBuilder setName(String name) {
-        DomainAssert.hasText(name,"name");
+        Assert.hasText(name, "name must not be null");
         this.name = name;
         return this;
     }
@@ -20,9 +19,9 @@ public class MetricBuilder {
     }
 
     public MetricBuilder setTimeInterval(Integer timeInterval) {
-        DomainAssert.notNull(timeInterval, "time_interval");
+        Assert.notNull(timeInterval, "time_interval must not be null");
         if(timeInterval < 1 || timeInterval > 1440) {
-            throw new DomainIllegalAttributeException("metric", "time_interval");
+            throw new IllegalArgumentException("Malformed attribute: time_interval. It should be between 1 and 1440");
         }
         this.timeInterval = timeInterval;
         return this;

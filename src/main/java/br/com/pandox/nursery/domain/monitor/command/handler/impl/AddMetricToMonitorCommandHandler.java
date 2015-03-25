@@ -1,5 +1,7 @@
 package br.com.pandox.nursery.domain.monitor.command.handler.impl;
 
+import br.com.pandox.nursery.domain.CommandException;
+import br.com.pandox.nursery.domain.DomainNotFoundException;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.command.handler.MetricCommandHandler;
@@ -25,9 +27,13 @@ public class AddMetricToMonitorCommandHandler implements MetricCommandHandler<Me
 
     @Override
     public Metric process(AddMetricToMonitorCommand command) {
-        Monitor monitor = loader.loadByID(command.getMonitorId());
-        Metric metric = metricFactory.fabric(command.getMetricDTO());
-        monitor.addMetric(metric, repository);
+        try {
+            Monitor monitor = loader.loadByID(command.getMonitorId(), false);
+            Metric metric = metricFactory.fabric(command.getMetricDTO());
+            monitor.addMetric(metric, repository);
+        } catch(DomainNotFoundException ex){
+            throw new CommandException(String.format("Given monitor with id [%s] not found", command.getMonitorId()));
+        }
         return null;
     }
 }

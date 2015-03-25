@@ -1,28 +1,21 @@
 package br.com.pandox.nursery.domain.monitor.entity;
 
+import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class MonitorEntity implements Monitor {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
-    // ALWAYS ADD NEW STATUS AT THE END - because the entityStatus field is
-    // annotated as ordinal in sake of performance
-    public static enum Status {
-        UNREGISTERED, READY, STARTED, RUNNING, STOPPED;
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +34,7 @@ public class MonitorEntity implements Monitor {
     private String version;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = MetricEntity.class)
-    private List<MetricEntity> metrics;
+    private List<Metric> metrics;
 
     @Transient
     private transient boolean inSync;
@@ -76,17 +69,12 @@ public class MonitorEntity implements Monitor {
         return name;
     }
 
-    @Override public List<MetricEntity> getMetrics() {
-        Iterable<MetricEntity> all = this.metrics;
+    @Override
+    public List<Metric> getMetrics() {
+        Iterable<Metric> all = this.metrics;
 
-        List<MetricEntity> results = new ArrayList<>();
-        for (MetricEntity metricEntity : all) {
-            results.add(metricEntity);
-        }
-        return results;
-
-//        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
-//        return builder.addAll(all).build();
+        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
+        return builder.addAll(all).build();
     }
 
     @Override
@@ -96,7 +84,7 @@ public class MonitorEntity implements Monitor {
 
     @Override
     public Metric getMetric(Long metricId) {
-        for (MetricEntity metric : metrics) {
+        for (Metric metric : metrics) {
             if (metric.getId().equals(metricId)) {
                 return metric;
             }
@@ -111,16 +99,16 @@ public class MonitorEntity implements Monitor {
         inSync = true;
     }
 
-    public Long addMetric(Metric metric, MonitorRepository repository) {
+    public void addMetric(Metric metric, MonitorRepository repository) {
         inSync = false;
+        if(status.equals(Status.UNREGISTERED) || status.equals(Status.STOPPED)){
+            throw new CommandException("Can not add metric to Monitor in %s status", status.name());
+        }
 
         MetricEntity metricEntity = (MetricEntity) metric;
         this.metrics.add(metricEntity);
 
-        MonitorEntity save = repository.save(this);
-
-        metric = Iterables.getLast(save.getMetrics());
-        return metric.getId();
+        repository.save(this);
     }
 
     @Override

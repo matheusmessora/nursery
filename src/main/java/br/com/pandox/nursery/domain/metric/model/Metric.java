@@ -1,6 +1,7 @@
 package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.Model;
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
 
 public interface Metric extends Model {
 
@@ -13,5 +14,7 @@ public interface Metric extends Model {
 	String getType();
 
 	Integer getTimeInterval();
+
+	Monitor getMonitor();
 
 }

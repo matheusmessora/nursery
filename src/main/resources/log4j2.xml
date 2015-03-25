@@ -14,22 +14,25 @@
         <Logger name="org.springframework" level="ERROR" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
-        <Logger name="org.hibernate" level="TRACE" additivity="false">
+        <Logger name="org.hibernate" level="WARN" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
         <!-- HIBERNATE DEBUGS -->
-        <Logger name="org.hibernate.type" level="TRACE" additivity="false">
-            <AppenderRef ref="console"/>
-        </Logger>
-        <Logger name="org.hibernate.tool.hbm2ddl" level="TRACE" additivity="false">
-            <AppenderRef ref="console"/>
-        </Logger>
-        <Logger name="org.hibernate.pretty" level="TRACE" additivity="false">
-            <AppenderRef ref="console"/>
-        </Logger>
-        <Logger name="org.hibernate.jdbc" level="TRACE" additivity="false">
-            <AppenderRef ref="console"/>
-        </Logger>
+        <!--<Logger name="org.hibernate" level="TRACE" additivity="false">-->
+            <!--<AppenderRef ref="console"/>-->
+        <!--</Logger>-->
+        <!--<Logger name="org.hibernate.type" level="TRACE" additivity="false">-->
+            <!--<AppenderRef ref="console"/>-->
+        <!--</Logger>-->
+        <!--<Logger name="org.hibernate.tool.hbm2ddl" level="TRACE" additivity="false">-->
+            <!--<AppenderRef ref="console"/>-->
+        <!--</Logger>-->
+        <!--<Logger name="org.hibernate.pretty" level="TRACE" additivity="false">-->
+            <!--<AppenderRef ref="console"/>-->
+        <!--</Logger>-->
+        <!--<Logger name="org.hibernate.jdbc" level="TRACE" additivity="false">-->
+            <!--<AppenderRef ref="console"/>-->
+        <!--</Logger>-->
         <!--org.hibernate.SQL           Log all SQL DML statements as they are executed-->
         <!--org.hibernate.type          Log all JDBC parameters-->
         <!--org.hibernate.tool.hbm2ddl  Log all SQL DDL statements as they are executed-->

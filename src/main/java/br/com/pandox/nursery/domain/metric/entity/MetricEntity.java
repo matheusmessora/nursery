@@ -1,6 +1,8 @@
 package br.com.pandox.nursery.domain.metric.entity;
 
 import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
 
 import javax.persistence.*;
 
@@ -35,6 +37,9 @@ public class MetricEntity implements Metric {
         return id;
     }
 
+    @ManyToOne(targetEntity = MonitorEntity.class)
+    @JoinColumn
+    private Monitor monitor;
 
     @Override
     public String getName() {
@@ -49,6 +54,11 @@ public class MetricEntity implements Metric {
     @Override
     public Integer getTimeInterval() {
         return timeInterval;
+    }
+
+    @Override
+    public Monitor getMonitor() {
+        return monitor;
     }
 
     @Override
