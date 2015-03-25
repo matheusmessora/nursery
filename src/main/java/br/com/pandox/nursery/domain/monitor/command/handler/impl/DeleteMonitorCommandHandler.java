@@ -1,12 +1,26 @@
 package br.com.pandox.nursery.domain.monitor.command.handler.impl;
 
 import br.com.pandox.nursery.domain.monitor.command.impl.DeleteMonitorCommand;
-import br.com.pandox.nursery.domain.monitor.command.handler.MonitorCommandHandler;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
+import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class DeleteMonitorCommandHandler implements MonitorCommandHandler<Monitor, DeleteMonitorCommand> {
+import javax.annotation.PostConstruct;
 
-    public Monitor process(DeleteMonitorCommand command) {
+@Service
+public class DeleteMonitorCommandHandler implements CommandHandler<DeleteMonitorCommand> {
+
+    @Autowired
+    private CommandExecutor executor;
+
+    @PostConstruct
+    public void init(){
+        executor.addHandler(this);
+    }
+
+
+    public Void process(DeleteMonitorCommand command) {
         return null;
     }
 }

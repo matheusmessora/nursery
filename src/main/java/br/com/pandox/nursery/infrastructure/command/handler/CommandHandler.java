@@ -1,6 +1,8 @@
 package br.com.pandox.nursery.infrastructure.command.handler;
 
-public interface CommandHandler<R, C> {
+import br.com.pandox.nursery.infrastructure.command.Command;
 
-    R process(C command);
+public interface CommandHandler<C extends Command> {
+
+    Void process(C command);
 }

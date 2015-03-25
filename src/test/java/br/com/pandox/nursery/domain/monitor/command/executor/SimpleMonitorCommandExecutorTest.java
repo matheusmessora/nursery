@@ -1,51 +1,56 @@
 package br.com.pandox.nursery.domain.monitor.command.executor;
 
-import br.com.pandox.nursery.domain.monitor.command.MonitorCommand;
-import br.com.pandox.nursery.domain.monitor.command.handler.MonitorCommandHandler;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.infrastructure.command.Command;
+import br.com.pandox.nursery.infrastructure.command.executor.SimpleCommandExecutor;
+import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import org.testng.annotations.Test;
 
 public class SimpleMonitorCommandExecutorTest {
 
-    class NullMonitorCommand implements MonitorCommand {
+    class NullMonitorCommand implements Command {
 
-        @Override public Class<? extends MonitorCommandHandler> getExecutorType() {
+        @Override
+        public Class<? extends CommandHandler> getExecutorType() {
             return null;
         }
     }
 
-    class EmptyMonitorCommand implements MonitorCommand {
+    class EmptyMonitorCommand implements Command {
 
-        @Override public Class<? extends MonitorCommandHandler> getExecutorType() {
+        @Override
+        public Class<? extends CommandHandler> getExecutorType() {
             return EmptyCommandHandler.class;
         }
     }
 
-    class EmptyCommandHandler implements MonitorCommandHandler<Monitor, MonitorCommand> {
+    class EmptyCommandHandler implements CommandHandler<Command> {
 
-        @Override public Monitor process(MonitorCommand command) {
+        @Override
+        public Void process(Command command) {
             return null;
         }
     }
 
-    class NullCommandHandler implements MonitorCommandHandler<Monitor, MonitorCommand> {
+    class NullCommandHandler implements CommandHandler<Command> {
 
-        @Override public Monitor process(MonitorCommand command) {
+        @Override
+        public Void  process(Command command) {
             return null;
         }
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void should_return_IllegalArgumentException_when_handler_null() {
-        SimpleMonitorCommandExecutor executor = new SimpleMonitorCommandExecutor();
+        SimpleCommandExecutor executor = new SimpleCommandExecutor();
 
         executor.execute(new NullMonitorCommand());
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void should_return_UnsupportedOperationException_when_no_handler_found() {
-        MonitorCommandHandler handler = new NullCommandHandler();
-        SimpleMonitorCommandExecutor executor = new SimpleMonitorCommandExecutor(handler);
+        CommandHandler handler = new NullCommandHandler();
+        SimpleCommandExecutor executor = new SimpleCommandExecutor();
+        executor.addHandler(handler);
 
         executor.execute(new EmptyMonitorCommand());
     }
@@ -53,7 +58,8 @@ public class SimpleMonitorCommandExecutorTest {
     @Test
     public void should_execute_properly() {
         EmptyCommandHandler handler = new EmptyCommandHandler();
-        SimpleMonitorCommandExecutor executor = new SimpleMonitorCommandExecutor(handler);
+        SimpleCommandExecutor executor = new SimpleCommandExecutor();
+        executor.addHandler(handler);
 
         executor.execute(new EmptyMonitorCommand());
     }

@@ -4,16 +4,22 @@ import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.DomainNotFoundException;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.command.handler.MetricCommandHandler;
 import br.com.pandox.nursery.domain.monitor.command.impl.AddMetricToMonitorCommand;
 import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
+import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 @Service
-public class AddMetricToMonitorCommandHandler implements MetricCommandHandler<Metric, AddMetricToMonitorCommand> {
+public class AddMetricToMonitorCommandHandler implements CommandHandler<AddMetricToMonitorCommand> {
+
+    @Autowired
+    private CommandExecutor executor;
 
     @Autowired
     private MonitorRepository repository;
@@ -24,9 +30,13 @@ public class AddMetricToMonitorCommandHandler implements MetricCommandHandler<Me
     @Autowired
     private MonitorLoader loader;
 
+    @PostConstruct
+    public void init(){
+        executor.addHandler(this);
+    }
 
     @Override
-    public Metric process(AddMetricToMonitorCommand command) {
+    public Void process(AddMetricToMonitorCommand command) {
         try {
             Monitor monitor = loader.loadByID(command.getMonitorId(), false);
             Metric metric = metricFactory.fabric(command.getMetricDTO());

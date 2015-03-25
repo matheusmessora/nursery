@@ -1,11 +1,11 @@
 package br.com.pandox.nursery.domain.monitor.command.impl;
 
-import br.com.pandox.nursery.domain.monitor.command.MonitorCommand;
 import br.com.pandox.nursery.domain.monitor.command.handler.impl.CreateMonitorCommandHandler;
-import br.com.pandox.nursery.domain.monitor.command.handler.MonitorCommandHandler;
+import br.com.pandox.nursery.infrastructure.command.Command;
+import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 
-public class CreateMonitorCommand implements MonitorCommand {
+public class CreateMonitorCommand implements Command {
 
     private MonitorDTO monitorDTO;
 
@@ -18,7 +18,7 @@ public class CreateMonitorCommand implements MonitorCommand {
     }
 
     @Override
-    public Class<? extends MonitorCommandHandler> getExecutorType() {
+    public Class<? extends CommandHandler> getExecutorType() {
         return CreateMonitorCommandHandler.class;
     }
 }

@@ -3,10 +3,10 @@ package br.com.pandox.nursery.view.metric;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.command.executor.SimpleMetricCommandExecutor;
 import br.com.pandox.nursery.domain.monitor.command.impl.AddMetricToMonitorCommand;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +27,7 @@ public class MetricController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Autowired
-    private SimpleMetricCommandExecutor executor;
+    private CommandExecutor executor;
 
     @Autowired
     private MetricLoader loader;

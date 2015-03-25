@@ -1,6 +1,11 @@
 package br.com.pandox.nursery.infrastructure.command.executor;
 
-public interface CommandExecutor<R, C> {
+import br.com.pandox.nursery.infrastructure.command.Command;
+import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 
-    R execute(C command);
+public interface CommandExecutor {
+
+    Object execute(Command command);
+
+    void addHandler(CommandHandler commandHandler);
 }

@@ -14,9 +14,9 @@ public class MonitorDTO implements DataTransferObject {
     }
 
     public MonitorDTO(String name, String machine, String status) {
+        this.name = name;
         this.machine = machine;
         this.status = status;
-        this.name = name;
     }
 
     public Long id;

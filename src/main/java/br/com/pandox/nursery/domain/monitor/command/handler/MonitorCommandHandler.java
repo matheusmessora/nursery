@@ -4,7 +4,7 @@ import br.com.pandox.nursery.domain.monitor.command.MonitorCommand;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 
-public interface MonitorCommandHandler<R extends Monitor, T extends MonitorCommand> extends CommandHandler<R, T> {
+public interface MonitorCommandHandler<R extends Monitor, T extends MonitorCommand> extends CommandHandler {
 
     R process(T command);
 }

@@ -16,7 +16,7 @@ public abstract class AbstractCommandExecutor {
         executors = new HashMap<>();
     }
 
-    protected void addHandler(CommandHandler commandHandler) {
+    public void addHandler(CommandHandler commandHandler) {
         executors.put(commandHandler.getClass(), commandHandler);
     }
 

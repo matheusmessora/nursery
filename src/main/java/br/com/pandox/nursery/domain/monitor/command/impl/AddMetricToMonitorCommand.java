@@ -1,11 +1,11 @@
 package br.com.pandox.nursery.domain.monitor.command.impl;
 
-import br.com.pandox.nursery.domain.monitor.command.MetricCommand;
-import br.com.pandox.nursery.domain.monitor.command.handler.MetricCommandHandler;
 import br.com.pandox.nursery.domain.monitor.command.handler.impl.AddMetricToMonitorCommandHandler;
+import br.com.pandox.nursery.infrastructure.command.Command;
+import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import br.com.pandox.nursery.view.metric.MetricDTO;
 
-public class AddMetricToMonitorCommand implements MetricCommand {
+public class AddMetricToMonitorCommand implements Command {
 
 	private Long monitorId;
 	private MetricDTO metricDTO;
@@ -24,7 +24,7 @@ public class AddMetricToMonitorCommand implements MetricCommand {
 	}
 
 	@Override
-	public Class<? extends MetricCommandHandler> getExecutorType() {
+	public Class<? extends CommandHandler> getExecutorType() {
 		return AddMetricToMonitorCommandHandler.class;
 	}
 }

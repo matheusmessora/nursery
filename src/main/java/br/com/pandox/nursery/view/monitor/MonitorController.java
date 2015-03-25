@@ -2,11 +2,11 @@ package br.com.pandox.nursery.view.monitor;
 
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
-import br.com.pandox.nursery.domain.monitor.command.executor.SimpleMonitorCommandExecutor;
 import br.com.pandox.nursery.domain.monitor.command.impl.CreateMonitorCommand;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import br.com.pandox.nursery.view.exception.ResourceNotFoundException;
@@ -29,12 +29,12 @@ public class MonitorController {
     private MonitorLoader loader;
 
     @Autowired
-    private SimpleMonitorCommandExecutor executor;
+    private CommandExecutor executor;
 
     @Autowired
     private MonitorFactory factory;
 
-    @RequestMapping(value = "/monitor")
+    @RequestMapping(value = "/monitor", method = RequestMethod.GET)
     public ResponseEntity<List<MonitorDTO>> findAll() {
         List<Monitor> all = loader.loadAll();
 
@@ -42,7 +42,7 @@ public class MonitorController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/monitor/{id}")
+    @RequestMapping(value = "/monitor/{id}", method = RequestMethod.GET)
     public ResponseEntity<MonitorDTO> findById(@PathVariable Long id) {
         try {
             Monitor monitor = loader.loadByID(id, false);

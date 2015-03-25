@@ -32,7 +32,6 @@ public class MetricLoaderImpl implements MetricLoader {
         Iterable<MetricEntity> all = repository.findByMonitor(monitor);
 
         ImmutableList.Builder<Metric> builder = ImmutableList.builder();
-        ImmutableList<Metric> models = builder.addAll(all).build();
-        return models;
+        return builder.addAll(all).build();
     }
 }
