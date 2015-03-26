@@ -11,31 +11,31 @@ public class MetricFactoryTest {
     public void should_throw_illegalArgument_when_name_empty() {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("");
-        new MetricFactoryImpl().fabric(metricDTO);
+        new MetricFactoryImpl().createFrom(metricDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void should_throw_illegalArgument_when_timeInterval_empty() {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("name");
-        metricDTO.setTimeInterval(null);
-        new MetricFactoryImpl().fabric(metricDTO);
+        metricDTO.setTime_interval(null);
+        new MetricFactoryImpl().createFrom(metricDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void should_throw_illegalArgument_when_timeInterval_lower_1() {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("name");
-        metricDTO.setTimeInterval(0);
-        new MetricFactoryImpl().fabric(metricDTO);
+        metricDTO.setTime_interval(0);
+        new MetricFactoryImpl().createFrom(metricDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void should_throw_illegalArgument_when_timeInterval_greather_than_oneDay() {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("name");
-        metricDTO.setTimeInterval(1441);
-        new MetricFactoryImpl().fabric(metricDTO);
+        metricDTO.setTime_interval(1441);
+        new MetricFactoryImpl().createFrom(metricDTO);
     }
 
 

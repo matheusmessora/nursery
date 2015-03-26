@@ -1,7 +1,8 @@
 package br.com.pandox.nursery.integration.helpers;
 
 import br.com.pandox.nursery.rest.RestUtil;
-import br.com.pandox.nursery.view.monitor.MonitorDTO;
+import br.com.pandox.nursery.view.data.DataDTO;
+import br.com.pandox.nursery.view.metric.MetricDTO;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -11,34 +12,30 @@ import org.testng.Assert;
 
 import java.io.IOException;
 
-public class MonitorHelper {
-
+public class DataHelper {
     private String baseURL;
-    private MonitorDTO monitorDTO;
+    private DataDTO dto;
 
-    public MonitorHelper withBaseURL(String baseURL) {
+    public DataHelper withBaseURL(String baseURL) {
         this.baseURL = baseURL;
         return this;
     }
 
-    public MonitorHelper withMonitor(MonitorDTO monitorDTO) throws Exception {
-        this.monitorDTO = monitorDTO;
+    public DataHelper withDTO(DataDTO dto) throws Exception {
+        this.dto = dto;
         return this;
     }
 
-    public MonitorDTO create() throws IOException {
-        HttpResponse httpResponse = Request.Post(baseURL + "monitor")
-            .bodyString(RestUtil.toJson(monitorDTO), ContentType.APPLICATION_JSON)
-            .execute().returnResponse();
+    public MetricDTO create() throws IOException {
+        HttpResponse httpResponse = Request.Post(baseURL + "data")
+                .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
+                .execute().returnResponse();
         StatusLine statusLine = httpResponse.getStatusLine();
 
         int httpExpected = HttpStatus.SC_CREATED;
         if (statusLine.getStatusCode() != httpExpected) {
             Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
         }
-
-        MonitorDTO responseObject = RestUtil.createResponseObject(httpResponse, MonitorDTO.class);
-        Assert.assertNotNull(responseObject.getId());
-        return responseObject;
+        return RestUtil.createResponseObject(httpResponse, MetricDTO.class);
     }
 }

@@ -3,7 +3,7 @@ package br.com.pandox.nursery.view.metric;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.command.impl.AddMetricToMonitorCommand;
+import br.com.pandox.nursery.domain.monitor.command.AddMetricToMonitorCommand;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
@@ -64,7 +64,7 @@ public class MetricController {
 
     @RequestMapping(value = "/metric/{id}")
     public ResponseEntity<MetricDTO> findById(@PathVariable Long id) {
-        Metric metric = loader.loadByID(id);
+        Metric metric = loader.loadByID(id, false);
         MetricDTO dto = metricFactory.fabric(metric);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class MetricController {
         if(dto.getMonitor() == null || dto.getMonitor().getId() == null) {
             throw new DomainMandatoryAttributeException("monitor.id");
         }
-        Integer timeInterval = dto.getTimeInterval();
+        Integer timeInterval = dto.getTime_interval();
         if(timeInterval == null || timeInterval < 1 || timeInterval > 1440) {
             throw new DomainIllegalAttributeException("metric", "time_interval");
         }

@@ -28,8 +28,6 @@ public class MetricHelper {
 
     public MetricDTO create() throws IOException {
         HttpResponse httpResponse = Request.Post(baseURL + "metric")
-            .connectTimeout(1000)
-            .socketTimeout(1000)
             .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
             .execute().returnResponse();
         StatusLine statusLine = httpResponse.getStatusLine();

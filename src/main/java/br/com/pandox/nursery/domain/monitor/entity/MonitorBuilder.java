@@ -1,10 +1,13 @@
 package br.com.pandox.nursery.domain.monitor.entity;
 
+import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MonitorBuilder {
     private Long id;
@@ -12,6 +15,7 @@ public class MonitorBuilder {
     private MonitorEntity.Status status;
     private String name;
     private String version;
+    private List<Metric> metrics;
 
     public MonitorBuilder setId(Long id) {
         this.id = id;
@@ -57,7 +61,15 @@ public class MonitorBuilder {
         return this;
     }
 
+    public MonitorBuilder setMetrics(List<Metric> metrics) {
+        this.metrics = metrics;
+        return this;
+    }
+
     public Monitor build() {
-        return new MonitorEntity(id, machine, status, name, version);
+        if(metrics == null) {
+            metrics = new ArrayList<>();
+        }
+        return new MonitorEntity(id, machine, status, name, version, metrics);
     }
 }

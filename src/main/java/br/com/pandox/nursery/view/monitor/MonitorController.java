@@ -2,7 +2,7 @@ package br.com.pandox.nursery.view.monitor;
 
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
-import br.com.pandox.nursery.domain.monitor.command.impl.CreateMonitorCommand;
+import br.com.pandox.nursery.domain.monitor.command.CreateMonitorCommand;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;

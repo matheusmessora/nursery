@@ -9,6 +9,6 @@ public interface MonitorRepository extends CrudRepository<MonitorEntity, Long>  
 
     MonitorEntity findByName(String name);
 
-    @Query("SELECT m FROM MonitorEntity m JOIN FETCH m.metrics WHERE m.id = :id")
+    @Query("SELECT m FROM MonitorEntity m LEFT JOIN FETCH m.metrics WHERE m.id = (:id)")
     MonitorEntity findOneLoadMetrics(@Param("id") Long id);
 }

@@ -5,7 +5,6 @@ import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import com.google.common.collect.ImmutableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +32,7 @@ public class MonitorEntity implements Monitor {
     @Column
     private String version;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = MetricEntity.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = MetricEntity.class)
     private List<Metric> metrics;
 
     @Transient
@@ -44,13 +43,14 @@ public class MonitorEntity implements Monitor {
         this.inSync = false;
     }
 
-    protected MonitorEntity(Long id, String machine, Status status, String name, String version) {
+    protected MonitorEntity(Long id, String machine, Status status, String name, String version, List<Metric> metrics) {
         this.id = id;
         this.machine = machine;
         this.status = status;
         this.name = name;
         this.version = version;
         this.inSync = false;
+        this.metrics = metrics;
     }
 
     public Long getId() {
@@ -71,10 +71,11 @@ public class MonitorEntity implements Monitor {
 
     @Override
     public List<Metric> getMetrics() {
-        Iterable<Metric> all = this.metrics;
-
-        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
-        return builder.addAll(all).build();
+        return this.metrics;
+//        Iterable<Metric> all = this.metrics;
+//
+//        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
+//        return builder.addAll(all).build();
     }
 
     @Override
@@ -105,8 +106,7 @@ public class MonitorEntity implements Monitor {
             throw new CommandException("Can not add metric to Monitor in %s status", status.name());
         }
 
-        MetricEntity metricEntity = (MetricEntity) metric;
-        this.metrics.add(metricEntity);
+        this.metrics.add(metric);
 
         repository.save(this);
     }

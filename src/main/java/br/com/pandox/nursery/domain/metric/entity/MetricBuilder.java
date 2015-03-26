@@ -1,14 +1,25 @@
 package br.com.pandox.nursery.domain.metric.entity;
 
+import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.metric.model.MetricData;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 public class MetricBuilder {
+
     private String name;
     private String type;
     private Integer timeInterval;
+    private List<MetricData> datas;
+    private Long id;
+
+    public MetricBuilder setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public MetricBuilder setName(String name) {
-        Assert.hasText(name, "name must not be null");
         this.name = name;
         return this;
     }
@@ -19,15 +30,22 @@ public class MetricBuilder {
     }
 
     public MetricBuilder setTimeInterval(Integer timeInterval) {
-        Assert.notNull(timeInterval, "time_interval must not be null");
-        if(timeInterval < 1 || timeInterval > 1440) {
-            throw new IllegalArgumentException("Malformed attribute: time_interval. It should be between 1 and 1440");
-        }
         this.timeInterval = timeInterval;
         return this;
     }
 
-    public MetricEntity build() {
-        return new MetricEntity(name, type, timeInterval);
+    public MetricBuilder setDatas(List<MetricData> datas) {
+        this.datas = datas;
+        return this;
+    }
+
+    public Metric build() {
+        Assert.hasText(name, "name must not be null");
+        Assert.notNull(timeInterval, "time_interval must not be null");
+        if(timeInterval < 1 || timeInterval > 1440) {
+            throw new IllegalArgumentException("Malformed attribute: time_interval. It should be between 1 and 1440");
+        }
+
+        return new MetricEntity(id, name, type, timeInterval, datas);
     }
 }

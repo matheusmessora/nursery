@@ -9,7 +9,7 @@ public interface MetricLoader {
 
 	Metric loadByName(String name);
 
-	Metric loadByID(Long id);
+	Metric loadByID(Long id, boolean loadData);
 
 	List<Metric> loadByMonitor(Monitor monitor);
 }

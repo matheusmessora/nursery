@@ -1,7 +1,10 @@
 package br.com.pandox.nursery.view.metric;
 
 import br.com.pandox.nursery.DataTransferObject;
+import br.com.pandox.nursery.view.data.DataDTO;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
+
+import java.util.List;
 
 public class MetricDTO implements DataTransferObject {
 	private Long id;
@@ -10,9 +13,11 @@ public class MetricDTO implements DataTransferObject {
 
 	private String type;
 
-	private Integer timeInterval;
+	private Integer time_interval;
 
 	private MonitorDTO monitor;
+
+	private List<DataDTO> datas;
 
 	public Long getId() {
 		return id;
@@ -38,12 +43,12 @@ public class MetricDTO implements DataTransferObject {
 		this.type = type;
 	}
 
-	public Integer getTimeInterval() {
-		return timeInterval;
+	public Integer getTime_interval() {
+		return time_interval;
 	}
 
-	public void setTimeInterval(Integer timeInterval) {
-		this.timeInterval = timeInterval;
+	public void setTime_interval(Integer time_interval) {
+		this.time_interval = time_interval;
 	}
 
 	public MonitorDTO getMonitor() {
@@ -52,5 +57,13 @@ public class MetricDTO implements DataTransferObject {
 
 	public void setMonitor(MonitorDTO monitor) {
 		this.monitor = monitor;
+	}
+
+	public List<DataDTO> getDatas() {
+		return datas;
+	}
+
+	public void setDatas(List<DataDTO> datas) {
+		this.datas = datas;
 	}
 }

@@ -1,6 +1,7 @@
 package br.com.pandox.nursery.domain.monitor.loader.impl;
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorBuilder;
 import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
@@ -22,25 +23,29 @@ public class MonitorLoaderImpl implements MonitorLoader {
     public Monitor loadByID(Long id, boolean loadMetrics) {
         Assert.notNull(id, "MonitorID must not be null");
 
-        Monitor monitor;
+        MonitorEntity entity;
 
         if(loadMetrics) {
-            monitor = repository.findOneLoadMetrics(id);
+            entity = repository.findOneLoadMetrics(id);
         }else {
-            monitor = repository.findOne(id);
+            entity = repository.findOne(id);
         }
 
-
-        if(monitor == null) {
+        if(entity == null) {
             throw new DomainNotFoundException();
         }
-        return monitor;
+        return create(entity, loadMetrics);
     }
 
     @Override
     public Optional<Monitor> loadByName(String name) {
-        Monitor entity = repository.findByName(name);
-        return Optional.of(entity);
+        MonitorEntity entity = repository.findByName(name);
+        Monitor domain = null;
+        if(entity != null) {
+            domain = create(entity, false);
+        }
+
+        return Optional.of(domain);
     }
 
     public List<Monitor> loadAll() {
@@ -49,5 +54,20 @@ public class MonitorLoaderImpl implements MonitorLoader {
         ImmutableList.Builder<Monitor> builder = ImmutableList.builder();
         ImmutableList<Monitor> monitors = builder.addAll(all).build();
         return monitors;
+    }
+
+
+    private Monitor create(MonitorEntity entity, boolean loadMetrics){
+        MonitorBuilder builder = new MonitorBuilder()
+                .setId(entity.getId())
+                .setName(entity.getName())
+                .setMachine(entity.getMachine())
+                .setStatus(entity.getStatus());
+
+
+        if(loadMetrics) {
+            builder.setMetrics(entity.getMetrics());
+        }
+        return builder.build();
     }
 }

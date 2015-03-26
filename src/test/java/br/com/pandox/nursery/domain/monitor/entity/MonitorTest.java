@@ -13,7 +13,7 @@ public class MonitorTest {
     public void throw_exception_on_addMetric_when_monitor_in_bad_state() {
         Monitor monitor = new MonitorBuilder().setStatus(Monitor.Status.STOPPED).build();
 
-        Metric metric = new MetricBuilder().build();
+        Metric metric = new MetricBuilder().setTimeInterval(1).setName("a").build();
         monitor.addMetric(metric, null);
     }
 

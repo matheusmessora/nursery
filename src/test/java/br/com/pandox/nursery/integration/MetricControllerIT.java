@@ -41,7 +41,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(monitorDTO);
         dto.setName("MetricA");
-        dto.setTimeInterval(1);
+        dto.setTime_interval(1);
 
 
         dto = createMetric(dto);
@@ -57,7 +57,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(monitorDTO);
         dto.setName("MetricA");
-        dto.setTimeInterval(0);
+        dto.setTime_interval(0);
 
         HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
             .connectTimeout(1000)
@@ -84,7 +84,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(monitorDTO);
         dto.setName("");
-        dto.setTimeInterval(0);
+        dto.setTime_interval(0);
 
         HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
             .connectTimeout(1000)
@@ -108,7 +108,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(null);
         dto.setName("MetricA");
-        dto.setTimeInterval(0);
+        dto.setTime_interval(0);
 
         HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
             .connectTimeout(1000)
@@ -132,7 +132,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(new MonitorDTO());
         dto.setName("MetricA");
-        dto.setTimeInterval(0);
+        dto.setTime_interval(0);
 
         HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
             .connectTimeout(1000)
@@ -159,7 +159,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(monitorDTO);
         dto.setName("MetricA");
-        dto.setTimeInterval(1);
+        dto.setTime_interval(1);
 
         HttpResponse httpResponse = Request.Post(getBaseURL() + "metric")
             .connectTimeout(1000)
@@ -186,7 +186,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(monitorDTO);
         dto.setName("MetricA");
-        dto.setTimeInterval(1);
+        dto.setTime_interval(1);
         createMetric(dto);
 
         HttpResponse httpResponse = Request.Get(getBaseURL() + "metric/1")
@@ -210,7 +210,7 @@ public class MetricControllerIT extends ITHelper {
         MetricDTO dto = new MetricDTO();
         dto.setMonitor(monitorDTO);
         dto.setName("MetricA");
-        dto.setTimeInterval(1);
+        dto.setTime_interval(1);
         createMetric(dto);
 
         HttpResponse httpResponse = Request.Get(getBaseURL() + "metric?monitor_id=1")

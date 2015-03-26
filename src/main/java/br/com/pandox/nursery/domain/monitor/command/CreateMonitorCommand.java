@@ -1,6 +1,6 @@
-package br.com.pandox.nursery.domain.monitor.command.impl;
+package br.com.pandox.nursery.domain.monitor.command;
 
-import br.com.pandox.nursery.domain.monitor.command.handler.impl.CreateMonitorCommandHandler;
+import br.com.pandox.nursery.domain.monitor.command.handler.CreateMonitorCommandHandler;
 import br.com.pandox.nursery.infrastructure.command.Command;
 import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;

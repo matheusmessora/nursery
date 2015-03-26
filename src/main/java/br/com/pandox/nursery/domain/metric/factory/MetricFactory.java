@@ -5,7 +5,7 @@ import br.com.pandox.nursery.view.metric.MetricDTO;
 
 public interface MetricFactory {
 
-	Metric fabric(MetricDTO metricDTO);
+	Metric createFrom(MetricDTO metricDTO);
 
 	MetricDTO fabric(Metric metric);
 }
