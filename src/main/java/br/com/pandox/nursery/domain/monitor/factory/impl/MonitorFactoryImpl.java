@@ -1,15 +1,46 @@
 package br.com.pandox.nursery.domain.monitor.factory.impl;
 
 
+import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
+import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
+import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorBuilder;
+import br.com.pandox.nursery.domain.monitor.model.MonitorBuilder;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MonitorFactoryImpl implements MonitorFactory {
+
+    @Autowired
+    private MetricFactory metricFactory;
+
+    @Override
+    public Monitor createFrom(MonitorEntity entity, boolean loadMetrics) {
+        MonitorBuilder builder = new MonitorBuilder()
+                .setId(entity.getId())
+                .setName(entity.getName())
+                .setMachine(entity.getMachine())
+                .setStatus(entity.getStatus());
+
+
+        if(loadMetrics) {
+            List<Metric> metrics = new ArrayList<>();
+            for (MetricEntity metricEntity : entity.getMetrics()) {
+                Metric metric = metricFactory.createFrom(metricEntity, false);
+                metrics.add(metric);
+            }
+            builder.setMetrics(metrics);
+        }
+        return builder.build();
+    }
 
     @Override
     public Monitor fabric(MonitorDTO dto) {

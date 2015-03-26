@@ -1,16 +1,15 @@
 package br.com.pandox.nursery.domain.metric.loader.impl;
 
-import br.com.pandox.nursery.domain.metric.entity.MetricBuilder;
 import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
 import br.com.pandox.nursery.domain.metric.entity.repository.MetricRepository;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,41 +23,34 @@ public class MetricLoaderImpl implements MetricLoader {
 
     @Override
     public Metric loadByName(String name) {
-        MetricEntity domain = repository.findByName(name);
-        return create(domain, false);
+        MetricEntity entity = repository.findByName(name);
+        return factory.createFrom(entity, false);
     }
 
     @Override
     public Metric loadByID(Long id, boolean loadData) {
-        MetricEntity domain;
+        MetricEntity entity;
         if(loadData) {
-            domain = repository.findOneLoadDatas(id);
+            entity = repository.findOneLoadDatas(id);
         }else {
-            domain = repository.findOne(id);
+            entity = repository.findOne(id);
         }
 
-        return create(domain, loadData);
+        return factory.createFrom(entity, loadData);
     }
 
     @Override
-    public List<Metric> loadByMonitor(Monitor monitor) {
-        Iterable<MetricEntity> all = repository.findByMonitor(monitor);
+    public List<Metric> loadByMonitorID(Long monitorId) {
+        Iterable<MetricEntity> all = repository.findByMonitor_Id(monitorId);
 
-        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
-        return builder.addAll(all).build();
-    }
-
-    private Metric create(MetricEntity entity, boolean loadData){
-        MetricBuilder metric = new MetricBuilder()
-                .setId(entity.getId())
-                .setName(entity.getName())
-                .setType(entity.getType())
-                .setTimeInterval(entity.getTimeInterval());
-
-        if(loadData) {
-            metric.setDatas(entity.getDatas());
+        List<Metric> metrics = new ArrayList<>();
+        for (MetricEntity metricEntity : all) {
+            Metric metric = factory.createFrom(metricEntity, false);
+            metrics.add(metric);
         }
 
-        return metric.build();
+        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
+        return builder.addAll(metrics).build();
     }
+
 }

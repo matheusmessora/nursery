@@ -203,7 +203,7 @@ public class MetricControllerIT extends ITHelper {
     }
 
     @Test
-    public void should_get_metric_from_monitor() throws Exception {
+    public void should_get_metric_from_monitor_id() throws Exception {
         MonitorDTO monitorDTO = new MonitorDTO("testMonitor", "localhost");
         monitorDTO = createMonitor(monitorDTO);
 

@@ -50,7 +50,7 @@ public class DataControllerIT extends ITHelper {
 
         MetricDTO data = createData(dto);
         Assert.assertEquals(data.getId().longValue(), 1L);
-        Assert.assertEquals(data.getDatas().get(0).getId().longValue(), 1L);
+        Assert.assertEquals(data.getDatas().get(0).getValue().intValue(), 1);
         Assert.assertNotNull(data.getDatas().get(0).getDate_creation());
         return data;
     }

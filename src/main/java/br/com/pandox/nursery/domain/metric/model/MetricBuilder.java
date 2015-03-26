@@ -1,7 +1,6 @@
-package br.com.pandox.nursery.domain.metric.entity;
+package br.com.pandox.nursery.domain.metric.model;
 
-import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.metric.model.MetricData;
+import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -46,6 +45,6 @@ public class MetricBuilder {
             throw new IllegalArgumentException("Malformed attribute: time_interval. It should be between 1 and 1440");
         }
 
-        return new MetricEntity(id, name, type, timeInterval, datas);
+        return new MetricImpl(id, name, type, timeInterval, datas);
     }
 }

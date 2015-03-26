@@ -1,8 +1,7 @@
 package br.com.pandox.nursery.domain.monitor.repository.entity;
 
-import br.com.pandox.nursery.domain.monitor.entity.MonitorBuilder;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.model.MonitorBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -14,7 +13,7 @@ public class MonitorBuilderTest {
         MonitorBuilder builder = new MonitorBuilder();
         Monitor result = builder.setStatus("").build();
 
-        Assert.assertEquals(result.getStatus(), MonitorEntity.Status.UNREGISTERED);
+        Assert.assertEquals(result.getStatus(), Monitor.Status.UNREGISTERED);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

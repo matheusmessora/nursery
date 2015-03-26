@@ -1,9 +1,6 @@
 package br.com.pandox.nursery.domain.monitor.entity;
 
-import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
-import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class MonitorEntity implements Monitor {
+public class MonitorEntity {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -24,7 +21,7 @@ public class MonitorEntity implements Monitor {
     private String machine;
 
     @Enumerated(EnumType.ORDINAL)
-    private Status status = Status.UNREGISTERED;
+    private Monitor.Status status = Monitor.Status.UNREGISTERED;
 
     @Column(unique = true)
     private String name;
@@ -32,8 +29,8 @@ public class MonitorEntity implements Monitor {
     @Column
     private String version;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = MetricEntity.class)
-    private List<Metric> metrics;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<MetricEntity> metrics;
 
     @Transient
     private transient boolean inSync;
@@ -43,72 +40,77 @@ public class MonitorEntity implements Monitor {
         this.inSync = false;
     }
 
-    protected MonitorEntity(Long id, String machine, Status status, String name, String version, List<Metric> metrics) {
+    public MonitorEntity(Long monitorId) {
+        this.id = monitorId;
+    }
+
+    public MonitorEntity(Long id, String machine, Monitor.Status status, String name, String version) {
         this.id = id;
         this.machine = machine;
         this.status = status;
         this.name = name;
         this.version = version;
         this.inSync = false;
-        this.metrics = metrics;
+    }
+
+    public static Logger getLogger() {
+        return LOGGER;
     }
 
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getMachine() {
         return machine;
     }
 
-    public Status getStatus() {
+    public void setMachine(String machine) {
+        this.machine = machine;
+    }
+
+    public Monitor.Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Monitor.Status status) {
+        this.status = status;
     }
 
     public String getName() {
         return name;
     }
 
-    @Override
-    public List<Metric> getMetrics() {
-        return this.metrics;
-//        Iterable<Metric> all = this.metrics;
-//
-//        ImmutableList.Builder<Metric> builder = ImmutableList.builder();
-//        return builder.addAll(all).build();
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public List<MetricEntity> getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(List<MetricEntity> metrics) {
+        this.metrics = metrics;
+    }
+
     public boolean isInSync() {
         return inSync;
     }
 
-    @Override
-    public Metric getMetric(Long metricId) {
-        for (Metric metric : metrics) {
-            if (metric.getId().equals(metricId)) {
-                return metric;
-            }
-        }
-        return null;
-    }
-
-    public void save(MonitorRepository repository) {
-        status = Status.READY;
-        repository.save(this);
-        LOGGER.debug(this);
-        inSync = true;
-    }
-
-    public void addMetric(Metric metric, MonitorRepository repository) {
-        inSync = false;
-        if(status.equals(Status.UNREGISTERED) || status.equals(Status.STOPPED)){
-            throw new CommandException("Can not add metric to Monitor in %s status", status.name());
-        }
-
-        this.metrics.add(metric);
-
-        repository.save(this);
+    public void setInSync(boolean inSync) {
+        this.inSync = inSync;
     }
 
     @Override

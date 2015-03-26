@@ -4,8 +4,6 @@ import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.command.AddMetricToMonitorCommand;
-import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
@@ -33,9 +31,6 @@ public class MetricController {
     private MetricLoader loader;
 
     @Autowired
-    private MonitorLoader monitorLoader;
-
-    @Autowired
     private MetricFactory metricFactory;
 
     @RequestMapping(value = "/metric", method = RequestMethod.POST)
@@ -51,12 +46,17 @@ public class MetricController {
 
     @RequestMapping(value = "/metric", method = RequestMethod.GET)
     public ResponseEntity<List<MetricDTO>> findByMonitorID(@RequestParam(value = "monitor_id") Long monitorId) {
-        Monitor monitor = monitorLoader.loadByID(monitorId, true);
-        List<Metric> metrics = monitor.getMetrics();
+        List<Metric> metrics = loader.loadByMonitorID(monitorId);
 
         List<MetricDTO> result = new ArrayList<>();
         for (Metric metric : metrics) {
-            result.add(metricFactory.fabric(metric));
+            MetricDTO dto = new MetricDTO();
+            dto.setId(metric.getId());
+            dto.setName(metric.getName());
+            dto.setTime_interval(metric.getTimeInterval());
+            dto.setType(metric.getType());
+
+            result.add(dto);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

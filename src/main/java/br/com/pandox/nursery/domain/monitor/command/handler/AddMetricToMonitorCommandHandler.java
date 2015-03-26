@@ -5,9 +5,9 @@ import br.com.pandox.nursery.domain.DomainNotFoundException;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.command.AddMetricToMonitorCommand;
-import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.sevice.MonitorService;
 import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class AddMetricToMonitorCommandHandler implements CommandHandler<AddMetri
     private CommandExecutor executor;
 
     @Autowired
-    private MonitorRepository repository;
+    private MonitorService service;
 
     @Autowired
     private MetricFactory metricFactory;
@@ -40,7 +40,7 @@ public class AddMetricToMonitorCommandHandler implements CommandHandler<AddMetri
         try {
             Monitor monitor = loader.loadByID(command.getMonitorId(), true);
             Metric metric = metricFactory.createFrom(command.getMetricDTO());
-            monitor.addMetric(metric, repository);
+            monitor.addMetric(metric, service);
         } catch(DomainNotFoundException ex){
             throw new CommandException(String.format("Given monitor with id [%s] not found", command.getMonitorId()));
         }

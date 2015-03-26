@@ -1,9 +1,10 @@
 package br.com.pandox.nursery.domain.monitor.entity;
 
 import br.com.pandox.nursery.domain.CommandException;
-import br.com.pandox.nursery.domain.metric.entity.MetricBuilder;
+import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.model.MonitorBuilder;
 import org.testng.annotations.Test;
 
 public class MonitorTest {

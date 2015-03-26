@@ -3,9 +3,11 @@ package br.com.pandox.nursery.domain.metric.command.handler;
 import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.DomainNotFoundException;
 import br.com.pandox.nursery.domain.metric.command.AddDataToMetricCommand;
-import br.com.pandox.nursery.domain.metric.entity.repository.MetricRepository;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
+import br.com.pandox.nursery.domain.metric.model.vo.MetricDataFactory;
+import br.com.pandox.nursery.domain.metric.service.MetricService;
 import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,10 @@ public class AddDataToMetricCommandHandler implements CommandHandler<AddDataToMe
     private MetricLoader loader;
 
     @Autowired
-    private MetricRepository repository;
+    private MetricService service;
+
+    @Autowired
+    private MetricDataFactory dataFactory;
 
     @PostConstruct
     public void init(){
@@ -37,7 +42,11 @@ public class AddDataToMetricCommandHandler implements CommandHandler<AddDataToMe
     public Void process(AddDataToMetricCommand command) {
         try {
             Metric metric = loader.loadByID(command.getMetricId(), true);
-            metric.addData(command.getDataDTO().getValue(), repository);
+
+            Integer value = command.getDataDTO().getValue();
+            MetricData metricData = dataFactory.createWith(value);
+
+            metric.addData(metricData, service);
         } catch(DomainNotFoundException ex){
             throw new CommandException(String.format("Given metric with id [%s] not found", command.getMetricId()));
         }

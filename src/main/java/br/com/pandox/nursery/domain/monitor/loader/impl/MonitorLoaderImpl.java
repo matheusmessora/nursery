@@ -1,9 +1,9 @@
 package br.com.pandox.nursery.domain.monitor.loader.impl;
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorBuilder;
 import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
+import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import com.google.common.base.Optional;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +20,9 @@ public class MonitorLoaderImpl implements MonitorLoader {
 
     @Autowired
     private MonitorRepository repository;
+
+    @Autowired
+    private MonitorFactory factory;
 
     public Monitor loadByID(Long id, boolean loadMetrics) {
         Assert.notNull(id, "MonitorID must not be null");
@@ -34,7 +38,7 @@ public class MonitorLoaderImpl implements MonitorLoader {
         if(entity == null) {
             throw new DomainNotFoundException();
         }
-        return create(entity, loadMetrics);
+        return factory.createFrom(entity, loadMetrics);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class MonitorLoaderImpl implements MonitorLoader {
         MonitorEntity entity = repository.findByName(name);
         Monitor domain = null;
         if(entity != null) {
-            domain = create(entity, false);
+            domain = factory.createFrom(entity, false);
         }
 
         return Optional.of(domain);
@@ -51,23 +55,14 @@ public class MonitorLoaderImpl implements MonitorLoader {
     public List<Monitor> loadAll() {
         Iterable<MonitorEntity> all = repository.findAll();
 
-        ImmutableList.Builder<Monitor> builder = ImmutableList.builder();
-        ImmutableList<Monitor> monitors = builder.addAll(all).build();
-        return monitors;
-    }
-
-
-    private Monitor create(MonitorEntity entity, boolean loadMetrics){
-        MonitorBuilder builder = new MonitorBuilder()
-                .setId(entity.getId())
-                .setName(entity.getName())
-                .setMachine(entity.getMachine())
-                .setStatus(entity.getStatus());
-
-
-        if(loadMetrics) {
-            builder.setMetrics(entity.getMetrics());
+        List<Monitor> monitors = new ArrayList<>();
+        for (MonitorEntity monitorEntity : all) {
+            Monitor monitor = factory.createFrom(monitorEntity, false);
+            monitors.add(monitor);
         }
-        return builder.build();
+
+        ImmutableList.Builder<Monitor> builder = ImmutableList.builder();
+        return builder.addAll(monitors).build();
     }
+
 }

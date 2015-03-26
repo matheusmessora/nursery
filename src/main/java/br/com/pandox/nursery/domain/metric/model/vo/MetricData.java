@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.domain.metric.model;
+package br.com.pandox.nursery.domain.metric.model.vo;
 
 import br.com.pandox.nursery.Model;
 

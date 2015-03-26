@@ -1,6 +1,6 @@
 package br.com.pandox.nursery.integration;
 
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.controller.rest.ErroDTO;
 import br.com.pandox.nursery.integration.helpers.ITHelper;
 import br.com.pandox.nursery.integration.helpers.MonitorHelper;
@@ -31,7 +31,7 @@ public class MonitorControllerIT extends ITHelper {
         Assert.assertEquals(result.id.longValue(), 1L);
         Assert.assertEquals(result.name, "testMonitor");
         Assert.assertEquals(result.machine, "localhost");
-        Assert.assertEquals(result.status, MonitorEntity.Status.READY.name());
+        Assert.assertEquals(result.status, Monitor.Status.READY.name());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class MonitorControllerIT extends ITHelper {
         Assert.assertEquals(response.id.longValue(), 1L);
         Assert.assertEquals(response.name, "testMonitor");
         Assert.assertEquals(response.machine, "localhost");
-        Assert.assertEquals(response.status, MonitorEntity.Status.READY.name());
+        Assert.assertEquals(response.status, Monitor.Status.READY.name());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class MonitorControllerIT extends ITHelper {
         Assert.assertEquals(result.id.longValue(), 2L);
         Assert.assertEquals(result.name, "testMonitor2");
         Assert.assertEquals(result.machine, "localhost");
-        Assert.assertEquals(result.status, MonitorEntity.Status.READY.name());
+        Assert.assertEquals(result.status, Monitor.Status.READY.name());
     }
 
     @Test
@@ -145,13 +145,13 @@ public class MonitorControllerIT extends ITHelper {
 
     @Test
     public void should_create_monitor_with_status_READY_even_when_sent_another_status() throws Exception {
-        MonitorDTO response = new MonitorDTO("testMonitor3", "localhost", MonitorEntity.Status.RUNNING.name());
+        MonitorDTO response = new MonitorDTO("testMonitor3", "localhost", Monitor.Status.RUNNING.name());
 
         response = createMonitor(response);
         Assert.assertEquals(response.id.longValue(), 1L);
         Assert.assertEquals(response.name, "testMonitor3");
         Assert.assertEquals(response.machine, "localhost");
-        Assert.assertEquals(response.status, MonitorEntity.Status.READY.name());
+        Assert.assertEquals(response.status, Monitor.Status.READY.name());
     }
 
     @Test
@@ -172,12 +172,12 @@ public class MonitorControllerIT extends ITHelper {
         Assert.assertEquals(response.get(0).id.longValue(), 1L);
         Assert.assertEquals(response.get(0).name, "testMonitor");
         Assert.assertEquals(response.get(0).machine, "localhost");
-        Assert.assertEquals(response.get(0).status, MonitorEntity.Status.READY.name());
+        Assert.assertEquals(response.get(0).status, Monitor.Status.READY.name());
 
 
         Assert.assertEquals(response.get(1).id.longValue(), 2L);
         Assert.assertEquals(response.get(1).name, "testMonitor2");
         Assert.assertEquals(response.get(1).machine, "localhost");
-        Assert.assertEquals(response.get(1).status, MonitorEntity.Status.READY.name());
+        Assert.assertEquals(response.get(1).status, Monitor.Status.READY.name());
     }
 }

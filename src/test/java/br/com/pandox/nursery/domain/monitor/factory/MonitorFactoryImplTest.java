@@ -1,6 +1,5 @@
 package br.com.pandox.nursery.domain.monitor.factory;
 
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
@@ -18,7 +17,7 @@ public class MonitorFactoryImplTest {
         Monitor result = new MonitorFactoryImpl().fabric(monitorDTO);
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(result.getStatus(), MonitorEntity.Status.UNREGISTERED);
+        Assert.assertEquals(result.getStatus(), Monitor.Status.UNREGISTERED);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

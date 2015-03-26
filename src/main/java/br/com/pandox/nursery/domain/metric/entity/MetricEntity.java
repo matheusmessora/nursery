@@ -1,30 +1,21 @@
 package br.com.pandox.nursery.domain.metric.entity;
 
-import br.com.pandox.nursery.domain.metric.entity.repository.MetricRepository;
-import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.metric.model.MetricData;
 import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
 
 import javax.persistence.*;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
-public class MetricEntity implements Metric {
+public class MetricEntity {
 
     public MetricEntity() {
     }
 
-    public MetricEntity(Long id, String name, String type, Integer timeInterval, List<MetricData> datas) {
+    public MetricEntity(Long id, String name, String type, Integer timeInterval) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.timeInterval = timeInterval;
-        this.datas = datas;
-        if(datas == null) {
-            this.datas = Collections.EMPTY_LIST;
-        }
     }
 
 
@@ -41,68 +32,58 @@ public class MetricEntity implements Metric {
     @Column
     private Integer timeInterval;
 
-    @ManyToOne(targetEntity = MonitorEntity.class)
+    @ManyToOne
     @JoinColumn
-    private Monitor monitor;
+    private MonitorEntity monitor;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = DataMetricEntity.class)
-    private List<MetricData> datas;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<MetricDataEntity> datas;
 
-
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getType() {
         return type;
     }
 
-    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Integer getTimeInterval() {
         return timeInterval;
     }
 
-    @Override
-    public Monitor getMonitor() {
+    public void setTimeInterval(Integer timeInterval) {
+        this.timeInterval = timeInterval;
+    }
+
+    public MonitorEntity getMonitor() {
         return monitor;
     }
 
-    @Override
-    public void addData(Integer value, MetricRepository repository) {
-        MetricData e = new DataMetricEntity(this, value);
-        datas.add(e);
-
-//        if(status.equals(Monitor.Status.UNREGISTERED) || status.equals(Monitor.Status.STOPPED)){
-//            throw new CommandException("Can not add metric to Monitor in %s status", status.name());
-//        }
-
-        repository.save(this);
+    public void setMonitor(MonitorEntity monitor) {
+        this.monitor = monitor;
     }
 
-    @Override
-    public List<MetricData> getDatas() {
-        return this.datas;
-//        Iterable<MetricData> all = this.datas;
-//
-//        ImmutableList.Builder<MetricData> builder = ImmutableList.builder();
-//        return builder.addAll(all).build();
+    public List<MetricDataEntity> getDatas() {
+        return datas;
     }
 
-    @Override
-    public String toString() {
-        return "MetricEntity{" +
-                "id=" + id +
-                '}';
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setDatas(List<MetricDataEntity> datas) {
+        this.datas = datas;
     }
 }

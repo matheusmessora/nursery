@@ -1,7 +1,7 @@
-package br.com.pandox.nursery.domain.monitor.entity;
+package br.com.pandox.nursery.domain.monitor.model;
 
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class MonitorBuilder {
     private Long id;
     private String machine;
-    private MonitorEntity.Status status;
+    private Monitor.Status status;
     private String name;
     private String version;
     private List<Metric> metrics;
@@ -28,23 +28,23 @@ public class MonitorBuilder {
         return this;
     }
 
-    public MonitorBuilder setStatus(MonitorEntity.Status status) {
+    public MonitorBuilder setStatus(Monitor.Status status) {
         this.status = status;
         return this;
     }
 
     public MonitorBuilder setStatus(String status) {
         if (!StringUtils.isEmpty(status)) {
-            MonitorEntity.Status monitorStatus;
+            Monitor.Status monitorStatus;
             try {
-                monitorStatus = MonitorEntity.Status.valueOf(status);
+                monitorStatus = Monitor.Status.valueOf(status);
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("Malformed attribute: status. It should be one of the following " +
-                    Arrays.asList(MonitorEntity.Status.values()));
+                    Arrays.asList(Monitor.Status.values()));
             }
             this.status = monitorStatus;
         }else {
-            this.status = MonitorEntity.Status.UNREGISTERED;
+            this.status = Monitor.Status.UNREGISTERED;
         }
 
         return this;
@@ -70,6 +70,6 @@ public class MonitorBuilder {
         if(metrics == null) {
             metrics = new ArrayList<>();
         }
-        return new MonitorEntity(id, machine, status, name, version, metrics);
+        return new MonitorImpl(id, machine, status, name, version, metrics);
     }
 }
