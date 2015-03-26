@@ -2,7 +2,9 @@ package br.com.pandox.nursery.domain.monitor.model;
 
 import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.sevice.MonitorService;
+import br.com.pandox.nursery.domain.monitor.event.CreateMonitorEvent;
+import br.com.pandox.nursery.domain.monitor.event.NewMetricEvent;
+import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 
 import java.util.List;
 
@@ -14,7 +16,6 @@ public class MonitorImpl implements Monitor {
     private String name;
     private String version;
     private List<Metric> metrics;
-    private transient boolean inSync;
 
     protected MonitorImpl(Long id, String machine, Status status, String name, String version, List<Metric> metrics) {
         this.id = id;
@@ -22,7 +23,6 @@ public class MonitorImpl implements Monitor {
         this.status = status;
         this.name = name;
         this.version = version;
-        this.inSync = false;
         this.metrics = metrics;
     }
 
@@ -42,17 +42,10 @@ public class MonitorImpl implements Monitor {
         return name;
     }
 
-    @Override
     public List<Metric> getMetrics() {
         return this.metrics;
     }
 
-    @Override
-    public boolean isInSync() {
-        return inSync;
-    }
-
-    @Override
     public Metric getMetric(Long metricId) {
         for (Metric metric : metrics) {
             if (metric.getId().equals(metricId)) {
@@ -62,19 +55,19 @@ public class MonitorImpl implements Monitor {
         return null;
     }
 
-    public void save(MonitorService service) {
+    public void save(EventListener eventListener) {
         status = Status.READY;
-        service.save(this);
-        inSync = true;
+        CreateMonitorEvent event = new CreateMonitorEvent(this);
+        eventListener.post(event);
     }
 
-    public void addMetric(Metric metric, MonitorService service) {
+    public void addMetric(Metric metric, EventListener eventListener) {
         if(status.equals(Status.UNREGISTERED) || status.equals(Status.STOPPED)){
             throw new CommandException("Can not add metric to Monitor in %s status", status.name());
         }
 
         this.metrics.add(metric);
-
-        service.save(this);
+        NewMetricEvent event = new NewMetricEvent(this);
+        eventListener.post(event);
     }
 }

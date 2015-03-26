@@ -25,6 +25,10 @@ public class MetricLoaderImpl implements MetricLoader {
     @Override
     public Metric loadByName(String name) {
         MetricEntity entity = repository.findByName(name);
+        if(entity == null) {
+            throw new DomainNotFoundException();
+        }
+
         return factory.createFrom(entity, false);
     }
 

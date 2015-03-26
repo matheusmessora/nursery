@@ -43,9 +43,6 @@
         <!--org.hibernate.hql.ast.AST   Log HQL and SQL ASTs during query parsing-->
         <!--org.hibernate.secure        Log all JAAS authorization requests-->
         <!--org.hibernate-->
-        <Logger name="org.hsqldb" level="ALL" additivity="false">
-            <AppenderRef ref="console"/>
-        </Logger>
         <Root level="INFO">
             <AppenderRef ref="console"/>
         </Root>

@@ -4,10 +4,10 @@ import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
-import br.com.pandox.nursery.domain.metric.service.MetricService;
 import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -166,7 +166,7 @@ public class MonitorFactoryImplTest {
         }
 
         @Override
-        public void addData(MetricData data, MetricService service) {
+        public void addData(MetricData data, EventListener eventListener) {
 
         }
 

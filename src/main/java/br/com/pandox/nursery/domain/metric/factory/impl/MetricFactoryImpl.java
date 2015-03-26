@@ -2,9 +2,9 @@ package br.com.pandox.nursery.domain.metric.factory.impl;
 
 import br.com.pandox.nursery.domain.metric.entity.MetricDataEntity;
 import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
-import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricDataFactory;
 import br.com.pandox.nursery.view.Link;
@@ -12,6 +12,7 @@ import br.com.pandox.nursery.view.data.DataDTO;
 import br.com.pandox.nursery.view.metric.MetricDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class MetricFactoryImpl implements MetricFactory {
 
 	@Override
 	public Metric createFrom(MetricEntity entity, boolean loadData) {
+		Assert.notNull(entity, "MetricEntity must not be null");
 
 		MetricBuilder builder = new MetricBuilder()
 				.setId(entity.getId())

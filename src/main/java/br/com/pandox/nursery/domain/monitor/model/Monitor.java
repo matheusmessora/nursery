@@ -2,7 +2,7 @@ package br.com.pandox.nursery.domain.monitor.model;
 
 import br.com.pandox.nursery.Model;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.sevice.MonitorService;
+import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ public interface Monitor extends Model {
     }
 
 
-    void save(MonitorService service);
+    void save(EventListener eventListener);
 
-    void addMetric(Metric metric, MonitorService service);
+    void addMetric(Metric metric, EventListener eventListener);
 
     Long getId();
 
@@ -28,8 +28,6 @@ public interface Monitor extends Model {
     String getName();
 
    List<Metric> getMetrics();
-
-    boolean isInSync();
 
     Metric getMetric(Long metricId);
 }

@@ -2,7 +2,7 @@ package br.com.pandox.nursery.domain;
 
 public class CommandException extends RuntimeException {
 
-    public CommandException(String templateMessage, String... params) {
+    public CommandException(String templateMessage, Object... params) {
         super(String.format(templateMessage, params));
     }
 

@@ -7,9 +7,9 @@ import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricDataFactory;
-import br.com.pandox.nursery.domain.metric.service.MetricService;
 import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.infrastructure.command.handler.CommandHandler;
+import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,7 +27,7 @@ public class AddDataToMetricCommandHandler implements CommandHandler<AddDataToMe
     private MetricLoader loader;
 
     @Autowired
-    private MetricService service;
+    private EventListener eventListener;
 
     @Autowired
     private MetricDataFactory dataFactory;
@@ -46,7 +46,7 @@ public class AddDataToMetricCommandHandler implements CommandHandler<AddDataToMe
             Integer value = command.getDataDTO().getValue();
             MetricData metricData = dataFactory.createWith(value);
 
-            metric.addData(metricData, service);
+            metric.addData(metricData, eventListener);
         } catch(DomainNotFoundException ex){
             throw new CommandException(String.format("Given metric with id [%s] not found", command.getMetricId()));
         }

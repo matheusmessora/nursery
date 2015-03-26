@@ -71,7 +71,7 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
         hibernateProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProperties.put("hibernate.format_sql", "true");
-        hibernateProperties.put("hibernate.show_sql", "true");
+        hibernateProperties.put("hibernate.show_sql", "false");
 
         entityManagerFactoryBean.setJpaProperties(hibernateProperties);
 
