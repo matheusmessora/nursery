@@ -1,5 +1,6 @@
 package br.com.pandox.nursery.domain.metric.loader.impl;
 
+import br.com.pandox.nursery.domain.DomainNotFoundException;
 import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
 import br.com.pandox.nursery.domain.metric.entity.repository.MetricRepository;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
@@ -36,6 +37,9 @@ public class MetricLoaderImpl implements MetricLoader {
             entity = repository.findOne(id);
         }
 
+        if(entity == null) {
+            throw new DomainNotFoundException();
+        }
         return factory.createFrom(entity, loadData);
     }
 

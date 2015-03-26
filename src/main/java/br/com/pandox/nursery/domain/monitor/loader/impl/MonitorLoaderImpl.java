@@ -49,7 +49,7 @@ public class MonitorLoaderImpl implements MonitorLoader {
             domain = factory.createFrom(entity, false);
         }
 
-        return Optional.of(domain);
+        return Optional.fromNullable(domain);
     }
 
     public List<Monitor> loadAll() {

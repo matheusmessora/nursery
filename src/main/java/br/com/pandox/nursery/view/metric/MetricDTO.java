@@ -1,12 +1,17 @@
 package br.com.pandox.nursery.view.metric;
 
-import br.com.pandox.nursery.DataTransferObject;
+import br.com.pandox.nursery.view.AbstractDTO;
 import br.com.pandox.nursery.view.data.DataDTO;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
-public class MetricDTO implements DataTransferObject {
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class MetricDTO extends AbstractDTO {
 	private Long id;
 
 	private String name;

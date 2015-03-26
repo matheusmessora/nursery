@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.domain.monitor.model;
 
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -23,7 +22,6 @@ public class MonitorBuilder {
     }
 
     public MonitorBuilder setMachine(String machine) {
-        Assert.hasText(machine, "Machine must have text");
         this.machine = machine;
         return this;
     }
@@ -34,24 +32,21 @@ public class MonitorBuilder {
     }
 
     public MonitorBuilder setStatus(String status) {
-        if (!StringUtils.isEmpty(status)) {
+        if(!StringUtils.isEmpty(status)) {
             Monitor.Status monitorStatus;
             try {
                 monitorStatus = Monitor.Status.valueOf(status);
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("Malformed attribute: status. It should be one of the following " +
-                    Arrays.asList(Monitor.Status.values()));
+                        Arrays.asList(Monitor.Status.values()));
             }
             this.status = monitorStatus;
-        }else {
-            this.status = Monitor.Status.UNREGISTERED;
         }
 
         return this;
     }
 
     public MonitorBuilder setName(String name) {
-        Assert.hasText(name, "name");
         this.name = name;
         return this;
     }
@@ -67,9 +62,21 @@ public class MonitorBuilder {
     }
 
     public Monitor build() {
+        validate();
+
+        return new MonitorImpl(id, machine, status, name, version, metrics);
+    }
+
+    private void validate(){
+        Assert.hasText(machine, "machine must not be null");
+        Assert.hasText(name, "name must not be null");
+
+        if(status == null) {
+            status = Monitor.Status.UNREGISTERED;
+        }
+
         if(metrics == null) {
             metrics = new ArrayList<>();
         }
-        return new MonitorImpl(id, machine, status, name, version, metrics);
     }
 }

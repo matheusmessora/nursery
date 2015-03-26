@@ -8,6 +8,7 @@ import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorBuilder;
+import br.com.pandox.nursery.view.Link;
 import br.com.pandox.nursery.view.monitor.MonitorDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,9 @@ public class MonitorFactoryImpl implements MonitorFactory {
         MonitorDTO dto = new MonitorDTO();
         BeanUtils.copyProperties(monitor, dto);
         dto.status = monitor.getStatus().name();
+
+        dto.addLink(new Link("/api/vSNAPSHOT/metric?monitor_id=" + dto.getId(), "metrics"));
+
         return dto;
     }
 

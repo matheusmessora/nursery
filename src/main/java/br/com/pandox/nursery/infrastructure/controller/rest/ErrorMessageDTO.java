@@ -1,12 +1,13 @@
 package br.com.pandox.nursery.infrastructure.controller.rest;
 
 import br.com.pandox.nursery.DataTransferObject;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class ErrorMessageDTO implements DataTransferObject {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ErrorMessageDTO {
 
     public String message;
     public String code;
-    public String field;
 
     public String getMessage() {
         return message;
@@ -22,13 +23,5 @@ public class ErrorMessageDTO implements DataTransferObject {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
     }
 }

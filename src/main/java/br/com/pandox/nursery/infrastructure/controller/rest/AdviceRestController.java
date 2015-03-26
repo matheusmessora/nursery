@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,8 +65,10 @@ public class AdviceRestController {
 
         ErroDTO errorDTO = new ErroDTO();
         ErrorMessageDTO messageDTO = new ErrorMessageDTO();
-        messageDTO.code = ex.getCode();
-        messageDTO.message = messageSource.getMessage("nursery.attribute.mandatory", new Object[]{ex.getCode()}, Locale.getDefault());
+
+        String message = "nursery.attribute.mandatory";
+        messageDTO.code = message + "." + ex.getCode();
+        messageDTO.message = messageSource.getMessage(message, new Object[]{ex.getCode()}, Locale.getDefault());
 
         errorDTO.setError(messageDTO);
         return errorDTO;
@@ -80,6 +83,21 @@ public class AdviceRestController {
         ErroDTO errorDTO = new ErroDTO();
         ErrorMessageDTO messageDTO = new ErrorMessageDTO();
         messageDTO.setMessage(ex.getMessage());
+
+        errorDTO.setError(messageDTO);
+        return errorDTO;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErroDTO httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex, HttpServletResponse response) {
+        LOG.debug(ex.getMessage());
+
+        ErroDTO errorDTO = new ErroDTO();
+        ErrorMessageDTO messageDTO = new ErrorMessageDTO();
+        messageDTO.setCode("nursery.body.mandatory");
+        messageDTO.setMessage(messageSource.getMessage("nursery.body.mandatory", new Object[]{}, Locale.getDefault()));
 
         errorDTO.setError(messageDTO);
         return errorDTO;

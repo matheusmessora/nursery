@@ -1,19 +1,26 @@
 package br.com.pandox.nursery.view.monitor;
 
 
-import br.com.pandox.nursery.DataTransferObject;
+import br.com.pandox.nursery.view.AbstractDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class MonitorDTO implements DataTransferObject {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class MonitorDTO extends AbstractDTO {
 
     public MonitorDTO() {
+        super();
     }
 
     public MonitorDTO(String name, String machine) {
+        this();
         this.name = name;
         this.machine = machine;
     }
 
     public MonitorDTO(String name, String machine, String status) {
+        this();
         this.name = name;
         this.machine = machine;
         this.status = status;
@@ -28,6 +35,7 @@ public class MonitorDTO implements DataTransferObject {
     public String name;
 
     public String version;
+
 
     public void setId(Long id) {
         this.id = id;

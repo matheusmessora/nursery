@@ -62,7 +62,7 @@ public class MonitorControllerIT extends ITHelper {
 
         ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
 
-        Assert.assertEquals(erroDTO.getError().message, "Monitor não encontrado");
+        Assert.assertEquals(erroDTO.getError().message, "Monitor not found");
     }
 
 
@@ -127,8 +127,6 @@ public class MonitorControllerIT extends ITHelper {
         MonitorDTO dto = new MonitorDTO("", "localhost", "blablabla");
 
         HttpResponse httpResponse = Request.Post(getBaseURL() + "monitor")
-                .connectTimeout(1000)
-                .socketTimeout(1000)
                 .bodyString(RestUtil.toJson(dto), ContentType.APPLICATION_JSON)
                 .execute().returnResponse();
         StatusLine statusLine = httpResponse.getStatusLine();
@@ -140,6 +138,25 @@ public class MonitorControllerIT extends ITHelper {
             ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
 
             Assert.assertEquals(erroDTO.getError().message, "Missing required attribute: name");
+        }
+    }
+
+    @Test
+    public void should_return_badRequest_when_name_collides() throws Exception {
+        MonitorDTO result = createMonitor(new MonitorDTO("testMonitor1", "localhost"));
+
+        HttpResponse httpResponse = Request.Post(getBaseURL() + "monitor")
+                .bodyString(RestUtil.toJson(result), ContentType.APPLICATION_JSON)
+                .execute().returnResponse();
+        StatusLine statusLine = httpResponse.getStatusLine();
+
+        int httpExpected = HttpStatus.SC_BAD_REQUEST;
+        if (statusLine.getStatusCode() != httpExpected) {
+            Assert.fail(String.format("http status must be %s but it was %s", httpExpected, statusLine.getStatusCode()));
+        }else {
+            ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
+
+            Assert.assertEquals(erroDTO.getError().message, "Given monitor already exists with name testMonitor1");
         }
     }
 
@@ -161,8 +178,6 @@ public class MonitorControllerIT extends ITHelper {
         createMonitor(new MonitorDTO("testMonitor3", "localhost"));
 
         HttpResponse httpResponse = Request.Get(getBaseURL() + "monitor")
-            .connectTimeout(1000)
-            .socketTimeout(1000)
             .execute().returnResponse();
 
         List<MonitorDTO> response = RestUtil.createListResponseObject(httpResponse, MonitorDTO.class);

@@ -1,16 +1,22 @@
 package br.com.pandox.nursery.view.data;
 
-import br.com.pandox.nursery.DataTransferObject;
+import br.com.pandox.nursery.view.AbstractDTO;
 import br.com.pandox.nursery.view.metric.MetricDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
-public class DataDTO implements DataTransferObject {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class DataDTO extends AbstractDTO {
 
     private Long id;
 
     private Integer value;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss", timezone = "GMT")
     private Date date_creation;
 
     private MetricDTO metric;

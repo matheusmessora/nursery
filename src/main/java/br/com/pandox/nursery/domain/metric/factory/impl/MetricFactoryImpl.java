@@ -7,6 +7,7 @@ import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricDataFactory;
+import br.com.pandox.nursery.view.Link;
 import br.com.pandox.nursery.view.data.DataDTO;
 import br.com.pandox.nursery.view.metric.MetricDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,9 @@ public class MetricFactoryImpl implements MetricFactory {
 		}
 
 		dto.setDatas(datas);
+
+		dto.addLink(new Link("/api/vSNAPSHOT/data", "create-data"));
+		dto.addLink(new Link("/api/vSNAPSHOT/metric/" + dto.getId() + "?load=true", "fetch-data"));
 
 		return dto;
 	}

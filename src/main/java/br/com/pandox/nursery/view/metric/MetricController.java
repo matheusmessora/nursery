@@ -50,12 +50,7 @@ public class MetricController {
 
         List<MetricDTO> result = new ArrayList<>();
         for (Metric metric : metrics) {
-            MetricDTO dto = new MetricDTO();
-            dto.setId(metric.getId());
-            dto.setName(metric.getName());
-            dto.setTime_interval(metric.getTimeInterval());
-            dto.setType(metric.getType());
-
+            MetricDTO dto = metricFactory.fabric(metric);
             result.add(dto);
         }
 
@@ -63,8 +58,8 @@ public class MetricController {
     }
 
     @RequestMapping(value = "/metric/{id}")
-    public ResponseEntity<MetricDTO> findById(@PathVariable Long id) {
-        Metric metric = loader.loadByID(id, false);
+    public ResponseEntity<MetricDTO> findById(@PathVariable Long id, @RequestParam(required = false, value = "load") boolean loadData) {
+        Metric metric = loader.loadByID(id, loadData);
         MetricDTO dto = metricFactory.fabric(metric);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
