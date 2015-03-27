@@ -5,7 +5,6 @@ import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metricData.MetricDataService;
-import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 import org.apache.logging.log4j.LogManager;
@@ -23,9 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DataEndpoint {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
-    @Autowired
-    private CommandExecutor executor;
 
     @Autowired
     private MetricLoader metricLoader;

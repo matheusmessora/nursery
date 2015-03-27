@@ -6,7 +6,6 @@ import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.sevice.MonitorService;
-import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import br.com.pandox.nursery.view.exception.ResourceNotFoundException;
@@ -26,9 +25,6 @@ public class MonitorEndpoint {
 
     @Autowired
     private MonitorLoader loader;
-
-    @Autowired
-    private CommandExecutor executor;
 
     @Autowired
     private MonitorFactory factory;

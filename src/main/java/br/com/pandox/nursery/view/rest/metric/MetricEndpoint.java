@@ -4,7 +4,6 @@ import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.service.MetricService;
-import br.com.pandox.nursery.infrastructure.command.executor.CommandExecutor;
 import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import org.apache.logging.log4j.LogManager;
@@ -23,9 +22,6 @@ import java.util.List;
 public class MetricEndpoint {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
-    @Autowired
-    private CommandExecutor executor;
 
     @Autowired
     private MetricLoader loader;
