@@ -27,7 +27,7 @@ public class MetricImpl implements Metric {
 
     private boolean datasLoaded;
 
-    protected MetricImpl(Long id, String name, String type, Integer timeInterval, List<MetricData> datas) {
+    protected MetricImpl(Long id, String name, String type, Integer timeInterval, List<MetricData> datas, Monitor monitor) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -36,7 +36,7 @@ public class MetricImpl implements Metric {
         if(datas != null){
             datasLoaded = true;
         }
-
+        this.monitor = monitor;
     }
 
     @Override
@@ -66,25 +66,26 @@ public class MetricImpl implements Metric {
 
     @Override
     public void addData(MetricData data, EventListener eventListener) {
-        Optional<MetricData> lastData = getLastData();
+        Optional<MetricData> lastData = getFirstData();
         if(lastData.isPresent()){
             DateTime lastCreationDate = new DateTime(lastData.get().getDateCreation());
             DateTime now = new DateTime();
             int minutes = Minutes.minutesBetween(lastCreationDate, now).getMinutes();
             LOGGER.info("Minutes between: " + minutes);
             if(minutes < getTimeInterval()) {
-                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
+//                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
             }
         }
-//        if(status.equals(Monitor.Status.UNREGISTERED) || status.equals(Monitor.Status.STOPPED)){
-//            throw new CommandException("Can not add metric to Monitor in %s status", status.name());
-//        }
-        this.datas.add(data);
+        if(getMonitor().getStatus().equals(Monitor.Status.UNREGISTERED) || getMonitor().getStatus().equals(Monitor.Status.STOPPED)){
+            throw new CommandException("Can not add data. Monitor in %s status", getMonitor().getStatus().name());
+        }
+
+        this.datas.add(0, data);
         eventListener.post(new CreateDataEvent(this));
     }
 
-    private Optional<MetricData> getLastData(){
-        MetricData last = Iterables.getLast(datas, null);
+    private Optional<MetricData> getFirstData(){
+        MetricData last = Iterables.getFirst(datas, null);
         return Optional.fromNullable(last);
     }
 

@@ -21,8 +21,9 @@ public class MetricService {
     public void save(Metric metric) {
         List<MetricDataEntity> dataEntities = new ArrayList<>();
         MetricEntity entity = new MetricEntity(metric.getId(), metric.getName(), metric.getType(), metric.getTimeInterval());
+
         for (MetricData data : metric.getDatas()) {
-            MetricDataEntity dataEntity = new MetricDataEntity(data.getValue());
+            MetricDataEntity dataEntity = new MetricDataEntity(data.getValue(), data.getDateCreation());
             dataEntity.setMetric(entity);
             dataEntities.add(dataEntity);
         }

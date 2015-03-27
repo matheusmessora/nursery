@@ -7,6 +7,8 @@ import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricDataFactory;
+import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.view.Link;
 import br.com.pandox.nursery.view.data.DataDTO;
 import br.com.pandox.nursery.view.metric.MetricDTO;
@@ -22,15 +24,22 @@ public class MetricFactoryImpl implements MetricFactory {
 	@Autowired
 	private MetricDataFactory dataFactory;
 
+	@Autowired
+	private MonitorFactory monitorFactory;
+
 	@Override
 	public Metric createFrom(MetricEntity entity, boolean loadData) {
 		Assert.notNull(entity, "MetricEntity must not be null");
+
+		Monitor monitor = monitorFactory.createFrom(entity.getMonitor(), false);
+
 
 		MetricBuilder builder = new MetricBuilder()
 				.setId(entity.getId())
 				.setType(entity.getType())
 				.setTimeInterval(entity.getTimeInterval())
-				.setName(entity.getName());
+				.setName(entity.getName())
+				.setMonitor(monitor);
 
 		if(loadData){
 			ArrayList<MetricData> datas = new ArrayList<MetricData>();
@@ -73,4 +82,6 @@ public class MetricFactoryImpl implements MetricFactory {
 
 		return dto;
 	}
+
+
 }

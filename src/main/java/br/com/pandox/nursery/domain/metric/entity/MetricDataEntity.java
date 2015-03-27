@@ -23,14 +23,13 @@ public class MetricDataEntity {
     private Date dateCreation;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(insertable = true)
     private MetricEntity metric;
 
-    public MetricDataEntity(Integer value) {
-        this(value, new Date());
-    }
-
     public MetricDataEntity(Integer value, Date dateCreation) {
+        if(dateCreation == null) {
+            dateCreation = new Date();
+        }
         this.dateCreation = dateCreation;
         this.value = value;
     }

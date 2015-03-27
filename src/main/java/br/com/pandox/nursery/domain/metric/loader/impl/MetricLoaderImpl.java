@@ -7,6 +7,8 @@ import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import com.google.common.collect.ImmutableList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
 
 @Service
 public class MetricLoaderImpl implements MetricLoader {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Autowired
     private MetricRepository repository;
@@ -37,6 +41,7 @@ public class MetricLoaderImpl implements MetricLoader {
         MetricEntity entity;
         if(loadData) {
             entity = repository.findOneLoadDatas(id);
+            LOGGER.debug(entity);
         }else {
             entity = repository.findOne(id);
         }

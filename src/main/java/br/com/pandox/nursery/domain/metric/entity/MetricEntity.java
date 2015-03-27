@@ -32,11 +32,11 @@ public class MetricEntity {
     @Column
     private Integer timeInterval;
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(updatable = false, insertable = true)
     private MonitorEntity monitor;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "metric")
     private List<MetricDataEntity> datas;
 
     public Long getId() {

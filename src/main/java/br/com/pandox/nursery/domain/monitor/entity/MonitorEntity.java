@@ -29,7 +29,7 @@ public class MonitorEntity {
     @Column
     private String version;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "monitor")
     private List<MetricEntity> metrics;
 
     @Transient
