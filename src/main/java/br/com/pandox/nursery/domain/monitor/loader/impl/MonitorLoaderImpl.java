@@ -1,18 +1,17 @@
 package br.com.pandox.nursery.domain.monitor.loader.impl;
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
-import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
+import br.com.pandox.nursery.domain.monitor.model.repository.MonitorRepository;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,17 +51,22 @@ public class MonitorLoaderImpl implements MonitorLoader {
         return Optional.fromNullable(domain);
     }
 
+    @Override
+    public Optional<Monitor> loadByMachineAndName(String name, String machine) {
+        MonitorEntity entity = repository.findByMachineAndName(machine, name);
+        Monitor domain = null;
+        if (entity != null) {
+            domain = factory.createFrom(entity, false);
+        }
+
+        return Optional.fromNullable(domain);
+    }
+
     public List<Monitor> loadAll() {
         Iterable<MonitorEntity> all = repository.findAll();
 
-        List<Monitor> monitors = new ArrayList<>();
-        for (MonitorEntity monitorEntity : all) {
-            Monitor monitor = factory.createFrom(monitorEntity, false);
-            monitors.add(monitor);
-        }
-
         ImmutableList.Builder<Monitor> builder = ImmutableList.builder();
-        return builder.addAll(monitors).build();
+        return builder.addAll(all).build();
     }
 
 }

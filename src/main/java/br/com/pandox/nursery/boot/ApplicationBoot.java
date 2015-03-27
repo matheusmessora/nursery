@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -25,7 +28,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan("br.com.pandox.nursery")
-@EnableJpaRepositories({"br.com.pandox.nursery", "br.com.pandox.nursery.domain.monitor.entity.repository", "br.com.pandox.nursery.domain.metric.entity.repository"})
+@EnableJpaRepositories({"br.com.pandox.nursery", "br.com.pandox.nursery.domain.monitor.model.repository", "br.com.pandox.nursery.domain.metric.model.repository"})
 @EnableTransactionManagement
 public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
@@ -103,5 +106,22 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
 
         return messageSource;
+    }
+
+
+    @Bean
+    public ThymeleafViewResolver viewResolver() {
+        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
+        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setCacheable(false);
+
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(templateResolver);
+
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(engine);
+        return viewResolver;
     }
 }

@@ -1,108 +1,106 @@
 <html>
 
 <head>
-<script src="canvasjs/canvasjs.min.js"></script>
-<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="canvasjs/canvasjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
-<script type="text/javascript">
-  window.onload = function () {
-
-
-var api = "/api/vSNAPSHOT/metric/1?load=true";
-
-$.getJSON( api, {format: "json"})
-.done(function ( metric ) {
-	// console.log(metric);
-  // console.log(metric.datas);
-
-var dataPoints1 = [];
-var dataPoints2 = [];
-	
-  var items = [];
-  $.each( metric.datas, function( index, data ) {
-    // console.log(data);
-
-    var x = new Date(data.date_creation);
-    var y = data.value;
-
-    dataPoints1.push({x: x, y: y});
-  });
-
-$.getJSON( "/api/vSNAPSHOT/metric/2?load=true", {format: "json"})
-.done(function ( metric ) {
-  // console.log(metric);
-  // console.log(metric.datas);
-
-  
-  var items = [];
-  $.each( metric.datas, function( index, data ) {
-    // console.log(data);
-
-    var x = new Date(data.date_creation);
-    var y = data.value;
-
-    dataPoints2.push({x: x, y: y});
-
-    // var jsonData = JSON.parse(data);
-    // console.log(jsonData);
-    // var ponto = {
-    //   x: new Date(jsonData.date_creation),
-    //   y: jsonData.value
-    // }
-
-  });
-   var chart = new CanvasJS.Chart("chartContainer", {
-
-      title:{
-        text: metric.name              
-      },
-      axisX:{
-       interval: 5,
-       intervalType: "second",
-     },
-     axisY: {
-        title: "CPU",
-                //lineThickness: 2,
-                lineColor: "gray"
-      },
-      axisY2: {       
-        title: "Memory",
-                lineColor: "#4F81BC",
-                //lineThickness: 2
-      },
-      data: [
-        {
-         type: "area",
-         name: "CPU",
-         dataPoints: dataPoints1
-       },
-       {
-         type: "area",
-         name: "Memory",
-         dataPoints: dataPoints2
-       }
-       ]
-
-     });
-chart.render();
-   
- 
-});
-
- 
-});
+    <script type="text/javascript">
+        window.onload = function () {
 
 
+            var api = "/api/vSNAPSHOT/metric/1?load=true";
 
-   
-  }
-  </script>
-</head>	
+            $.getJSON(api, {format: "json"})
+                    .done(function (metric) {
+                        // console.log(metric);
+                        // console.log(metric.datas);
+
+                        var dataPoints1 = [];
+                        var dataPoints2 = [];
+
+                        var items = [];
+                        $.each(metric.datas, function (index, data) {
+                            // console.log(data);
+
+                            var x = new Date(data.date_creation);
+                            var y = data.value;
+
+                            dataPoints1.push({x: x, y: y});
+                        });
+
+                        $.getJSON("/api/vSNAPSHOT/metric/2?load=true", {format: "json"})
+                                .done(function (metric) {
+                                    // console.log(metric);
+                                    // console.log(metric.datas);
+
+
+                                    var items = [];
+                                    $.each(metric.datas, function (index, data) {
+                                        // console.log(data);
+
+                                        var x = new Date(data.date_creation);
+                                        var y = data.value;
+
+                                        dataPoints2.push({x: x, y: y});
+
+                                        // var jsonData = JSON.parse(data);
+                                        // console.log(jsonData);
+                                        // var ponto = {
+                                        //   x: new Date(jsonData.date_creation),
+                                        //   y: jsonData.value
+                                        // }
+
+                                    });
+                                    var chart = new CanvasJS.Chart("chartContainer", {
+
+                                        title: {
+                                            text: metric.name
+                                        },
+                                        axisX: {
+                                            interval: 5,
+                                            intervalType: "second",
+                                        },
+                                        axisY: {
+                                            title: "CPU",
+                                            //lineThickness: 2,
+                                            lineColor: "gray"
+                                        },
+                                        axisY2: {
+                                            title: "Memory",
+                                            lineColor: "#4F81BC",
+                                            //lineThickness: 2
+                                        },
+                                        data: [
+                                            {
+                                                type: "area",
+                                                name: "CPU",
+                                                dataPoints: dataPoints1
+                                            },
+                                            {
+                                                type: "area",
+                                                name: "Memory",
+                                                dataPoints: dataPoints2
+                                            }
+                                        ]
+
+                                    });
+                                    chart.render();
+
+
+                                });
+
+
+                    });
+
+
+        }
+    </script>
+</head>
 
 <body>
 Hello
 <div id="chartContainer" style="height: 300px; width: 100%;">
-  </div>
+</div>
 
 
 </body>

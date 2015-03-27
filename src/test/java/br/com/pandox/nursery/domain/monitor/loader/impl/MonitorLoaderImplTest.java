@@ -1,7 +1,7 @@
 package br.com.pandox.nursery.domain.monitor.loader.impl;
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
-import br.com.pandox.nursery.domain.monitor.entity.repository.MonitorRepository;
+import br.com.pandox.nursery.domain.monitor.model.repository.MonitorRepository;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

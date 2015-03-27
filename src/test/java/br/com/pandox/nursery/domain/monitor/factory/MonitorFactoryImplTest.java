@@ -1,14 +1,14 @@
 package br.com.pandox.nursery.domain.monitor.factory;
 
-import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
+import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
+import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
-import br.com.pandox.nursery.view.monitor.MonitorDTO;
+import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -102,7 +102,7 @@ public class MonitorFactoryImplTest {
         entity.setMachine("machine");
         entity.setName("name");
         entity.setStatus(Monitor.Status.STARTED);
-        entity.setMetrics(new ArrayList<MetricEntity>());
+        entity.setMetrics(new ArrayList<Metric>());
 
         Monitor monitor = factory.createFrom(entity, true);
         Assert.assertEquals(monitor.getId().longValue(), 1L);
@@ -115,7 +115,7 @@ public class MonitorFactoryImplTest {
         entity.setMachine("machine");
         entity.setName("name");
         entity.setStatus(Monitor.Status.STARTED);
-        ArrayList<MetricEntity> metrics = new ArrayList<>();
+        ArrayList<Metric> metrics = new ArrayList<>();
         metrics.add(new MetricEntity(1L, "metric", "type", 1));
         entity.setMetrics(metrics);
 

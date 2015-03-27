@@ -1,6 +1,6 @@
 package br.com.pandox.nursery.domain.metric.model.vo;
 
-import br.com.pandox.nursery.domain.metric.entity.MetricDataEntity;
+import br.com.pandox.nursery.domain.metric.model.MetricDataEntity;
 
 public interface MetricDataFactory {
 

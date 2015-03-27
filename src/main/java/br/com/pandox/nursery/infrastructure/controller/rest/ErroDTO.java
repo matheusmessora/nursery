@@ -1,6 +1,5 @@
 package br.com.pandox.nursery.infrastructure.controller.rest;
 
-import br.com.pandox.nursery.view.AbstractDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

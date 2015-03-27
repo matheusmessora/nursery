@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.domain.metric.factory.impl;
 
-import br.com.pandox.nursery.domain.metric.entity.MetricDataEntity;
-import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
+import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
@@ -9,9 +8,9 @@ import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricDataFactory;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.view.Link;
-import br.com.pandox.nursery.view.data.DataDTO;
-import br.com.pandox.nursery.view.metric.MetricDTO;
+import br.com.pandox.nursery.view.rest.Link;
+import br.com.pandox.nursery.view.rest.data.DataDTO;
+import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -31,8 +30,7 @@ public class MetricFactoryImpl implements MetricFactory {
 	public Metric createFrom(MetricEntity entity, boolean loadData) {
 		Assert.notNull(entity, "MetricEntity must not be null");
 
-		Monitor monitor = monitorFactory.createFrom(entity.getMonitor(), false);
-
+		Monitor monitor = entity.getMonitor();
 
 		MetricBuilder builder = new MetricBuilder()
 				.setId(entity.getId())
@@ -43,8 +41,8 @@ public class MetricFactoryImpl implements MetricFactory {
 
 		if(loadData){
 			ArrayList<MetricData> datas = new ArrayList<MetricData>();
-			for (MetricDataEntity dataEntity : entity.getDatas()) {
-				datas.add(dataFactory.createFrom(dataEntity));
+			for (MetricData dataEntity : entity.getDatas()) {
+				datas.add(dataEntity);
 			}
 			builder.setDatas(datas);
 		}

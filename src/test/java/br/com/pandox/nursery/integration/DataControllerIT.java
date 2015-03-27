@@ -6,18 +6,22 @@ import br.com.pandox.nursery.integration.helpers.ITHelper;
 import br.com.pandox.nursery.integration.helpers.MetricHelper;
 import br.com.pandox.nursery.integration.helpers.MonitorHelper;
 import br.com.pandox.nursery.rest.RestUtil;
-import br.com.pandox.nursery.view.data.DataDTO;
-import br.com.pandox.nursery.view.metric.MetricDTO;
-import br.com.pandox.nursery.view.monitor.MonitorDTO;
+import br.com.pandox.nursery.view.rest.data.DataDTO;
+import br.com.pandox.nursery.view.rest.metric.MetricDTO;
+import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class DataControllerIT extends ITHelper {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private MonitorDTO createMonitor(MonitorDTO monitorDTO) throws Exception {
         return new MonitorHelper()
@@ -56,6 +60,7 @@ public class DataControllerIT extends ITHelper {
         dto.setValue(1);
 
         MetricDTO data = createData(dto);
+        LOGGER.info(data);
         Assert.assertEquals(data.getId().longValue(), 1L);
         Assert.assertEquals(data.getDatas().get(0).getValue().intValue(), 1);
         Assert.assertNotNull(data.getDatas().get(0).getDate_creation());

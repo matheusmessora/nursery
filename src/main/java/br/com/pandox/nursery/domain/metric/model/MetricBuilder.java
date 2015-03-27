@@ -4,6 +4,7 @@ import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MetricBuilder {
@@ -40,6 +41,11 @@ public class MetricBuilder {
         return this;
     }
 
+    public MetricBuilder setMonitor(Monitor monitor) {
+        this.monitor = monitor;
+        return this;
+    }
+
     public Metric build() {
         Assert.hasText(name, "name must not be null");
         Assert.notNull(timeInterval, "time_interval must not be null");
@@ -47,12 +53,10 @@ public class MetricBuilder {
             throw new IllegalArgumentException("Malformed attribute: time_interval. It should be between 1 and 1440");
         }
 
-        MetricImpl metric = new MetricImpl(id, name, type, timeInterval, datas, monitor);
-        return metric;
-    }
+        if(datas == null) {
+            datas = new ArrayList<>();
+        }
 
-    public MetricBuilder setMonitor(Monitor monitor) {
-        this.monitor = monitor;
-        return this;
+        return new MetricEntity(id, name, type, timeInterval, datas, monitor);
     }
 }

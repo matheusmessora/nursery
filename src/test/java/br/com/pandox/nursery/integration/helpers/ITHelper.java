@@ -15,7 +15,7 @@ public class ITHelper {
     public void init() throws Exception {
         server = new NurseryServer();
         server.start();
-        baseURL = "http://127.0.0.1:" + server.getJettyPort() + "/api/vSNAPSHOT/";
+        baseURL = "http://127.0.0.1:" + server.getJettyPort() + "/api/";
     }
 
     @AfterMethod(alwaysRun = true)

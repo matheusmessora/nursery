@@ -64,7 +64,7 @@ public class MonitorBuilder {
     public Monitor build() {
         validate();
 
-        return new MonitorImpl(id, machine, status, name, version, metrics);
+        return new MonitorEntity(id, machine, status, name, version, metrics);
     }
 
     private void validate(){

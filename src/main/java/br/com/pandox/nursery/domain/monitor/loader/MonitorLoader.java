@@ -12,5 +12,7 @@ public interface MonitorLoader {
 
     Optional<Monitor> loadByName(String name);
 
+    Optional<Monitor> loadByMachineAndName(String name, String machine);
+
     List<Monitor> loadAll();
 }

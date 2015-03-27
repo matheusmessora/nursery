@@ -5,7 +5,7 @@ import br.com.pandox.nursery.infrastructure.controller.rest.ErroDTO;
 import br.com.pandox.nursery.integration.helpers.ITHelper;
 import br.com.pandox.nursery.integration.helpers.MonitorHelper;
 import br.com.pandox.nursery.rest.RestUtil;
-import br.com.pandox.nursery.view.monitor.MonitorDTO;
+import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -156,7 +156,7 @@ public class MonitorControllerIT extends ITHelper {
         }else {
             ErroDTO erroDTO = RestUtil.createResponseObject(httpResponse, ErroDTO.class);
 
-            Assert.assertEquals(erroDTO.getError().message, "Given monitor already exists with name testMonitor1");
+            Assert.assertEquals(erroDTO.getError().message, "Given monitor already exists with name testMonitor1 inside machine localhost");
         }
     }
 

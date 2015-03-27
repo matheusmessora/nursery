@@ -1,7 +1,7 @@
 package br.com.pandox.nursery.domain.metric.factory;
 
 import br.com.pandox.nursery.domain.metric.factory.impl.MetricFactoryImpl;
-import br.com.pandox.nursery.view.metric.MetricDTO;
+import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 import org.testng.annotations.Test;
 
 public class MetricFactoryTest {

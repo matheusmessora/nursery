@@ -1,8 +1,8 @@
 package br.com.pandox.nursery.domain.metric.factory;
 
-import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
+import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.view.metric.MetricDTO;
+import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 
 public interface MetricFactory {
 

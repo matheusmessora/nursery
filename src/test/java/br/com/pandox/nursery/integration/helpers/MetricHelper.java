@@ -1,7 +1,7 @@
 package br.com.pandox.nursery.integration.helpers;
 
 import br.com.pandox.nursery.rest.RestUtil;
-import br.com.pandox.nursery.view.metric.MetricDTO;
+import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;

@@ -1,6 +1,6 @@
 package br.com.pandox.nursery;
 
-import br.com.pandox.nursery.view.Link;
+import br.com.pandox.nursery.view.rest.Link;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 

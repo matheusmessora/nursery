@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Machines</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div th:each="machine : ${machines}" style="margin-bottom: 30px; display: block;">
+
+    <div th:text="${machine.key}"></div>
+
+    <tr th:each="monitor : ${machine.value}">
+        <td th:text="${monitor.name}">The first name</td>
+    </tr>
+</div>
+
+</body>
+</html>

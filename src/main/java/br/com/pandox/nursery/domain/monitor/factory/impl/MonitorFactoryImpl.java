@@ -1,15 +1,14 @@
 package br.com.pandox.nursery.domain.monitor.factory.impl;
 
 
-import br.com.pandox.nursery.domain.metric.entity.MetricEntity;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.monitor.entity.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorBuilder;
-import br.com.pandox.nursery.view.Link;
-import br.com.pandox.nursery.view.monitor.MonitorDTO;
+import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
+import br.com.pandox.nursery.view.rest.Link;
+import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +33,7 @@ public class MonitorFactoryImpl implements MonitorFactory {
 
         if(loadMetrics) {
             List<Metric> metrics = new ArrayList<>();
-            for (MetricEntity metricEntity : entity.getMetrics()) {
-                Metric metric = metricFactory.createFrom(metricEntity, false);
+            for (Metric metric : entity.getMetrics()) {
                 metrics.add(metric);
             }
             builder.setMetrics(metrics);

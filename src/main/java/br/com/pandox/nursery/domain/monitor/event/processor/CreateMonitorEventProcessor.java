@@ -21,7 +21,7 @@ public class CreateMonitorEventProcessor extends AbstractEventProcessor<CreateMo
     @Override
     @Subscribe
     public void process(CreateMonitorEvent event) {
-        monitorService.save(event.getMonitor());
+//        monitorService.save(event.getMonitor());
         LOGGER.info("CreateMonitorEvent processed");
     }
 }
