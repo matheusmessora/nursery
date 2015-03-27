@@ -27,7 +27,7 @@ public class MetricServiceImpl implements MetricService {
     public Metric create(Metric metric, Long monitorId) {
         Monitor monitor;
         try {
-            monitor = monitorLoader.loadByID(monitorId, false);
+            monitor = monitorLoader.loadByID(monitorId, true);
         }catch(DomainNotFoundException ex){
             throw new CommandException(String.format("Given monitor with id [%s] not found", monitorId));
         }

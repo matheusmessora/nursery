@@ -1,17 +1,14 @@
 package br.com.pandox.nursery.domain.metric.factory.impl;
 
-import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
+import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
-import br.com.pandox.nursery.domain.metric.model.vo.MetricDataFactory;
-import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.view.rest.Link;
 import br.com.pandox.nursery.view.rest.data.DataDTO;
 import br.com.pandox.nursery.view.rest.metric.MetricDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -19,12 +16,6 @@ import java.util.ArrayList;
 
 @Service
 public class MetricFactoryImpl implements MetricFactory {
-
-	@Autowired
-	private MetricDataFactory dataFactory;
-
-	@Autowired
-	private MonitorFactory monitorFactory;
 
 	@Override
 	public Metric createFrom(MetricEntity entity, boolean loadData) {

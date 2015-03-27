@@ -37,29 +37,21 @@ public class MonitorLoaderImpl implements MonitorLoader {
         if(entity == null) {
             throw new DomainNotFoundException();
         }
-        return factory.createFrom(entity, loadMetrics);
+        return entity;
     }
 
     @Override
     public Optional<Monitor> loadByName(String name) {
-        MonitorEntity entity = repository.findByName(name);
-        Monitor domain = null;
-        if(entity != null) {
-            domain = factory.createFrom(entity, false);
-        }
+        Monitor entity = repository.findByName(name);
 
-        return Optional.fromNullable(domain);
+        return Optional.fromNullable(entity);
     }
 
     @Override
     public Optional<Monitor> loadByMachineAndName(String name, String machine) {
-        MonitorEntity entity = repository.findByMachineAndName(machine, name);
-        Monitor domain = null;
-        if (entity != null) {
-            domain = factory.createFrom(entity, false);
-        }
+        Monitor entity = repository.findByMachineAndName(machine, name);
 
-        return Optional.fromNullable(domain);
+        return Optional.fromNullable(entity);
     }
 
     public List<Monitor> loadAll() {

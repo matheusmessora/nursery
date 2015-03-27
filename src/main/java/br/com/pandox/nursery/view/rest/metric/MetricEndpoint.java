@@ -40,7 +40,8 @@ public class MetricEndpoint {
     public ResponseEntity<MetricDTO> save(@RequestBody MetricDTO metricDTO) {
         validate(metricDTO);
 
-        Metric metric = metricService.create(metricFactory.createFrom(metricDTO), metricDTO.getMonitor().getId());
+        Metric metric = metricFactory.createFrom(metricDTO);
+        metric = metricService.create(metric, metricDTO.getMonitor().getId());
 
         MetricDTO dto = metricFactory.fabric(metric);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
