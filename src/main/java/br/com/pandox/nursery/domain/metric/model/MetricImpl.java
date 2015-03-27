@@ -73,7 +73,7 @@ public class MetricImpl implements Metric {
             int minutes = Minutes.minutesBetween(lastCreationDate, now).getMinutes();
             LOGGER.info("Minutes between: " + minutes);
             if(minutes < getTimeInterval()) {
-//                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
+                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
             }
         }
         if(getMonitor().getStatus().equals(Monitor.Status.UNREGISTERED) || getMonitor().getStatus().equals(Monitor.Status.STOPPED)){
