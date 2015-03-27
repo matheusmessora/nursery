@@ -27,10 +27,16 @@ public class NurseryServer {
     private int jettyPort;
 
     private Server server;
+    private String customProfile;
 
     public static void main(String[] args) throws Exception {
         NurseryServer server = new NurseryServer();
+        server.addProfile("preload");
         server.start(NurseryServer.DEFAULT_PORT);
+    }
+
+    private void addProfile(String preload) {
+        customProfile = preload;
     }
 
     public void start() throws Exception {
@@ -64,7 +70,7 @@ public class NurseryServer {
     private WebApplicationContext getContext() throws IOException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocation(CONFIG_LOCATION);
-        context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE);
+        context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE, customProfile);
         return context;
     }
 

@@ -13,8 +13,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class MonitorFactoryImpl implements MonitorFactory {
@@ -32,7 +32,7 @@ public class MonitorFactoryImpl implements MonitorFactory {
 
 
         if(loadMetrics) {
-            List<Metric> metrics = new ArrayList<>();
+            Set<Metric> metrics = new HashSet<>();
             for (Metric metric : entity.getMetrics()) {
                 metrics.add(metric);
             }

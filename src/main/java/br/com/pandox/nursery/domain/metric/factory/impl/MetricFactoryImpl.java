@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class MetricFactoryImpl implements MetricFactory {
@@ -31,7 +33,7 @@ public class MetricFactoryImpl implements MetricFactory {
 				.setMonitor(monitor);
 
 		if(loadData){
-			ArrayList<MetricData> datas = new ArrayList<MetricData>();
+			Set<MetricData> datas = new HashSet<>();
 			for (MetricData dataEntity : entity.getDatas()) {
 				datas.add(dataEntity);
 			}

@@ -14,21 +14,21 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            UNIVERSO :: Machines
+            UNIVERSO :: Machines :: <span th:text="${machine}">a1-hunf</span>
         </div>
         <div class="col-lg-12">
             <table class="table table-striped">
                 <tr>
-                    <th>Server</th>
                     <th>Monitors</th>
-                    <th>Last sent data</th>
+                    <th>Metrics</th>
                 </tr>
-                <tr th:each="machine : ${machines}">
-                    <td><a th:href="@{/machine(uid=${machine.key})}" th:text="${machine.key}"></a></td>
+                <tr th:each="monitor : ${monitors}">
+                    <td th:text="${monitor.name}"></td>
                     <td>
-                        <div th:each="monitor : ${machine.value}">
-                            <span th:text="${monitor.name}">Apache</span>
-                        </div></td>
+                        <div th:each="metric : ${monitor.metrics}">
+                            <span th:text="${metric.id}">Apache</span> <span th:text="${metric.name}">Apache</span>
+                        </div>
+                    </td>
                 </tr>
             </table>
         </div>

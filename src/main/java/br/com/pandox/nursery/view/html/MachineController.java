@@ -6,17 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MachineController {
 
     @Autowired
     private MonitorLoader monitorLoader;
+
+    @RequestMapping("/")
+    public String index(Model model) {
+        return "index";
+    }
 
     @RequestMapping("/machines")
     public String contacts(Model model) {
@@ -30,12 +33,30 @@ public class MachineController {
                 monitorList = machines.get(monitor.getMachine());
             } else {
                 monitorList = new ArrayList<>();
+                machines.put(monitor.getMachine(), monitorList);
             }
             monitorList.add(monitor);
-            machines.put(monitor.getMachine(), monitorList);
+
         }
 
         model.addAttribute("machines", machines);
         return "machines";
+    }
+
+    @RequestMapping("/machine")
+    public String machine(@RequestParam String uid, Model model) {
+        Set<Monitor> monitors = monitorLoader.loadByMachine(uid);
+
+        model.addAttribute("monitors", monitors);
+        model.addAttribute("machine", uid);
+        return "machine";
+    }
+
+    @RequestMapping("/monitor")
+    public String machine(@RequestParam Long id, Model model) {
+        Monitor monitor = monitorLoader.loadByID(id, true);
+
+        model.addAttribute("monitor", monitor);
+        return "monitor";
     }
 }

@@ -5,7 +5,7 @@ import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Metric extends Model {
 
@@ -21,7 +21,7 @@ public interface Metric extends Model {
 
 	void addData(MetricData data, EventListener eventListener);
 
-	List<MetricData> getDatas();
+	Set<MetricData> getDatas();
 
 	boolean isDatasLoaded();
 

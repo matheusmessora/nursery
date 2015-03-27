@@ -8,11 +8,13 @@ import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.model.repository.MonitorRepository;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MonitorLoaderImpl implements MonitorLoader {
@@ -52,6 +54,14 @@ public class MonitorLoaderImpl implements MonitorLoader {
         Monitor entity = repository.findByMachineAndName(machine, name);
 
         return Optional.fromNullable(entity);
+    }
+
+    @Override
+    public Set<Monitor> loadByMachine(String machine) {
+        Iterable<MonitorEntity> all = repository.findByMachineLoadMetrics(machine);
+
+        ImmutableSet.Builder<Monitor> builder = ImmutableSet.builder();
+        return builder.addAll(all).build();
     }
 
     public List<Monitor> loadAll() {

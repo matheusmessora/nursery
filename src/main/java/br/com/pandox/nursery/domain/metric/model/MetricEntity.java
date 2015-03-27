@@ -2,8 +2,8 @@ package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
-import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class MetricEntity implements Metric {
@@ -28,7 +28,7 @@ public class MetricEntity implements Metric {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @Column
@@ -45,12 +45,12 @@ public class MetricEntity implements Metric {
     private Monitor monitor;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = MetricDataEntity.class, mappedBy = "metric")
-    private List<MetricData> datas;
+    private Set<MetricData> datas;
 
     @Transient
     private boolean dataLoaded;
 
-    public MetricEntity(Long id, String name, String type, Integer timeInterval, List<MetricData> datas, Monitor monitor) {
+    public MetricEntity(Long id, String name, String type, Integer timeInterval, Set<MetricData> datas, Monitor monitor) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -86,7 +86,7 @@ public class MetricEntity implements Metric {
             DateTime now = new DateTime();
             int minutes = Minutes.minutesBetween(lastCreationDate, now).getMinutes();
             if(minutes < getTimeInterval()) {
-                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
+//                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
             }
         }
         if(getMonitor().getStatus().equals(Monitor.Status.UNREGISTERED) || getMonitor().getStatus().equals(Monitor.Status.STOPPED)){
@@ -101,7 +101,7 @@ public class MetricEntity implements Metric {
         return Optional.fromNullable(last);
     }
 
-    public List<MetricData> getDatas() {
+    public Set<MetricData> getDatas() {
         return datas;
     }
 
@@ -115,5 +115,22 @@ public class MetricEntity implements Metric {
 
     public void setDataLoaded(boolean dataLoaded) {
         this.dataLoaded = dataLoaded;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MetricEntity that = (MetricEntity) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

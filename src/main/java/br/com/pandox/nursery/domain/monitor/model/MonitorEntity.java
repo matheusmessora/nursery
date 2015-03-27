@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class MonitorEntity implements Monitor {
@@ -14,13 +14,13 @@ public class MonitorEntity implements Monitor {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @Column
     private String machine;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Monitor.Status status = Monitor.Status.UNREGISTERED;
 
     @Column
@@ -29,8 +29,11 @@ public class MonitorEntity implements Monitor {
     @Column
     private String version;
 
+    @Column
+    private String password;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "monitor", targetEntity = MetricEntity.class)
-    private List<Metric> metrics;
+    private Set<Metric> metrics;
 
     @Deprecated
     public MonitorEntity(){
@@ -48,7 +51,7 @@ public class MonitorEntity implements Monitor {
         this.version = version;
     }
 
-    public MonitorEntity(Long id, String machine, Status status, String name, String version, List<Metric> metrics) {
+    public MonitorEntity(Long id, String machine, Status status, String name, String version, Set<Metric> metrics) {
         this.id = id;
         this.machine = machine;
         this.status = status;
@@ -101,7 +104,7 @@ public class MonitorEntity implements Monitor {
         this.version = version;
     }
 
-    public List<Metric> getMetrics() {
+    public Set<Metric> getMetrics() {
         return metrics;
     }
 
@@ -128,11 +131,35 @@ public class MonitorEntity implements Monitor {
                 ", status=" + status +
                 ", name='" + name + '\'' +
                 ", version='" + version + '\'' +
-                ", metrics=" + metrics +
                 '}';
     }
 
-    public void setMetrics(List<Metric> metrics) {
+    public void setMetrics(Set<Metric> metrics) {
         this.metrics = metrics;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MonitorEntity that = (MonitorEntity) o;
+
+        if (!id.equals(that.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

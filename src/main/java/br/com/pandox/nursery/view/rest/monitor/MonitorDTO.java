@@ -36,6 +36,10 @@ public class MonitorDTO extends AbstractDTO {
 
     public String version;
 
+    public MonitorDTO(long monitorId) {
+
+    }
+
 
     public void setId(Long id) {
         this.id = id;

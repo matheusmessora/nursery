@@ -3,7 +3,7 @@ package br.com.pandox.nursery.domain.monitor.model;
 import br.com.pandox.nursery.Model;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Monitor extends Model {
 
@@ -23,7 +23,7 @@ public interface Monitor extends Model {
 
     String getName();
 
-    List<Metric> getMetrics();
+    Set<Metric> getMetrics();
 
     Metric getMetric(Long metricId);
 

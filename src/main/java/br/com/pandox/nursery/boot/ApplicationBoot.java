@@ -15,7 +15,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -108,7 +110,6 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
-
     @Bean
     public ThymeleafViewResolver viewResolver() {
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -123,5 +124,16 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(engine);
         return viewResolver;
+    }
+
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/canvasjs/**").addResourceLocations("/WEB-INF/templates/canvasjs/");
     }
 }

@@ -1,12 +1,12 @@
 package br.com.pandox.nursery.domain.monitor.factory;
 
-import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
-import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import org.mockito.InjectMocks;
@@ -17,8 +17,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.mockito.Mockito.when;
 
@@ -102,7 +102,7 @@ public class MonitorFactoryImplTest {
         entity.setMachine("machine");
         entity.setName("name");
         entity.setStatus(Monitor.Status.STARTED);
-        entity.setMetrics(new ArrayList<Metric>());
+        entity.setMetrics(new HashSet<Metric>());
 
         Monitor monitor = factory.createFrom(entity, true);
         Assert.assertEquals(monitor.getId().longValue(), 1L);
@@ -115,7 +115,7 @@ public class MonitorFactoryImplTest {
         entity.setMachine("machine");
         entity.setName("name");
         entity.setStatus(Monitor.Status.STARTED);
-        ArrayList<Metric> metrics = new ArrayList<>();
+        Set<Metric> metrics = new HashSet<>();
         metrics.add(new MetricEntity(1L, "metric", "type", 1));
         entity.setMetrics(metrics);
 
@@ -171,7 +171,7 @@ public class MonitorFactoryImplTest {
         }
 
         @Override
-        public List<MetricData> getDatas() {
+        public Set<MetricData> getDatas() {
             return null;
         }
 

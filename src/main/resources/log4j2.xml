@@ -11,7 +11,7 @@
         <Logger name="br.com.pandox" level="debug" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
-        <Logger name="org.springframework" level="ERROR" additivity="false">
+        <Logger name="org.springframework" level="DEBUG" additivity="false">
             <AppenderRef ref="console"/>
         </Logger>
         <Logger name="org.hibernate" level="WARN" additivity="false">

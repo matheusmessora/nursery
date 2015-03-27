@@ -1,22 +1,95 @@
-<!DOCTYPE html "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Contacts</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
+<html>
 
-<table>
-    <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-    </tr>
-    <tr th:each="contact : ${contacts}">
-        <td th:text="${contact.lastname}">The first name</td>
-        <td th:text="${contact.firstname}">The last name</td>
-    </tr>
-</table>
+<head>
+    <script src="/canvasjs/canvasjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+
+
+            var api = "/api/metric/1?load=true";
+
+            $.getJSON(api, {format: "json"})
+                    .done(function (metric) {
+                        // console.log(metric);
+                        // console.log(metric.datas);
+
+                        var dataPoints1 = [];
+                        var dataPoints2 = [];
+
+                        var items = [];
+                        $.each(metric.datas, function (index, data) {
+                            // console.log(data);
+
+                            var x = new Date(data.date_creation);
+                            var y = data.value;
+
+                            dataPoints1.push({x: x, y: y});
+                        });
+
+                        $.getJSON("/api/metric/2?load=true", {format: "json"})
+                                .done(function (metric) {
+                                    // console.log(metric);
+                                    // console.log(metric.datas);
+
+
+                                    var items = [];
+                                    $.each(metric.datas, function (index, data) {
+                                        // console.log(data);
+
+                                        var x = new Date(data.date_creation);
+                                        var y = data.value;
+
+                                        dataPoints2.push({x: x, y: y});
+
+                                        // var jsonData = JSON.parse(data);
+                                        // console.log(jsonData);
+                                        // var ponto = {
+                                        //   x: new Date(jsonData.date_creation),
+                                        //   y: jsonData.value
+                                        // }
+
+                                    });
+                                    var chart = new CanvasJS.Chart("chartContainer", {
+
+                                        title: {
+                                            text: metric.name
+                                        },
+                                        data: [
+                                            {
+                                                type: "area",
+                                                name: "CPU",
+                                                dataPoints: dataPoints1
+                                            },
+                                            {
+                                                type: "area",
+                                                name: "Memory",
+                                                dataPoints: dataPoints2
+                                            }
+                                        ]
+
+                                    });
+                                    chart.render();
+
+
+                                });
+
+
+                    });
+
+
+        }
+    </script>
+</head>
+
+<body>
+Hello
+<div id="chartContainer" style="height: 300px; width: 100%;">
+</div>
+<div id="chartContainer2" style="height: 300px; width: 100%;">
+</div>
+
 
 </body>
 </html>

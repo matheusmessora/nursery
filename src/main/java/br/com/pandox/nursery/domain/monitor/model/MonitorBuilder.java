@@ -4,9 +4,7 @@ import br.com.pandox.nursery.domain.metric.model.Metric;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class MonitorBuilder {
     private Long id;
@@ -14,7 +12,7 @@ public class MonitorBuilder {
     private Monitor.Status status;
     private String name;
     private String version;
-    private List<Metric> metrics;
+    private Set<Metric> metrics;
 
     public MonitorBuilder setId(Long id) {
         this.id = id;
@@ -56,7 +54,7 @@ public class MonitorBuilder {
         return this;
     }
 
-    public MonitorBuilder setMetrics(List<Metric> metrics) {
+    public MonitorBuilder setMetrics(Set<Metric> metrics) {
         this.metrics = metrics;
         return this;
     }
@@ -76,7 +74,7 @@ public class MonitorBuilder {
         }
 
         if(metrics == null) {
-            metrics = new ArrayList<>();
+            metrics = new HashSet<>();
         }
     }
 }

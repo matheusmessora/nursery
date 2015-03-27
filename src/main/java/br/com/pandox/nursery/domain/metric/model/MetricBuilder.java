@@ -4,15 +4,15 @@ import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MetricBuilder {
 
     private String name;
     private String type;
     private Integer timeInterval;
-    private List<MetricData> datas;
+    private Set<MetricData> datas;
     private Long id;
     private Monitor monitor;
 
@@ -36,7 +36,7 @@ public class MetricBuilder {
         return this;
     }
 
-    public MetricBuilder setDatas(List<MetricData> datas) {
+    public MetricBuilder setDatas(Set<MetricData> datas) {
         this.datas = datas;
         return this;
     }
@@ -54,7 +54,7 @@ public class MetricBuilder {
         }
 
         if(datas == null) {
-            datas = new ArrayList<>();
+            datas = new HashSet<>();
         }
 
         return new MetricEntity(id, name, type, timeInterval, datas, monitor);
