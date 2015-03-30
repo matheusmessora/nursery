@@ -70,7 +70,12 @@ public class NurseryServer {
     private WebApplicationContext getContext() throws IOException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocation(CONFIG_LOCATION);
-        context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE, customProfile);
+        if(org.springframework.util.StringUtils.hasText(customProfile)) {
+            context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE, customProfile);
+        }else {
+            context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE);
+        }
+
         return context;
     }
 
