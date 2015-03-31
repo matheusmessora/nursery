@@ -47,8 +47,15 @@
                             },
                             data: [
                                 {
-                                    type: "splineArea",
+                                    type: "area",
                                     name: title,
+                                    axisX: {
+                                        valueFormatString: "mm:ss"
+                                    },
+                                    axisY: {
+                                        minimum:0,
+                                        maximum: 100
+                                    },
                                     dataPoints: dataPoints
                                 }
                             ]

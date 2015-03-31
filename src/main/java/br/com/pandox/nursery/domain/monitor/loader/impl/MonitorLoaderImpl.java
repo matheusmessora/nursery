@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.domain.monitor.loader.impl;
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
-import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
@@ -11,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -21,9 +21,6 @@ public class MonitorLoaderImpl implements MonitorLoader {
 
     @Autowired
     private MonitorRepository repository;
-
-    @Autowired
-    private MonitorFactory factory;
 
     public Monitor loadByID(Long id, boolean loadMetrics) {
         Assert.notNull(id, "MonitorID must not be null");
@@ -57,6 +54,7 @@ public class MonitorLoaderImpl implements MonitorLoader {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Monitor> loadByMachine(String machine) {
         Iterable<MonitorEntity> all = repository.findByMachineLoadMetrics(machine);
 

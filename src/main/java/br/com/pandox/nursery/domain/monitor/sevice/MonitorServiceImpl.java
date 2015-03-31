@@ -26,7 +26,6 @@ public class MonitorServiceImpl implements MonitorService {
         monitor.setStatus(Monitor.Status.READY);
 
         MonitorEntity monitor1 = (MonitorEntity) monitor;
-        String password = monitor1.getPassword();
         return repository.save(monitor1);
     }
 }

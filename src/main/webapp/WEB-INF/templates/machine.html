@@ -23,7 +23,7 @@
                     <th>Metrics</th>
                 </tr>
                 <tr th:each="monitor : ${monitors}">
-                    <td th:text="${monitor.name}"></td>
+                    <td><a th:href="@{/monitor/} + ${monitor.id}" th:text="${monitor.name}"></a></td>
                     <td>
                         <div th:each="metric : ${monitor.metrics}">
                             <span th:text="${metric.id}">Apache</span> <span th:text="${metric.name}">Apache</span>
@@ -34,15 +34,6 @@
         </div>
     </div>
 </div>
-
-<!--<div th:each="machine : ${machines}" style="margin-bottom: 30px; display: block;">-->
-
-    <!--<div th:text="${machine.key}"></div>-->
-
-    <!--<tr th:each="monitor : ${machine.value}">-->
-        <!--<td th:text="${monitor.name}">The first name</td>-->
-    <!--</tr>-->
-<!--</div>-->
 
 </body>
 </html>

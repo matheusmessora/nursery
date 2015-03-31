@@ -4,6 +4,7 @@ import br.com.pandox.nursery.domain.DomainNotFoundException;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricEntity;
+import br.com.pandox.nursery.domain.metric.model.repository.MetricDataRepository;
 import br.com.pandox.nursery.domain.metric.model.repository.MetricRepository;
 import com.google.common.collect.ImmutableList;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +21,9 @@ public class MetricLoaderImpl implements MetricLoader {
 
     @Autowired
     private MetricRepository repository;
+
+    @Autowired
+    private MetricDataRepository metricDataRepository;
 
     @Override
     public Metric loadByName(String name) {

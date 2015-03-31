@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -32,6 +33,7 @@ import java.util.Properties;
 @ComponentScan("br.com.pandox.nursery")
 @EnableJpaRepositories({"br.com.pandox.nursery", "br.com.pandox.nursery.domain.monitor.model.repository", "br.com.pandox.nursery.domain.metric.model.repository"})
 @EnableTransactionManagement
+@EnableScheduling
 public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
     private static final Logger LOGGER = LogManager.getLogger();

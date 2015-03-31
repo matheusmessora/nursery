@@ -18,6 +18,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.mockito.Mockito.when;
@@ -171,7 +172,7 @@ public class MonitorFactoryImplTest {
         }
 
         @Override
-        public Set<MetricData> getDatas() {
+        public List<MetricData> getDatas() {
             return null;
         }
 

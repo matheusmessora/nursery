@@ -7,10 +7,13 @@ import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,11 +44,11 @@ public class MetricEntity implements Metric {
     private Integer timeInterval;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MonitorEntity.class)
-    @JoinColumn(updatable = false, insertable = true)
+    @JoinColumn(updatable = false, insertable = true, nullable = false)
     private Monitor monitor;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = MetricDataEntity.class, mappedBy = "metric")
-    private Set<MetricData> datas;
+    private List<MetricData> datas;
 
     @Transient
     private boolean dataLoaded;
@@ -55,7 +58,8 @@ public class MetricEntity implements Metric {
         this.name = name;
         this.type = type;
         this.timeInterval = timeInterval;
-        this.datas = datas;
+        ArrayList<MetricData> metricDatas = Lists.newArrayList(datas);
+        this.datas = metricDatas;
         this.monitor = monitor;
     }
 
@@ -101,7 +105,7 @@ public class MetricEntity implements Metric {
         return Optional.fromNullable(last);
     }
 
-    public Set<MetricData> getDatas() {
+    public List<MetricData> getDatas() {
         return datas;
     }
 
@@ -133,4 +137,5 @@ public class MetricEntity implements Metric {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
 }

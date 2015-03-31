@@ -36,6 +36,7 @@ public class MetricServiceImpl implements MetricService {
 
         MetricEntity metricEntity = (MetricEntity) metric;
         metricEntity.setMonitor(monitor);
-        return repository.save(metricEntity);
+        metricEntity = repository.save(metricEntity);
+        return metricEntity;
     }
 }
