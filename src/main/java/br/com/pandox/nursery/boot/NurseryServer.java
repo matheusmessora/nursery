@@ -31,7 +31,7 @@ public class NurseryServer {
 
     public static void main(String[] args) throws Exception {
         NurseryServer server = new NurseryServer();
-        server.addProfile("preload");
+        server.addProfile("self-monitored");
         server.start(NurseryServer.DEFAULT_PORT);
     }
 

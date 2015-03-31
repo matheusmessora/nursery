@@ -15,10 +15,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Random;
+import java.io.File;
 
 @Component
-@Profile("preload")
+@Profile("self-monitored")
 public class StagingDatabase {
 
     @Autowired
@@ -38,69 +38,39 @@ public class StagingDatabase {
 
     @PostConstruct
     public void init() {
-        loadMonitors();
-        loadMetrics();
+        Monitor monitor = loadMonitors();
+        loadMetrics(monitor.getId());
     }
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 60000)
     public void start() {
-        Random rand = new Random();
+        long memoryMB = Runtime.getRuntime().freeMemory() / 1000000;
+        metricDataService.create((int) memoryMB, 1L);
 
-        // nextInt is normally exclusive of the top value,
-        // so add 1 to make it inclusive
-        int min = 25;
-        int max = 60;
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        metricDataService.create(randomNum, 1L);
-
-        randomNum = rand.nextInt((max - min) + 1) + min;
-        metricDataService.create(randomNum, 2L);
-
-        randomNum = rand.nextInt((max - min) + 1) + min;
-        metricDataService.create(randomNum, 3L);
+        File root = File.listRoots()[0];
+        long freeSpace = root.getFreeSpace() / 1000000;
+        metricDataService.create((int) freeSpace, 2L);
     }
 
-    private void loadMonitors(){
+    private Monitor loadMonitors(){
         MonitorDTO dto = new MonitorDTO();
-        dto.setName("Apache");
-        dto.setMachine("localhost");
-        Monitor monitor = monitorFactory.fabric(dto);
-        monitor = monitorService.create(monitor);
-
-
         dto.setName("java-war");
         dto.setMachine("localhost");
-        monitor = monitorFactory.fabric(dto);
-        monitor = monitorService.create(monitor);
-
-        dto.setName("mongodb");
-        dto.setMachine("a1-baidu");
-        monitor = monitorFactory.fabric(dto);
-        monitor = monitorService.create(monitor);
-
-        dto.setName("apache");
-        dto.setMachine("a1-baidu");
-        monitor = monitorFactory.fabric(dto);
-        monitor = monitorService.create(monitor);
+        Monitor monitor = monitorFactory.fabric(dto);
+        return monitorService.create(monitor);
     }
 
-    private void loadMetrics() {
+    private void loadMetrics(Long monitorId) {
         MetricDTO dto = new MetricDTO();
-        dto.setName("Memory");
+        dto.setName("Free Memory");
         dto.setTime_interval(1);
         Metric metric = metricFactory.createFrom(dto);
-        metricService.create(metric, 1L);
+        metricService.create(metric, monitorId);
 
         dto = new MetricDTO();
-        dto.setName("CPU");
+        dto.setName("Free space");
         dto.setTime_interval(1);
         metric = metricFactory.createFrom(dto);
-        metricService.create(metric, 1L);
-
-        dto = new MetricDTO();
-        dto.setName("Threads");
-        dto.setTime_interval(1);
-        metric = metricFactory.createFrom(dto);
-        metricService.create(metric, 2L);
+        metricService.create(metric, monitorId);
     }
 }
