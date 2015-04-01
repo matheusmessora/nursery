@@ -3,3 +3,7 @@ language: java
 ## Run Integration tests
 script: "mvn test && mvn verify"
 
+
+
+# mvn clean compile assembly:single
+# java -jar *.jar
