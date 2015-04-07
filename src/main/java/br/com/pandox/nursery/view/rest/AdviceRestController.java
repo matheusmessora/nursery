@@ -1,6 +1,8 @@
-package br.com.pandox.nursery.infrastructure.controller.rest;
+package br.com.pandox.nursery.view.rest;
 
 import br.com.pandox.nursery.domain.CommandException;
+import br.com.pandox.nursery.infrastructure.controller.rest.ErroDTO;
+import br.com.pandox.nursery.infrastructure.controller.rest.ErrorMessageDTO;
 import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import br.com.pandox.nursery.view.exception.NotFoundException;

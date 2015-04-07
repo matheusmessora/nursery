@@ -49,6 +49,7 @@ public class MetricFactoryImpl implements MetricFactory {
 				.setName(metricDTO.getName())
 				.setType(metricDTO.getType())
 				.setTimeInterval(metricDTO.getTime_interval())
+				.setMaxValue(metricDTO.getMaxValue())
 				.build();
 	}
 

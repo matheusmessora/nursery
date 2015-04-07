@@ -17,6 +17,8 @@ public interface Metric extends Model {
 
 	Integer getTimeInterval();
 
+	Integer getMaxValue();
+
 	Monitor getMonitor();
 
 	void addData(MetricData data, EventListener eventListener);

@@ -15,6 +15,7 @@ public class MetricBuilder {
     private Set<MetricData> datas;
     private Long id;
     private Monitor monitor;
+    private Integer maxValue;
 
     public MetricBuilder setId(Long id) {
         this.id = id;
@@ -57,6 +58,12 @@ public class MetricBuilder {
             datas = new HashSet<>();
         }
 
-        return new MetricEntity(id, name, type, timeInterval, datas, monitor);
+        return new MetricEntity(id, name, type, timeInterval, datas, monitor, maxValue);
     }
+
+    public MetricBuilder setMaxValue(Integer maxValue) {
+        this.maxValue = maxValue;
+        return this;
+    }
+
 }

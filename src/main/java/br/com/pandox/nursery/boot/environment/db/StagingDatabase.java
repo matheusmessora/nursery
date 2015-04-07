@@ -11,7 +11,6 @@ import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -42,7 +41,6 @@ public class StagingDatabase {
         loadMetrics(monitor.getId());
     }
 
-    @Scheduled(fixedDelay = 60000)
     public void start() {
         long memoryMB = Runtime.getRuntime().freeMemory() / 1000000;
         metricDataService.create((int) memoryMB, 1L);

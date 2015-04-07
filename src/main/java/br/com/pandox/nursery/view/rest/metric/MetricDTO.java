@@ -25,6 +25,16 @@ public class MetricDTO extends AbstractDTO {
 
 	private List<DataDTO> datas;
 
+	private Integer maxValue;
+
+	public Integer getMaxValue() {
+		return maxValue;
+	}
+
+	public void setMaxValue(Integer maxValue) {
+		this.maxValue = maxValue;
+	}
+
 	public Long getId() {
 		return id;
 	}

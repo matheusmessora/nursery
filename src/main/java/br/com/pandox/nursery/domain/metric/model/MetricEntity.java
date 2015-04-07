@@ -43,6 +43,9 @@ public class MetricEntity implements Metric {
     @Column
     private Integer timeInterval;
 
+    @Column
+    private Integer maxValue;
+
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MonitorEntity.class)
     @JoinColumn(updatable = false, insertable = true, nullable = false)
     private Monitor monitor;
@@ -77,6 +80,11 @@ public class MetricEntity implements Metric {
 
     public Integer getTimeInterval() {
         return timeInterval;
+    }
+
+    @Override
+    public Integer getMaxValue() {
+        return maxValue;
     }
 
     public Monitor getMonitor() {

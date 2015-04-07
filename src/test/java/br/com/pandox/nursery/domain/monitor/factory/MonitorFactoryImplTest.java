@@ -162,6 +162,11 @@ public class MonitorFactoryImplTest {
         }
 
         @Override
+        public Integer getMaxValue() {
+            return null;
+        }
+
+        @Override
         public Monitor getMonitor() {
             return null;
         }
