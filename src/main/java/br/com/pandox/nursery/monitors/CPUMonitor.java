@@ -1,22 +1,24 @@
 package br.com.pandox.nursery.monitors;
 
 import br.com.pandox.nursery.domain.metricData.MetricDataService;
+import com.sun.management.OperatingSystemMXBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.lang.management.ManagementFactory;
+
 @Service
-public class MemoryMonitorImpl implements MemoryMonitor {
+public class CPUMonitor {
 
 
     @Autowired
     private MetricDataService metricDataService;
 
-    @Override
     @Scheduled(fixedDelay = 30000)
     public void read() {
-        long memoryMB = Runtime.getRuntime().freeMemory() / 1000000;
-        long maxMemoryMB = Runtime.getRuntime().maxMemory() / 1000000;
-        metricDataService.create((int) memoryMB, 1L);
+        OperatingSystemMXBean mxBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        double cpu = mxBean.getSystemCpuLoad() * 100;
+        metricDataService.create((int) cpu, 2L);
     }
 }

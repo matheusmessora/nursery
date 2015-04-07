@@ -22,7 +22,7 @@
     <script>
 
         // Load the Visualization API library and the piechart library.
-        google.load('visualization', '1.0', {'packages':['corechart']});
+        google.load('visualization', '1.0', {'packages':['corechart', 'gauge']});
 
 
         function loadMetric(id){
@@ -56,11 +56,40 @@
                         // Instantiate and draw our chart, passing in some options.
                         var chart = new google.visualization.AreaChart(document.getElementById('chartContainer' + id));
                         chart.draw(gData, options);
+                    });
+        }
 
+        function loadGauge(id){
+            // Create the data table.
 
+            $.getJSON("/api/metric/" +id+ "?load=true", {format: "json"})
+                    .done(function (metric) {
+                        var title = metric.name;
 
+                        var gData = new google.visualization.arrayToDataTable([
+                            ['Label', 'Value'],
+                                [title, 0]
+                        ]);
 
+                        $.each(metric.datas, function (index, data) {
 
+                            var x = new Date(data.date_creation);
+                            var y = data.value;
+
+                            gData.setValue(0, 1, y);
+                        });
+
+                        console.log(metric);
+                        var options = {
+                            width: 400, height: 120,
+                            redFrom: 90, redTo: 100,
+                            yellowFrom:75, yellowTo: 90,
+                            minorTicks: 5
+                        };
+
+                        // Instantiate and draw our chart, passing in some options.
+                        var chart = new google.visualization.Gauge(document.getElementById('gaugeContainer' + id));
+                        chart.draw(gData, options);
                     });
         }
     </script>
@@ -77,6 +106,16 @@
                 <script type="text/javascript" th:inline="javascript" >
                     var id = [[${metric.id}]];
                     loadMetric(id);
+                </script>
+             </div>
+
+        </div>
+        <div class="col-lg-4" th:each="metric : ${monitor.metrics}">
+            <span th:text="${metric.id}"></span>
+            <div th:attr="id='gaugeContainer'+${metric.id}" style="height: 300px; width: 100%;">
+                <script type="text/javascript" th:inline="javascript" >
+                    var id = [[${metric.id}]];
+                    loadGauge(id);
                 </script>
              </div>
 

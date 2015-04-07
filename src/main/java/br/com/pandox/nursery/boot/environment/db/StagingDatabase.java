@@ -60,15 +60,16 @@ public class StagingDatabase {
 
     private void loadMetrics(Long monitorId) {
         MetricDTO dto = new MetricDTO();
-        dto.setName("Free Memory");
+        dto.setName("Memory");
         dto.setTime_interval(1);
         dto.setMax_value(1024);
         Metric metric = metricFactory.createFrom(dto);
         metricService.create(metric, monitorId);
 
         dto = new MetricDTO();
-        dto.setName("Free space");
+        dto.setName("CPU");
         dto.setTime_interval(1);
+        dto.setMax_value(100);
         metric = metricFactory.createFrom(dto);
         metricService.create(metric, monitorId);
     }
