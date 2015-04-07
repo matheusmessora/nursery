@@ -30,7 +30,8 @@ public class MetricFactoryImpl implements MetricFactory {
 				.setType(entity.getType())
 				.setTimeInterval(entity.getTimeInterval())
 				.setName(entity.getName())
-				.setMonitor(monitor);
+				.setMonitor(monitor)
+				.setMaxValue(entity.getMaxValue());
 
 		if(loadData){
 			Set<MetricData> datas = new HashSet<>();
@@ -43,13 +44,16 @@ public class MetricFactoryImpl implements MetricFactory {
 		return builder.build();
 	}
 
+
 	@Override
 	public Metric createFrom(MetricDTO metricDTO) {
+		Assert.notNull(metricDTO, "MetricDTO must not be null");
+
 		return new MetricBuilder()
 				.setName(metricDTO.getName())
 				.setType(metricDTO.getType())
 				.setTimeInterval(metricDTO.getTime_interval())
-				.setMaxValue(metricDTO.getMaxValue())
+				.setMaxValue(metricDTO.getMax_value())
 				.build();
 	}
 
@@ -59,6 +63,7 @@ public class MetricFactoryImpl implements MetricFactory {
 		dto.setName(metric.getName());
 		dto.setTime_interval(metric.getTimeInterval());
 		dto.setType(metric.getType());
+		dto.setMax_value(metric.getMaxValue());
 
 		ArrayList<DataDTO> datas = new ArrayList<>();
 		if(metric.isDatasLoaded()){
@@ -69,8 +74,8 @@ public class MetricFactoryImpl implements MetricFactory {
 
 		dto.setDatas(datas);
 
-		dto.addLink(new Link("/api/vSNAPSHOT/data", "create-data"));
-		dto.addLink(new Link("/api/vSNAPSHOT/metric/" + dto.getId() + "?load=true", "fetch-data"));
+		dto.addLink(new Link("/api/data", "create-data"));
+		dto.addLink(new Link("/api/metric/" + dto.getId() + "?load=true", "fetch-data"));
 
 		return dto;
 	}

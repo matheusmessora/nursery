@@ -56,7 +56,7 @@ public class MetricEntity implements Metric {
     @Transient
     private boolean dataLoaded;
 
-    public MetricEntity(Long id, String name, String type, Integer timeInterval, Set<MetricData> datas, Monitor monitor) {
+    public MetricEntity(Long id, String name, String type, Integer timeInterval, Set<MetricData> datas, Monitor monitor, Integer maxValue) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -64,6 +64,7 @@ public class MetricEntity implements Metric {
         ArrayList<MetricData> metricDatas = Lists.newArrayList(datas);
         this.datas = metricDatas;
         this.monitor = monitor;
+        this.maxValue = maxValue;
     }
 
     public Long getId() {

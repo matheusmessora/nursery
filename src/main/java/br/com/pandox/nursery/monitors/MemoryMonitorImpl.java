@@ -13,7 +13,7 @@ public class MemoryMonitorImpl implements MemoryMonitor {
     private MetricDataService metricDataService;
 
     @Override
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 30000)
     public void read() {
         long memoryMB = Runtime.getRuntime().freeMemory() / 1000000;
         long maxMemoryMB = Runtime.getRuntime().maxMemory() / 1000000;

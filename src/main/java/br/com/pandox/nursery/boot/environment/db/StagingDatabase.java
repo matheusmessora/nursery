@@ -62,6 +62,7 @@ public class StagingDatabase {
         MetricDTO dto = new MetricDTO();
         dto.setName("Free Memory");
         dto.setTime_interval(1);
+        dto.setMax_value(1024);
         Metric metric = metricFactory.createFrom(dto);
         metricService.create(metric, monitorId);
 

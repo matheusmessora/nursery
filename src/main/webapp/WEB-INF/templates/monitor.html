@@ -47,9 +47,10 @@
                             gData.addRow([x, y]);
                         });
 
+                        console.log(metric);
                         var options = {
                             title: title,
-                            vAxis: {minValue: 0, maxValue: 100}
+                            vAxis: {minValue: 0, maxValue: metric.max_value}
                         };
 
                         // Instantiate and draw our chart, passing in some options.
