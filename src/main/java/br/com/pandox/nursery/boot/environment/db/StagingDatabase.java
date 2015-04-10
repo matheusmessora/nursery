@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 
 @Component
 @Profile("self-monitored")
@@ -37,20 +36,28 @@ public class StagingDatabase {
 
     @PostConstruct
     public void init() {
-        Monitor monitor = loadMonitors();
+        Monitor monitor = loadAppMonitors();
         loadMetrics(monitor.getId());
+
+        loadServerMonitors();
     }
 
-    public void start() {
-        long memoryMB = Runtime.getRuntime().freeMemory() / 1000000;
-        metricDataService.create((int) memoryMB, 1L);
+    private void loadServerMonitors() {
+        MonitorDTO dto = new MonitorDTO();
+        dto.setName("machine");
+        dto.setMachine("localhost");
+        Monitor monitor = monitorFactory.fabric(dto);
+        monitor = monitorService.create(monitor);
 
-        File root = File.listRoots()[0];
-        long freeSpace = root.getFreeSpace() / 1000000;
-        metricDataService.create((int) freeSpace, 2L);
+        MetricDTO metricDTO = new MetricDTO();
+        metricDTO.setName("Memory");
+        metricDTO.setTime_interval(1);
+        metricDTO.setMax_value(8192);
+        Metric metric = metricFactory.createFrom(metricDTO);
+        metricService.create(metric, monitor.getId());
     }
 
-    private Monitor loadMonitors(){
+    private Monitor loadAppMonitors(){
         MonitorDTO dto = new MonitorDTO();
         dto.setName("java-war");
         dto.setMachine("localhost");

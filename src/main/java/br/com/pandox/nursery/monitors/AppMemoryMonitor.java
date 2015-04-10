@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemoryMonitor {
+public class AppMemoryMonitor {
 
 
     @Autowired
@@ -14,8 +14,16 @@ public class MemoryMonitor {
 
     @Scheduled(fixedDelay = 30000)
     public void read() {
-        long freeMemory = Runtime.getRuntime().freeMemory() / 1000000;
-        long total = Runtime.getRuntime().totalMemory() / 1000000;
+        long freeMemory = getFreeMemory();
+        long total = getTotalMemory();
         metricDataService.create((int) (total - freeMemory), 1L);
+    }
+
+    private long getFreeMemory() {
+        return Runtime.getRuntime().freeMemory() / 1000000;
+    }
+
+    private long getTotalMemory() {
+        return Runtime.getRuntime().totalMemory() / 1000000;
     }
 }

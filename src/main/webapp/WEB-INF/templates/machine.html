@@ -14,7 +14,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            UNIVERSO :: Machines :: <span th:text="${machine}">a1-hunf</span>
+            UNIVERSO :: <a href="/machines">Machines</a> :: <a th:href="@{/machine(uid=${machine})}" th:text="${machine}"></a>
         </div>
         <div class="col-lg-12">
             <table class="table table-striped">
