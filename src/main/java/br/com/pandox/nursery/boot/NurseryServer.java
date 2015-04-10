@@ -1,15 +1,17 @@
 package br.com.pandox.nursery.boot;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.management.remote.JMXServiceURL;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class NurseryServer {
     private final String CONFIG_LOCATION = "br.com.pandox.nursery.boot";
@@ -44,9 +46,13 @@ public class NurseryServer {
     }
 
     public void start(Integer port) throws Exception {
-        server = new Server(port);
+        QueuedThreadPool threadPool = new QueuedThreadPool();
+        threadPool.setMaxThreads(10);
+        server = new Server(threadPool);
         server.setHandler(getServletContextHandler(getContext()));
+        server.setConnectors(new Connector[]{ getHttpConnector(port) });
         server.start();
+
         ServerConnector connector = (ServerConnector) server.getConnectors()[0];
         jettyPort = connector.getLocalPort();
     }
@@ -55,6 +61,30 @@ public class NurseryServer {
         server.stop();
         server.destroy();
     }
+
+    private Connector getHttpConnector(Integer port){
+        HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory();
+        ServerConnector http = new ServerConnector(server, httpConnectionFactory);
+        http.setPort(port);
+        http.setIdleTimeout(30000);
+
+        return http;
+    }
+
+    private Connector getJMXConnetor() {
+        JMXServiceURL jmxServiceURL = null;
+        try {
+            jmxServiceURL = new JMXServiceURL("rmi", "localhost", 10099, "/jmxrmi");
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return null;
+    }
+
 
     private WebAppContext getServletContextHandler(WebApplicationContext context) throws
             IOException {

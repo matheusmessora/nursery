@@ -37,9 +37,9 @@ public class StagingDatabase {
     @PostConstruct
     public void init() {
         Monitor monitor = loadAppMonitors();
-        loadMetrics(monitor.getId());
-
         loadServerMonitors();
+
+        loadMetrics(monitor.getId());
     }
 
     private void loadServerMonitors() {
@@ -54,6 +54,13 @@ public class StagingDatabase {
         metricDTO.setTime_interval(1);
         metricDTO.setMax_value(8192);
         Metric metric = metricFactory.createFrom(metricDTO);
+        metricService.create(metric, monitor.getId());
+
+        metricDTO = new MetricDTO();
+        metricDTO.setName("CPU");
+        metricDTO.setTime_interval(1);
+        metricDTO.setMax_value(100);
+        metric = metricFactory.createFrom(metricDTO);
         metricService.create(metric, monitor.getId());
     }
 
@@ -74,9 +81,14 @@ public class StagingDatabase {
         metricService.create(metric, monitorId);
 
         dto = new MetricDTO();
-        dto.setName("CPU");
+        dto.setName("Threads");
         dto.setTime_interval(1);
-        dto.setMax_value(100);
+        metric = metricFactory.createFrom(dto);
+        metricService.create(metric, monitorId);
+
+        dto = new MetricDTO();
+        dto.setName("ResponseTime");
+        dto.setTime_interval(1);
         metric = metricFactory.createFrom(dto);
         metricService.create(metric, monitorId);
     }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,27 +15,18 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import java.util.Locale;
 import java.util.Properties;
 
 @Configuration
-@EnableWebMvc
 @ComponentScan("br.com.pandox.nursery")
 @EnableJpaRepositories({"br.com.pandox.nursery", "br.com.pandox.nursery.domain.monitor.model.repository", "br.com.pandox.nursery.domain.metric.model.repository"})
 @EnableTransactionManagement
 @EnableScheduling
-public class ApplicationBoot extends WebMvcConfigurerAdapter {
+public class ApplicationBoot {
 
     private static final Logger LOGGER = LogManager.getLogger();
+
 
     public ApplicationBoot() throws Exception {
         LOGGER.debug("Initializing Nursery Application");
@@ -49,6 +39,7 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
+
 
     @Bean
     public DriverManagerDataSource dataSource() {
@@ -78,7 +69,7 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
 
         hibernateProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProperties.put("hibernate.format_sql", "true");
-        hibernateProperties.put("hibernate.show_sql", "true");
+        hibernateProperties.put("hibernate.show_sql", "false");
 
         entityManagerFactoryBean.setJpaProperties(hibernateProperties);
 
@@ -94,48 +85,5 @@ public class ApplicationBoot extends WebMvcConfigurerAdapter {
         return transactionManager;
     }
 
-    @Bean
-    public SessionLocaleResolver sessionLocaleResolver(){
-        SessionLocaleResolver localeResolver=new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.US);
-        return localeResolver;
-    }
 
-    @Bean
-    public ReloadableResourceBundleMessageSource getMessageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setBasename("classpath:locale/messages");
-        messageSource.setUseCodeAsDefaultMessage(true);
-
-
-        return messageSource;
-    }
-
-    @Bean
-    public ThymeleafViewResolver viewResolver() {
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setTemplateMode("HTML5");
-        templateResolver.setPrefix("/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setCacheable(false);
-
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.setTemplateResolver(templateResolver);
-
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(engine);
-        return viewResolver;
-    }
-
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/canvasjs/**").addResourceLocations("/WEB-INF/templates/canvasjs/");
-    }
 }

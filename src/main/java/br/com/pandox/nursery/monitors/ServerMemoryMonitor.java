@@ -17,7 +17,7 @@ public class ServerMemoryMonitor {
     public void read() {
         long freeMemory = getFreeMemory();
         long total = getTotalMemory();
-        metricDataService.create((int) (total - freeMemory), 3L);
+        metricDataService.create((int) (total - freeMemory), 1L);
     }
 
     private long getFreeMemory(){

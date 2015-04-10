@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
-public class AppMemoryMonitor {
+public class ThreadsMonitor {
 
 
     @Autowired
@@ -14,16 +16,8 @@ public class AppMemoryMonitor {
 
     @Scheduled(fixedDelay = 30000)
     public void read() {
-        long freeMemory = getFreeMemory();
-        long total = getTotalMemory();
-        metricDataService.create((int) (total - freeMemory), 3L);
+        Map<Thread, StackTraceElement[]> allStackTraces = Thread.getAllStackTraces();
+        metricDataService.create(allStackTraces.size(), 4L);
     }
 
-    private long getFreeMemory() {
-        return Runtime.getRuntime().freeMemory() / 1000000;
-    }
-
-    private long getTotalMemory() {
-        return Runtime.getRuntime().totalMemory() / 1000000;
-    }
 }
