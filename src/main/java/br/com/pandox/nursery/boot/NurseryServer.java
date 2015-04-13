@@ -47,7 +47,7 @@ public class NurseryServer {
 
     public void start(Integer port) throws Exception {
         QueuedThreadPool threadPool = new QueuedThreadPool();
-        threadPool.setMaxThreads(10);
+        threadPool.setMaxThreads(100);
         server = new Server(threadPool);
         server.setHandler(getServletContextHandler(getContext()));
         server.setConnectors(new Connector[]{ getHttpConnector(port) });
