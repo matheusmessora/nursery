@@ -1,6 +1,9 @@
 package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.CommandException;
+import br.com.pandox.nursery.domain.alert.event.CreateAlertFromMetricDataEdge;
+import br.com.pandox.nursery.domain.metric.model.vo.Edge;
+import br.com.pandox.nursery.domain.metric.model.vo.EdgeImpl;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
@@ -10,6 +13,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -45,6 +49,12 @@ public class MetricEntity implements Metric {
 
     @Column
     private Integer maxValue;
+
+    @Column
+    private Integer thresholdLowValue;
+
+    @Column
+    private Integer thresholdHighValue;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MonitorEntity.class)
     @JoinColumn(updatable = false, insertable = true, nullable = false)
@@ -93,6 +103,9 @@ public class MetricEntity implements Metric {
     }
 
     public void addData(MetricData data, EventListener eventListener) {
+        Assert.notNull(eventListener, "eventListener should not be null");
+        Assert.notNull(data, "data should not be null");
+
         Optional<MetricData> lastData = getFirstData();
         if(lastData.isPresent()){
             DateTime lastCreationDate = new DateTime(lastData.get().getDateCreation());
@@ -103,8 +116,10 @@ public class MetricEntity implements Metric {
             }
         }
         if(getMonitor().getStatus().equals(Monitor.Status.UNREGISTERED) || getMonitor().getStatus().equals(Monitor.Status.STOPPED)){
-            throw new CommandException("Can not add data. Monitor in %s status", getMonitor().getStatus().name());
+            throw new CommandException("Can not add data. Monitor is in %s status", getMonitor().getStatus().name());
         }
+
+        eventListener.post(new CreateAlertFromMetricDataEdge(this));
 
         this.datas.add(data);
     }
@@ -120,6 +135,28 @@ public class MetricEntity implements Metric {
 
     public boolean isDatasLoaded() {
         return dataLoaded;
+    }
+
+    @Override
+    public void addEdge(Edge edge) {
+        Assert.notNull(edge);
+        thresholdLowValue = edge.getLowest();
+        thresholdHighValue = edge.getHighest();
+    }
+
+    @Override
+    public Optional<Edge> getEdge() {
+        Optional<Edge> edge = Optional.absent();
+        if (hasEdge()) {
+            Edge edge1 = new EdgeImpl(thresholdLowValue, thresholdHighValue);
+            edge = Optional.of(edge1);
+        }
+
+        return edge;
+    }
+
+    private boolean hasEdge() {
+        return thresholdLowValue != null && thresholdHighValue != null;
     }
 
     public void setMonitor(Monitor monitor) {

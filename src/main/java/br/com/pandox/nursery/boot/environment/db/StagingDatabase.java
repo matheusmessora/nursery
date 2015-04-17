@@ -3,7 +3,6 @@ package br.com.pandox.nursery.boot.environment.db;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.service.MetricService;
-import br.com.pandox.nursery.domain.metricData.MetricDataService;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.sevice.MonitorService;
@@ -24,9 +23,6 @@ public class StagingDatabase {
 
     @Autowired
     private MetricService metricService;
-
-    @Autowired
-    private MetricDataService metricDataService;
 
     @Autowired
     private MonitorFactory monitorFactory;

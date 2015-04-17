@@ -1,9 +1,11 @@
 package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.Model;
+import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
+import com.google.common.base.Optional;
 
 import java.util.List;
 
@@ -26,5 +28,11 @@ public interface Metric extends Model {
 	List<MetricData> getDatas();
 
 	boolean isDatasLoaded();
+
+	void addEdge(Edge edge);
+
+	Optional<Edge> getEdge();
+
+
 
 }

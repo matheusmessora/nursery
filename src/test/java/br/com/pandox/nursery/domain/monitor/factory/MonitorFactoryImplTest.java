@@ -3,12 +3,14 @@ package br.com.pandox.nursery.domain.monitor.factory;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricEntity;
+import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
+import com.google.common.base.Optional;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -185,6 +187,17 @@ public class MonitorFactoryImplTest {
         public boolean isDatasLoaded() {
             return false;
         }
+
+        @Override
+        public void addEdge(Edge edge) {
+
+        }
+
+        @Override
+        public Optional<Edge> getEdge() {
+            return null;
+        }
+
     }
 
 }

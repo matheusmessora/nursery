@@ -4,11 +4,14 @@ import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
 import br.com.pandox.nursery.domain.metric.model.MetricEntity;
+import br.com.pandox.nursery.domain.metric.model.vo.Edge;
+import br.com.pandox.nursery.domain.metric.model.vo.EdgeImpl;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.view.rest.Link;
 import br.com.pandox.nursery.view.rest.data.DataDTO;
 import br.com.pandox.nursery.view.rest.metric.MetricDTO;
+import com.google.common.base.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -49,12 +52,17 @@ public class MetricFactoryImpl implements MetricFactory {
 	public Metric createFrom(MetricDTO metricDTO) {
 		Assert.notNull(metricDTO, "MetricDTO must not be null");
 
-		return new MetricBuilder()
+		MetricBuilder builder = new MetricBuilder()
 				.setName(metricDTO.getName())
 				.setType(metricDTO.getType())
 				.setTimeInterval(metricDTO.getTime_interval())
-				.setMaxValue(metricDTO.getMax_value())
-				.build();
+				.setMaxValue(metricDTO.getMax_value());
+
+		if(metricDTO.getEdgeLowValue() != null && metricDTO.getEdgeHighValue() != null) {
+			builder.setEdge(new EdgeImpl(metricDTO.getEdgeLowValue(), metricDTO.getEdgeHighValue()));
+		}
+
+		return builder.build();
 	}
 
 	public MetricDTO fabric(Metric metric){
@@ -64,6 +72,12 @@ public class MetricFactoryImpl implements MetricFactory {
 		dto.setTime_interval(metric.getTimeInterval());
 		dto.setType(metric.getType());
 		dto.setMax_value(metric.getMaxValue());
+
+		Optional<Edge> edge = metric.getEdge();
+		if(edge.isPresent()){
+			dto.setEdgeLowValue(edge.get().getLowest());
+			dto.setEdgeHighValue(edge.get().getHighest());
+		}
 
 		ArrayList<DataDTO> datas = new ArrayList<>();
 		if(metric.isDatasLoaded()){

@@ -5,7 +5,6 @@ import br.com.pandox.nursery.view.rest.data.DataDTO;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.common.base.MoreObjects;
 
 import java.util.List;
 
@@ -26,6 +25,9 @@ public class MetricDTO extends AbstractDTO {
 	private List<DataDTO> datas;
 
 	private Integer max_value;
+
+	private Integer edgeLowValue;
+	private Integer edgeHighValue;
 
 	public Integer getMax_value() {
 		return max_value;
@@ -83,15 +85,35 @@ public class MetricDTO extends AbstractDTO {
 		this.datas = datas;
 	}
 
+	public Integer getEdgeHighValue() {
+		return edgeHighValue;
+	}
+
+	public void setEdgeHighValue(Integer edgeHighValue) {
+		this.edgeHighValue = edgeHighValue;
+	}
+
+	public Integer getEdgeLowValue() {
+		return edgeLowValue;
+	}
+
+	public void setEdgeLowValue(Integer edgeLowValue) {
+		this.edgeLowValue = edgeLowValue;
+	}
+
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this)
-				.add("id", id)
-				.add("name", name)
-				.add("type", type)
-				.add("time_interval", time_interval)
-				.add("monitor", monitor)
-				.add("datas", datas)
-				.toString();
+		final StringBuilder sb = new StringBuilder("MetricDTO{");
+		sb.append("id=").append(id);
+		sb.append(", name='").append(name).append('\'');
+		sb.append(", type='").append(type).append('\'');
+		sb.append(", time_interval=").append(time_interval);
+		sb.append(", monitor=").append(monitor);
+		sb.append(", datas=").append(datas);
+		sb.append(", max_value=").append(max_value);
+		sb.append(", edgeLowValue=").append(edgeLowValue);
+		sb.append(", edgeHighValue=").append(edgeHighValue);
+		sb.append('}');
+		return sb.toString();
 	}
 }

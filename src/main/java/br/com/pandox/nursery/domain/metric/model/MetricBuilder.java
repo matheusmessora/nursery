@@ -1,7 +1,9 @@
 package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
+import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import com.google.common.base.Optional;
 import org.springframework.util.Assert;
 
 import java.util.HashSet;
@@ -12,10 +14,16 @@ public class MetricBuilder {
     private String name;
     private String type;
     private Integer timeInterval;
-    private Set<MetricData> datas;
+    private Optional<Set<MetricData>> datas;
     private Long id;
     private Monitor monitor;
     private Integer maxValue;
+    private Optional<Edge> edge;
+
+    public MetricBuilder() {
+        edge = Optional.absent();
+        datas = Optional.absent();
+    }
 
     public MetricBuilder setId(Long id) {
         this.id = id;
@@ -38,12 +46,17 @@ public class MetricBuilder {
     }
 
     public MetricBuilder setDatas(Set<MetricData> datas) {
-        this.datas = datas;
+        this.datas = Optional.fromNullable(datas);
         return this;
     }
 
     public MetricBuilder setMonitor(Monitor monitor) {
         this.monitor = monitor;
+        return this;
+    }
+
+    public MetricBuilder setEdge(Edge edge) {
+        this.edge = Optional.fromNullable(edge);
         return this;
     }
 
@@ -54,16 +67,22 @@ public class MetricBuilder {
             throw new IllegalArgumentException("Malformed attribute: time_interval. It should be between 1 and 1440");
         }
 
-        if(datas == null) {
-            datas = new HashSet<>();
+        Set<MetricData> datas = new HashSet<>();
+        if(this.datas.isPresent()) {
+            datas = this.datas.get();
         }
 
-        return new MetricEntity(id, name, type, timeInterval, datas, monitor, maxValue);
+        Metric metricEntity = new MetricEntity(id, name, type, timeInterval, datas, monitor, maxValue);
+
+        if(edge.isPresent()){
+            metricEntity.addEdge(edge.get());
+        }
+
+        return metricEntity;
     }
 
     public MetricBuilder setMaxValue(Integer maxValue) {
         this.maxValue = maxValue;
         return this;
     }
-
 }
