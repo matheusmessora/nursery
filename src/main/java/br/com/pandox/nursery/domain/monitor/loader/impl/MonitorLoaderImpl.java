@@ -6,14 +6,12 @@ import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.model.repository.MonitorRepository;
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -62,10 +60,16 @@ public class MonitorLoaderImpl implements MonitorLoader {
         return builder.addAll(all).build();
     }
 
-    public List<Monitor> loadAll() {
-        Iterable<MonitorEntity> all = repository.findAll();
+    public Set<Monitor> loadAll(boolean loadMetrics) {
+        Iterable<MonitorEntity> all;
+        if(loadMetrics) {
+            all = repository.findAllLoadMetrics();
+        }else {
+            all = repository.findAll();
+        }
 
-        ImmutableList.Builder<Monitor> builder = ImmutableList.builder();
+
+        ImmutableSet.Builder<Monitor> builder = ImmutableSet.builder();
         return builder.addAll(all).build();
     }
 

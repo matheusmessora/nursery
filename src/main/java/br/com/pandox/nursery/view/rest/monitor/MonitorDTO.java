@@ -27,13 +27,9 @@ public class MonitorDTO extends AbstractDTO {
     }
 
     public Long id;
-
     public String machine;
-
     public String status;
-
     public String name;
-
     public String version;
 
     public MonitorDTO(long monitorId) {

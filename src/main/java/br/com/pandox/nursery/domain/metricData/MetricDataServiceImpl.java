@@ -2,12 +2,12 @@ package br.com.pandox.nursery.domain.metricData;
 
 import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.DomainNotFoundException;
-import br.com.pandox.nursery.domain.metric.model.MetricDataEntity;
-import br.com.pandox.nursery.domain.metric.model.repository.MetricDataRepository;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.metric.model.MetricDataEntity;
+import br.com.pandox.nursery.domain.metric.model.repository.MetricDataRepository;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
-import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
+import com.google.common.eventbus.EventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class MetricDataServiceImpl implements MetricDataService {
     private MetricLoader metricLoader;
 
     @Autowired
-    private EventListener eventListener;
+    private EventBus eventBus;
 
     @Override
     public MetricData create(Integer value, Long metricId) {
@@ -35,7 +35,7 @@ public class MetricDataServiceImpl implements MetricDataService {
         }
         MetricDataEntity entity = new MetricDataEntity(value, new Date());
 
-        metric.addData(entity, eventListener);
+        metric.addData(entity, eventBus);
         entity.setMetric(metric);
 
         return metricDataRepository.save(entity);

@@ -24,16 +24,16 @@ public class MachineController {
 
     @RequestMapping("/machines")
     public String contacts(Model model) {
-        List<Monitor> monitors = monitorLoader.loadAll();
+        Set<Monitor> monitors = monitorLoader.loadAll(true);
 
-        Map<String, List<Monitor>> machines = new HashMap<>();
+        Map<String, Set<Monitor>> machines = new HashMap<>();
         for (Monitor monitor : monitors) {
-            List<Monitor> monitorList;
+            Set<Monitor> monitorList;
 
             if (machines.containsKey(monitor.getMachine())) {
                 monitorList = machines.get(monitor.getMachine());
             } else {
-                monitorList = new ArrayList<>();
+                monitorList = new HashSet<>();
                 machines.put(monitor.getMachine(), monitorList);
             }
             monitorList.add(monitor);

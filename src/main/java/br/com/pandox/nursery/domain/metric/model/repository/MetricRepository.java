@@ -13,9 +13,6 @@ public interface MetricRepository extends CrudRepository<MetricEntity,Long> {
 
     List<MetricEntity> findByMonitor_Id(Long monitor_Id);
 
-//    List<MetricEntity> findByMonitor(Monitor monitor);
-
-
     @Query("SELECT m FROM MetricEntity m LEFT JOIN FETCH m.monitor monitor LEFT JOIN FETCH m.datas data WHERE m.id = (:id) ORDER BY data.id ASC")
     MetricEntity findOneLoadDatas(@Param("id") Long id);
 

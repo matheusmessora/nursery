@@ -1,10 +1,9 @@
 package br.com.pandox.nursery.domain.alert.event;
 
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.infrastructure.event.Event;
 import org.springframework.util.Assert;
 
-public class CreateAlertFromMetricDataEdge implements Event {
+public class CreateAlertFromMetricDataEdge {
 
     private Metric metric;
 

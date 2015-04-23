@@ -1,5 +1,6 @@
 package br.com.pandox.nursery.boot;
 
+import com.google.common.eventbus.EventBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.ejb.HibernatePersistence;
@@ -83,6 +84,11 @@ public class ApplicationBoot {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
+    }
+
+    @Bean
+    public EventBus getEventBus(){
+        return new EventBus();
     }
 
 

@@ -21,14 +21,24 @@
                 <tr>
                     <th>Server</th>
                     <th>Monitors</th>
-                    <th>Last sent data</th>
+                    <th>Status</th>
                 </tr>
                 <tr th:each="machine : ${machines}">
                     <td><a th:href="@{/machine(uid=${machine.key})}" th:text="${machine.key}"></a></td>
                     <td>
                         <div th:each="monitor : ${machine.value}">
                             <span th:text="${monitor.name}">Apache</span>
-                        </div></td>
+                        </div>
+                    </td>
+                    <td>
+                        <div th:each="monitor : ${machine.value}">
+                            <div th:each="metric : ${monitor.metrics}">
+                                <div th:each="alert : ${metric.alerts}">
+                                    <span th:text="${alert.id}">Alert</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </table>
         </div>

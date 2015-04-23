@@ -1,22 +1,25 @@
 package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.CommandException;
+import br.com.pandox.nursery.domain.alert.Alert;
 import br.com.pandox.nursery.domain.alert.event.CreateAlertFromMetricDataEdge;
+import br.com.pandox.nursery.domain.alert.model.AlertEntity;
 import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.metric.model.vo.EdgeImpl;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
-import br.com.pandox.nursery.infrastructure.event.listener.EventListener;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.EventBus;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -63,6 +66,9 @@ public class MetricEntity implements Metric {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = MetricDataEntity.class, mappedBy = "metric")
     private List<MetricData> datas;
 
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = AlertEntity.class, mappedBy = "metric")
+    private List<Alert> alerts;
+
     @Transient
     private boolean dataLoaded;
 
@@ -102,8 +108,8 @@ public class MetricEntity implements Metric {
         return monitor;
     }
 
-    public void addData(MetricData data, EventListener eventListener) {
-        Assert.notNull(eventListener, "eventListener should not be null");
+    public void addData(MetricData data, EventBus eventBus) {
+        Assert.notNull(eventBus, "eventBus should not be null");
         Assert.notNull(data, "data should not be null");
 
         Optional<MetricData> lastData = getFirstData();
@@ -119,7 +125,8 @@ public class MetricEntity implements Metric {
             throw new CommandException("Can not add data. Monitor is in %s status", getMonitor().getStatus().name());
         }
 
-        eventListener.post(new CreateAlertFromMetricDataEdge(this));
+        CreateAlertFromMetricDataEdge event = new CreateAlertFromMetricDataEdge(this);
+        eventBus.post(event);
 
         this.datas.add(data);
     }
@@ -153,6 +160,15 @@ public class MetricEntity implements Metric {
         }
 
         return edge;
+    }
+
+    @Override
+    public List<Alert> getAlerts() {
+        if(alerts != null) {
+            return alerts;
+        }
+
+        return Collections.emptyList();
     }
 
     private boolean hasEdge() {

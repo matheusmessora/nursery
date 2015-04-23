@@ -4,7 +4,6 @@ package br.com.pandox.nursery.domain.monitor.loader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import com.google.common.base.Optional;
 
-import java.util.List;
 import java.util.Set;
 
 public interface MonitorLoader {
@@ -17,5 +16,5 @@ public interface MonitorLoader {
 
     Set<Monitor> loadByMachine(String machine);
 
-    List<Monitor> loadAll();
+    Set<Monitor> loadAll(boolean loadMetrics);
 }

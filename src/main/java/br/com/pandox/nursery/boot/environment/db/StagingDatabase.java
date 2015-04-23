@@ -73,6 +73,8 @@ public class StagingDatabase {
         dto.setName("Memory");
         dto.setTime_interval(1);
         dto.setMax_value(1024);
+        dto.setEdgeLowValue(1);
+        dto.setEdgeHighValue(10);
         Metric metric = metricFactory.createFrom(dto);
         metricService.create(metric, monitorId);
 

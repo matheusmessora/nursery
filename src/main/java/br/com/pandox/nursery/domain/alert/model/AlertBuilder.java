@@ -14,7 +14,7 @@ public class AlertBuilder {
     }
 
     public Alert build() {
-        Assert.isNull(metric, "metric must not be null");
+        Assert.notNull(metric, "metric must not be null");
 
         Alert alert = new AlertEntity(metric);
 

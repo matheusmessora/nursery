@@ -16,8 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @Scope("request")
@@ -35,10 +35,10 @@ public class MonitorEndpoint {
 
 
     @RequestMapping(value = "/api/monitor", method = RequestMethod.GET)
-    public ResponseEntity<List<MonitorDTO>> findAll() {
-        List<Monitor> all = loader.loadAll();
+    public ResponseEntity<Set<MonitorDTO>> findAll() {
+        Set<Monitor> all = loader.loadAll(false);
 
-        List<MonitorDTO> dtos = parse(all);
+        Set<MonitorDTO> dtos = parse(all);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
@@ -80,8 +80,8 @@ public class MonitorEndpoint {
         }
     }
 
-    private List<MonitorDTO> parse(List<Monitor> monitor) {
-        List<MonitorDTO> dtos = new ArrayList<>();
+    private Set<MonitorDTO> parse(Set<Monitor> monitor) {
+        Set<MonitorDTO> dtos = new HashSet<>();
         for (Monitor entity : monitor) {
             dtos.add(factory.fabric(entity));
         }
