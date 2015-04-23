@@ -1,9 +1,12 @@
 package br.com.pandox.nursery.view.rest.monitor;
 
 
+import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.view.rest.AbstractDTO;
+import br.com.pandox.nursery.view.rest.Link;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.beans.BeanUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -34,6 +37,14 @@ public class MonitorDTO extends AbstractDTO {
 
     public MonitorDTO(long monitorId) {
 
+    }
+
+    public MonitorDTO(Monitor monitor) {
+        super();
+        BeanUtils.copyProperties(monitor, this);
+        this.status = monitor.getStatus().name();
+
+        this.addLink(new Link("/api/vSNAPSHOT/metric?monitor_id=" + this.getId(), "metrics"));
     }
 
 

@@ -11,7 +11,7 @@ public class MetricFactoryTest {
     public void should_throw_illegalArgument_when_name_empty() {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("");
-        new MetricFactoryImpl().createFrom(metricDTO);
+        new MetricFactoryImpl().from(metricDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -19,7 +19,7 @@ public class MetricFactoryTest {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("name");
         metricDTO.setTime_interval(null);
-        new MetricFactoryImpl().createFrom(metricDTO);
+        new MetricFactoryImpl().from(metricDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -27,7 +27,7 @@ public class MetricFactoryTest {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("name");
         metricDTO.setTime_interval(0);
-        new MetricFactoryImpl().createFrom(metricDTO);
+        new MetricFactoryImpl().from(metricDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -35,7 +35,7 @@ public class MetricFactoryTest {
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("name");
         metricDTO.setTime_interval(1441);
-        new MetricFactoryImpl().createFrom(metricDTO);
+        new MetricFactoryImpl().from(metricDTO);
     }
 
 

@@ -23,7 +23,7 @@ import java.util.Set;
 public class MetricFactoryImpl implements MetricFactory {
 
 	@Override
-	public Metric createFrom(MetricEntity entity, boolean loadData) {
+	public Metric from(MetricEntity entity, boolean loadData) {
 		Assert.notNull(entity, "MetricEntity must not be null");
 
 		Monitor monitor = entity.getMonitor();
@@ -49,7 +49,7 @@ public class MetricFactoryImpl implements MetricFactory {
 
 
 	@Override
-	public Metric createFrom(MetricDTO metricDTO) {
+	public Metric from(MetricDTO metricDTO) {
 		Assert.notNull(metricDTO, "MetricDTO must not be null");
 
 		MetricBuilder builder = new MetricBuilder()
@@ -65,34 +65,6 @@ public class MetricFactoryImpl implements MetricFactory {
 		return builder.build();
 	}
 
-	public MetricDTO fabric(Metric metric){
-		MetricDTO dto = new MetricDTO();
-		dto.setId(metric.getId());
-		dto.setName(metric.getName());
-		dto.setTime_interval(metric.getTimeInterval());
-		dto.setType(metric.getType());
-		dto.setMax_value(metric.getMaxValue());
-
-		Optional<Edge> edge = metric.getEdge();
-		if(edge.isPresent()){
-			dto.setEdgeLowValue(edge.get().getLowest());
-			dto.setEdgeHighValue(edge.get().getHighest());
-		}
-
-		ArrayList<DataDTO> datas = new ArrayList<>();
-		if(metric.isDatasLoaded()){
-			for (MetricData data : metric.getDatas()) {
-				datas.add(new DataDTO(data.getValue(), data.getDateCreation()));
-			}
-		}
-
-		dto.setDatas(datas);
-
-		dto.addLink(new Link("/api/data", "create-data"));
-		dto.addLink(new Link("/api/metric/" + dto.getId() + "?load=true", "fetch-data"));
-
-		return dto;
-	}
 
 
 }

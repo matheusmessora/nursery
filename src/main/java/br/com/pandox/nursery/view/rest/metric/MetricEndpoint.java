@@ -36,10 +36,10 @@ public class MetricEndpoint {
     public ResponseEntity<MetricDTO> save(@RequestBody MetricDTO metricDTO) {
         validate(metricDTO);
 
-        Metric metric = metricFactory.createFrom(metricDTO);
+        Metric metric = metricFactory.from(metricDTO);
         metric = metricService.create(metric, metricDTO.getMonitor().getId());
 
-        MetricDTO dto = metricFactory.fabric(metric);
+        MetricDTO dto = new MetricDTO(metric);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
@@ -49,7 +49,7 @@ public class MetricEndpoint {
 
         List<MetricDTO> result = new ArrayList<>();
         for (Metric metric : metrics) {
-            MetricDTO dto = metricFactory.fabric(metric);
+            MetricDTO dto = new MetricDTO(metric);
             result.add(dto);
         }
 
@@ -59,7 +59,7 @@ public class MetricEndpoint {
     @RequestMapping(value = "/api/metric/{id}")
     public ResponseEntity<MetricDTO> findById(@PathVariable Long id, @RequestParam(required = false, value = "load") boolean loadData) {
         Metric metric = loader.loadByID(id, loadData);
-        MetricDTO dto = metricFactory.fabric(metric);
+        MetricDTO dto = new MetricDTO(metric);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

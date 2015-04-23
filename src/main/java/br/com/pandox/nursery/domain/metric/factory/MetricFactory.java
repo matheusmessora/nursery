@@ -6,9 +6,8 @@ import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 
 public interface MetricFactory {
 
-	Metric createFrom(MetricEntity entity, boolean loadData);
+	Metric from(MetricEntity entity, boolean loadData);
 
-	Metric createFrom(MetricDTO metricDTO);
+	Metric from(MetricDTO metricDTO);
 
-	MetricDTO fabric(Metric metric);
 }

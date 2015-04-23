@@ -41,7 +41,7 @@ public class DataEndpoint {
 
         Metric metric = metricLoader.loadByID(dataDTO.getMetric().getId(), true);
 
-        MetricDTO dto = factory.fabric(metric);
+        MetricDTO dto = new MetricDTO(metric);
 
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);

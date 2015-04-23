@@ -55,10 +55,10 @@ public class MonitorLoaderImpl implements MonitorLoader {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<Monitor> loadByMachine(String machine) {
+    public List<Monitor> loadByMachine(String machine) {
         Iterable<MonitorEntity> all = repository.findByMachineLoadMetrics(machine);
 
-        ImmutableSet.Builder<Monitor> builder = ImmutableSet.builder();
+        ImmutableList.Builder<Monitor> builder = ImmutableList.builder();
         return builder.addAll(all).build();
     }
 

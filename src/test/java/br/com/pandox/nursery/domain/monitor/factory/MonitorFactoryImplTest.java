@@ -45,7 +45,7 @@ public class MonitorFactoryImplTest {
         MonitorDTO monitorDTO = new MonitorDTO();
         monitorDTO.setName("name");
         monitorDTO.setMachine("localhost");
-        Monitor result = factory.fabric(monitorDTO);
+        Monitor result = factory.from(monitorDTO);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(result.getStatus(), Monitor.Status.UNREGISTERED);
@@ -57,7 +57,7 @@ public class MonitorFactoryImplTest {
         monitorDTO.setName("name");
         monitorDTO.setMachine("localhost");
         monitorDTO.setStatus(null);
-        Monitor monitor = factory.fabric(monitorDTO);
+        Monitor monitor = factory.from(monitorDTO);
         Assert.assertEquals(monitor.getStatus(), Monitor.Status.UNREGISTERED);
     }
 
@@ -67,7 +67,7 @@ public class MonitorFactoryImplTest {
         monitorDTO.setName("name");
         monitorDTO.setMachine("localhost");
         monitorDTO.setStatus("blablabla");
-        factory.fabric(monitorDTO);
+        factory.from(monitorDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -76,7 +76,7 @@ public class MonitorFactoryImplTest {
         monitorDTO.setName("");
         monitorDTO.setMachine("localhost");
         monitorDTO.setStatus(Monitor.Status.UNREGISTERED.name());
-        factory.fabric(monitorDTO);
+        factory.from(monitorDTO);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -85,7 +85,7 @@ public class MonitorFactoryImplTest {
         monitorDTO.setName("name");
         monitorDTO.setMachine("");
         monitorDTO.setStatus(Monitor.Status.UNREGISTERED.name());
-        factory.fabric(monitorDTO);
+        factory.from(monitorDTO);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class MonitorFactoryImplTest {
         entity.setName("name");
         entity.setStatus(Monitor.Status.STARTED);
 
-        Monitor monitor = factory.createFrom(entity, false);
+        Monitor monitor = factory.from(entity, false);
         Assert.assertEquals(monitor.getId().longValue(), 1L);
         Assert.assertEquals(monitor.getStatus(), Monitor.Status.STARTED);
     }
@@ -108,7 +108,7 @@ public class MonitorFactoryImplTest {
         entity.setStatus(Monitor.Status.STARTED);
         entity.setMetrics(new HashSet<Metric>());
 
-        Monitor monitor = factory.createFrom(entity, true);
+        Monitor monitor = factory.from(entity, true);
         Assert.assertEquals(monitor.getId().longValue(), 1L);
         Assert.assertEquals(monitor.getStatus(), Monitor.Status.STARTED);
     }
@@ -124,9 +124,9 @@ public class MonitorFactoryImplTest {
         entity.setMetrics(metrics);
 
         MetricMock mock = new MetricMock(1L, "metric");
-        when(metricFactory.createFrom(Mockito.any(MetricEntity.class), Mockito.anyBoolean())).thenReturn(mock);
+        when(metricFactory.from(Mockito.any(MetricEntity.class), Mockito.anyBoolean())).thenReturn(mock);
 
-        Monitor monitor = factory.createFrom(entity, true);
+        Monitor monitor = factory.from(entity, true);
         Assert.assertEquals(monitor.getId().longValue(), 1L);
         Assert.assertEquals(monitor.getStatus(), Monitor.Status.STARTED);
 

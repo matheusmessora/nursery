@@ -42,21 +42,21 @@ public class StagingDatabase {
         MonitorDTO dto = new MonitorDTO();
         dto.setName("machine");
         dto.setMachine("localhost");
-        Monitor monitor = monitorFactory.fabric(dto);
+        Monitor monitor = monitorFactory.from(dto);
         monitor = monitorService.create(monitor);
 
         MetricDTO metricDTO = new MetricDTO();
         metricDTO.setName("Memory");
         metricDTO.setTime_interval(1);
         metricDTO.setMax_value(8192);
-        Metric metric = metricFactory.createFrom(metricDTO);
+        Metric metric = metricFactory.from(metricDTO);
         metricService.create(metric, monitor.getId());
 
         metricDTO = new MetricDTO();
         metricDTO.setName("CPU");
         metricDTO.setTime_interval(1);
         metricDTO.setMax_value(100);
-        metric = metricFactory.createFrom(metricDTO);
+        metric = metricFactory.from(metricDTO);
         metricService.create(metric, monitor.getId());
     }
 
@@ -64,7 +64,7 @@ public class StagingDatabase {
         MonitorDTO dto = new MonitorDTO();
         dto.setName("java-war");
         dto.setMachine("localhost");
-        Monitor monitor = monitorFactory.fabric(dto);
+        Monitor monitor = monitorFactory.from(dto);
         return monitorService.create(monitor);
     }
 
@@ -75,19 +75,19 @@ public class StagingDatabase {
         dto.setMax_value(1024);
         dto.setEdgeLowValue(1);
         dto.setEdgeHighValue(10);
-        Metric metric = metricFactory.createFrom(dto);
+        Metric metric = metricFactory.from(dto);
         metricService.create(metric, monitorId);
 
         dto = new MetricDTO();
         dto.setName("Threads");
         dto.setTime_interval(1);
-        metric = metricFactory.createFrom(dto);
+        metric = metricFactory.from(dto);
         metricService.create(metric, monitorId);
 
         dto = new MetricDTO();
         dto.setName("ResponseTime");
         dto.setTime_interval(1);
-        metric = metricFactory.createFrom(dto);
+        metric = metricFactory.from(dto);
         metricService.create(metric, monitorId);
     }
 }

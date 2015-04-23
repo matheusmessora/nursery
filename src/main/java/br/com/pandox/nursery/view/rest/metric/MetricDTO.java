@@ -1,17 +1,52 @@
 package br.com.pandox.nursery.view.rest.metric;
 
+import br.com.pandox.nursery.domain.metric.model.Metric;
+import br.com.pandox.nursery.domain.metric.model.vo.Edge;
+import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.view.rest.AbstractDTO;
+import br.com.pandox.nursery.view.rest.Link;
 import br.com.pandox.nursery.view.rest.data.DataDTO;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.base.Optional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MetricDTO extends AbstractDTO {
+
+	public MetricDTO() {
+	}
+	
+	public MetricDTO(Metric metric){
+		this.setId(metric.getId());
+		this.setName(metric.getName());
+		this.setTime_interval(metric.getTimeInterval());
+		this.setType(metric.getType());
+		this.setMax_value(metric.getMaxValue());
+
+		Optional<Edge> edge = metric.getEdge();
+		if(edge.isPresent()){
+			this.setEdgeLowValue(edge.get().getLowest());
+			this.setEdgeHighValue(edge.get().getHighest());
+		}
+
+		ArrayList<DataDTO> datas = new ArrayList<>();
+		if(metric.isDatasLoaded()){
+			for (MetricData data : metric.getDatas()) {
+				datas.add(new DataDTO(data.getValue(), data.getDateCreation()));
+			}
+		}
+		this.setDatas(datas);
+
+		this.addLink(new Link("/api/data", "create-data"));
+		this.addLink(new Link("/api/metric/" + this.getId() + "?load=true", "fetch-data"));
+	}
+
 	private Long id;
 
 	private String name;

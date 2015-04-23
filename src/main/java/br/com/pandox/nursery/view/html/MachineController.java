@@ -46,7 +46,7 @@ public class MachineController {
 
     @RequestMapping("/machine")
     public String machine(@RequestParam String uid, Model model) {
-        Set<Monitor> monitors = monitorLoader.loadByMachine(uid);
+        List<Monitor> monitors = monitorLoader.loadByMachine(uid);
 
         model.addAttribute("monitors", monitors);
         model.addAttribute("machine", uid);

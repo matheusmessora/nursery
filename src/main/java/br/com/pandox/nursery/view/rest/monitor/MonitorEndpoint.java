@@ -46,7 +46,7 @@ public class MonitorEndpoint {
     public ResponseEntity<MonitorDTO> findById(@PathVariable Long id) {
         try {
             Monitor monitor = loader.loadByID(id, false);
-            MonitorDTO dto = factory.fabric(monitor);
+            MonitorDTO dto = new MonitorDTO(monitor);
             return new ResponseEntity<>(dto, HttpStatus.OK);
 
         } catch(DomainNotFoundException ex){
@@ -58,9 +58,9 @@ public class MonitorEndpoint {
     public ResponseEntity<MonitorDTO> save(@RequestBody MonitorDTO dto) {
         validate(dto);
 
-        Monitor monitor = service.create(factory.fabric(dto));
+        Monitor monitor = service.create(factory.from(dto));
 
-        dto = factory.fabric(monitor);
+        dto = new MonitorDTO(monitor);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
@@ -83,7 +83,7 @@ public class MonitorEndpoint {
     private List<MonitorDTO> parse(List<Monitor> monitor) {
         List<MonitorDTO> dtos = new ArrayList<>();
         for (Monitor entity : monitor) {
-            dtos.add(factory.fabric(entity));
+            dtos.add(new MonitorDTO(entity));
         }
         return dtos;
     }
