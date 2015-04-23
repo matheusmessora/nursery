@@ -112,6 +112,25 @@ public class MetricEntity implements Metric {
         Assert.notNull(eventBus, "eventBus should not be null");
         Assert.notNull(data, "data should not be null");
 
+        validate(data);
+
+        publishAlertEvent(data, eventBus);
+
+        this.datas.add(data);
+    }
+
+    protected void publishAlertEvent(MetricData data, EventBus eventBus) {
+        if(!getEdge().isPresent()){
+            return;
+        }
+
+        if(data.getValue() > getEdge().get().getHighest()){
+            CreateAlertFromMetricDataEdge event = new CreateAlertFromMetricDataEdge(this);
+            eventBus.post(event);
+        }
+    }
+
+    protected void validate(MetricData data) {
         Optional<MetricData> lastData = getFirstData();
         if(lastData.isPresent()){
             DateTime lastCreationDate = new DateTime(lastData.get().getDateCreation());
@@ -124,14 +143,9 @@ public class MetricEntity implements Metric {
         if(getMonitor().getStatus().equals(Monitor.Status.UNREGISTERED) || getMonitor().getStatus().equals(Monitor.Status.STOPPED)){
             throw new CommandException("Can not add data. Monitor is in %s status", getMonitor().getStatus().name());
         }
-
-        CreateAlertFromMetricDataEdge event = new CreateAlertFromMetricDataEdge(this);
-        eventBus.post(event);
-
-        this.datas.add(data);
     }
 
-    private Optional<MetricData> getFirstData(){
+    protected Optional<MetricData> getFirstData(){
         MetricData last = Iterables.getFirst(datas, null);
         return Optional.fromNullable(last);
     }

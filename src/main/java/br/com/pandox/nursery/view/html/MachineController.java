@@ -23,8 +23,8 @@ public class MachineController {
     }
 
     @RequestMapping("/machines")
-    public String contacts(Model model) {
-        Set<Monitor> monitors = monitorLoader.loadAll(true);
+    public String machines(Model model) {
+        List<Monitor> monitors = monitorLoader.loadAll(true);
 
         Map<String, Set<Monitor>> machines = new HashMap<>();
         for (Monitor monitor : monitors) {

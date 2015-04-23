@@ -23,6 +23,16 @@ public class CreateAlertFromMetricDataEdgeProcessor {
     @Autowired
     private AlertFactory alertFactory;
 
+    public CreateAlertFromMetricDataEdgeProcessor() {
+    }
+
+    @Deprecated
+    public void injectAlertservice(AlertService alertService) {
+        this.alertService = alertService;
+    }
+
+
+
     @PostConstruct
     public void init() {
         eventBus.register(this);
