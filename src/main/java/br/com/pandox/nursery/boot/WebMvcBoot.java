@@ -72,6 +72,6 @@ public class WebMvcBoot extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/canvasjs/**").addResourceLocations("/WEB-INF/templates/canvasjs/");
+        registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/templates/resources/");
     }
 }

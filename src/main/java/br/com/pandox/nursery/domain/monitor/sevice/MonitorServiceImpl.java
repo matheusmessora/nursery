@@ -1,7 +1,6 @@
 package br.com.pandox.nursery.domain.monitor.sevice;
 
 import br.com.pandox.nursery.domain.CommandException;
-import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
 import br.com.pandox.nursery.domain.monitor.model.repository.MonitorRepository;
@@ -14,9 +13,6 @@ public class MonitorServiceImpl implements MonitorService {
     @Autowired
     private MonitorRepository repository;
 
-    @Autowired
-    private MonitorFactory factory;
-
     @Override
     public Monitor create(Monitor monitor) {
         MonitorEntity domain = repository.findByMachineAndName(monitor.getMachine(), monitor.getName());
@@ -25,7 +21,7 @@ public class MonitorServiceImpl implements MonitorService {
         }
         monitor.setStatus(Monitor.Status.READY);
 
-        MonitorEntity monitor1 = (MonitorEntity) monitor;
-        return repository.save(monitor1);
+        MonitorEntity entity = (MonitorEntity) monitor;
+        return repository.save(entity);
     }
 }
