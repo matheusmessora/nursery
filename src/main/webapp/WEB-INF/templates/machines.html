@@ -13,15 +13,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div id="side_menu" class="material">
-    <div class="container">
-        <ul class="navigation">
-            <li><a><i class="glyphicon glyphicon-globe"></i> Welcome to UNIVERSO</a></li>
-            <li class="active"><a href="/machines"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-            <li><a href="/machines"><i class="glyphicon glyphicon-th"></i> Infrastructure</a></li>
-        </ul>
-    </div>
-</div>
+
+<div th:replace="includes/side-menu :: menu"></div>
 <div class="container-fluid">
     <div class="col-lg-12">
         <div class="col-lg-12 material-header">

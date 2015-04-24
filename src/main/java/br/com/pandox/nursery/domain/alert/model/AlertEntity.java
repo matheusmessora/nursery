@@ -3,6 +3,7 @@ package br.com.pandox.nursery.domain.alert.model;
 import br.com.pandox.nursery.domain.alert.Alert;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricEntity;
+import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,9 +14,10 @@ public class AlertEntity implements Alert {
     public AlertEntity() {
     }
 
-    public AlertEntity(Metric metric) {
+    public AlertEntity(Metric metric, MetricData data) {
         this.metric = metric;
         this.date = new Date();
+        this.value = data.getValue();
     }
 
     @Id
@@ -24,6 +26,9 @@ public class AlertEntity implements Alert {
 
     @Column
     private Date date;
+
+    @Column
+    private Integer value;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MetricEntity.class)
     @JoinColumn(updatable = false, insertable = true, nullable = false)
@@ -42,5 +47,10 @@ public class AlertEntity implements Alert {
     @Override
     public Date getDate() {
         return date;
+    }
+
+    @Override
+    public Integer getValue() {
+        return value;
     }
 }

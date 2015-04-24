@@ -2,7 +2,7 @@ package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.alert.Alert;
-import br.com.pandox.nursery.domain.alert.event.CreateAlertFromMetricDataEdge;
+import br.com.pandox.nursery.domain.alert.event.DataViolatedThresdhold;
 import br.com.pandox.nursery.domain.alert.model.AlertEntity;
 import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.metric.model.vo.EdgeImpl;
@@ -120,32 +120,32 @@ public class MetricEntity implements Metric {
     }
 
     protected void publishAlertEvent(MetricData data, EventBus eventBus) {
-        if(!getEdge().isPresent()){
+        if (!getEdge().isPresent()) {
             return;
         }
 
-        if(data.getValue() > getEdge().get().getHighest()){
-            CreateAlertFromMetricDataEdge event = new CreateAlertFromMetricDataEdge(this);
+        if (data.getValue() > getEdge().get().getHighest()) {
+            DataViolatedThresdhold event = new DataViolatedThresdhold(this, data);
             eventBus.post(event);
         }
     }
 
     protected void validate(MetricData data) {
         Optional<MetricData> lastData = getFirstData();
-        if(lastData.isPresent()){
+        if (lastData.isPresent()) {
             DateTime lastCreationDate = new DateTime(lastData.get().getDateCreation());
             DateTime now = new DateTime();
             int minutes = Minutes.minutesBetween(lastCreationDate, now).getMinutes();
-            if(minutes < getTimeInterval()) {
-//                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
+            if (minutes < getTimeInterval()) {
+                //                throw new CommandException("You must wait %s minutes for sending another data", getTimeInterval());
             }
         }
-        if(getMonitor().getStatus().equals(Monitor.Status.UNREGISTERED) || getMonitor().getStatus().equals(Monitor.Status.STOPPED)){
+        if (getMonitor().getStatus().equals(Monitor.Status.UNREGISTERED) || getMonitor().getStatus().equals(Monitor.Status.STOPPED)) {
             throw new CommandException("Can not add data. Monitor is in %s status", getMonitor().getStatus().name());
         }
     }
 
-    protected Optional<MetricData> getFirstData(){
+    protected Optional<MetricData> getFirstData() {
         MetricData last = Iterables.getFirst(datas, null);
         return Optional.fromNullable(last);
     }
@@ -178,7 +178,7 @@ public class MetricEntity implements Metric {
 
     @Override
     public List<Alert> getAlerts() {
-        if(alerts != null) {
+        if (alerts != null) {
             return alerts;
         }
 
@@ -199,12 +199,15 @@ public class MetricEntity implements Metric {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         MetricEntity that = (MetricEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null)
+            return false;
 
         return true;
     }

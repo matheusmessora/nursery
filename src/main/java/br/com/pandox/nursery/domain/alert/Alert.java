@@ -11,4 +11,6 @@ public interface Alert {
     Metric alertedBy();
 
     Date getDate();
+
+    Integer getValue();
 }

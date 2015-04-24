@@ -1,10 +1,10 @@
-package br.com.pandox.nursery.integration;
+package integration;
 
 import br.com.pandox.nursery.infrastructure.controller.rest.ErroDTO;
-import br.com.pandox.nursery.integration.helpers.DataHelper;
-import br.com.pandox.nursery.integration.helpers.ITHelper;
-import br.com.pandox.nursery.integration.helpers.MetricHelper;
-import br.com.pandox.nursery.integration.helpers.MonitorHelper;
+import integration.helpers.DataHelper;
+import integration.helpers.ITHelper;
+import integration.helpers.MetricHelper;
+import integration.helpers.MonitorHelper;
 import br.com.pandox.nursery.rest.RestUtil;
 import br.com.pandox.nursery.view.rest.data.DataDTO;
 import br.com.pandox.nursery.view.rest.metric.MetricDTO;

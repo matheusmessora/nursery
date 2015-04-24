@@ -22,7 +22,7 @@ public class ServletResponseTimeMonitor extends HandlerInterceptorAdapter {
 
         HandlerMethod method = (HandlerMethod) handler;
 
-        if(method.getBean().getClass().getSimpleName().contains("Controller")){
+        if (method.getBean().getClass().getSimpleName().contains("Controller")) {
             long startTime = System.currentTimeMillis();
             request.setAttribute("startTime", startTime);
 
@@ -41,8 +41,8 @@ public class ServletResponseTimeMonitor extends HandlerInterceptorAdapter {
             throws Exception {
 
         HandlerMethod method = (HandlerMethod) handler;
-        if(method.getBean().getClass().getSimpleName().contains("Controller")){
-            long startTime = (Long)request.getAttribute("startTime");
+        if (method.getBean().getClass().getSimpleName().contains("Controller")) {
+            long startTime = (Long) request.getAttribute("startTime");
             long endTime = System.currentTimeMillis();
             int executeTime = (int) (endTime - startTime);
             metricDataService.create(executeTime, 5L);

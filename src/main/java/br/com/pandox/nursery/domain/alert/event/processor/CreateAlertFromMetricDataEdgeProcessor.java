@@ -1,9 +1,11 @@
 package br.com.pandox.nursery.domain.alert.event.processor;
 
 import br.com.pandox.nursery.domain.alert.Alert;
-import br.com.pandox.nursery.domain.alert.event.CreateAlertFromMetricDataEdge;
+import br.com.pandox.nursery.domain.alert.event.DataViolatedThresdhold;
 import br.com.pandox.nursery.domain.alert.factory.AlertFactory;
 import br.com.pandox.nursery.domain.alert.service.AlertService;
+import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
+import br.com.pandox.nursery.domain.metric.model.Metric;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class CreateAlertFromMetricDataEdgeProcessor {
     @Autowired
     private AlertFactory alertFactory;
 
+    @Autowired
+    private MetricLoader metricLoader;
+
     public CreateAlertFromMetricDataEdgeProcessor() {
     }
 
@@ -31,16 +36,19 @@ public class CreateAlertFromMetricDataEdgeProcessor {
         this.alertService = alertService;
     }
 
-
-
     @PostConstruct
     public void init() {
         eventBus.register(this);
     }
 
     @Subscribe
-    public void process(CreateAlertFromMetricDataEdge event) {
-        Alert alert = alertFactory.from(event.getMetric());
+    public void process(DataViolatedThresdhold event) {
+        Metric metric = event.getMetric();
+        if(!metric.getAlerts().isEmpty()){
+            return;
+        }
+
+        Alert alert = alertFactory.from(metric, event.getData());
         alertService.create(alert);
     }
 }

@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.integration.helpers;
+package integration.helpers;
 
 import br.com.pandox.nursery.rest.RestUtil;
 import br.com.pandox.nursery.view.rest.data.DataDTO;
