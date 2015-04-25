@@ -37,7 +37,7 @@
             var gData = new google.visualization.DataTable();
             gData.addColumn('datetime', 'time');
             gData.addColumn('number', 'point');
-            gData.addColumn('number', 'threshold');
+//            gData.addColumn('number', 'threshold');
 
 
             $.getJSON("/api/metric/" +id+ "?load=true", {format: "json"})
@@ -51,7 +51,8 @@
                             var x = new Date(data.date_creation);
                             var y = data.value;
 
-                            gData.addRow([x, y, threshold]);
+//                            gData.addRow([x, y, threshold]);
+                            gData.addRow([x, y]);
                         });
 
                         console.log(metric);

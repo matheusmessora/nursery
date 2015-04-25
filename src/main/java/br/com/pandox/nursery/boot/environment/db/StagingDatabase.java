@@ -50,7 +50,7 @@ public class StagingDatabase {
 
     private void loadServerMonitors() {
         MonitorDTO dto = new MonitorDTO();
-        dto.setName("machine");
+        dto.setName("SO");
         dto.setMachine("localhost");
         Monitor monitor = monitorFactory.from(dto);
         monitor = monitorService.create(monitor);
