@@ -50,27 +50,6 @@ public class MetricControllerIT extends ITHelper {
     }
 
     @Test
-    public void should_create_with_thresholds() throws Exception {
-        MonitorDTO monitorDTO = new MonitorDTO("testMonitor", "localhost");
-        monitorDTO = createMonitor(monitorDTO);
-
-        MetricDTO dto = new MetricDTO();
-        dto.setMonitor(monitorDTO);
-        dto.setName("MetricA");
-        dto.setTime_interval(1);
-        dto.setEdgeLowValue(1);
-        dto.setEdgeHighValue(10);
-
-
-
-        dto = createMetric(dto);
-        Assert.assertEquals(dto.getId().longValue(), 1L);
-        Assert.assertEquals(dto.getName(), "MetricA");
-        Assert.assertEquals(dto.getEdgeLowValue().intValue(), 1);
-        Assert.assertEquals(dto.getEdgeHighValue().intValue(), 10);
-    }
-
-    @Test
     public void should_throw_badRequest_when_timeInterval_incorrect() throws Exception {
         MonitorDTO monitorDTO = new MonitorDTO("testMonitor", "localhost");
         monitorDTO = createMonitor(monitorDTO);

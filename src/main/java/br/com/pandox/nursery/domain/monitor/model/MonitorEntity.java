@@ -29,9 +29,6 @@ public class MonitorEntity implements Monitor {
     @Column
     private String version;
 
-    @Column
-    private String password;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "monitor", targetEntity = MetricEntity.class)
     private Set<Metric> metrics;
 
@@ -41,14 +38,6 @@ public class MonitorEntity implements Monitor {
 
     public MonitorEntity(Long monitorId) {
         this.id = monitorId;
-    }
-
-    public MonitorEntity(Long id, String machine, Monitor.Status status, String name, String version) {
-        this.id = id;
-        this.machine = machine;
-        this.status = status;
-        this.name = name;
-        this.version = version;
     }
 
     public MonitorEntity(Long id, String machine, Status status, String name, String version, Set<Metric> metrics) {
@@ -155,11 +144,4 @@ public class MonitorEntity implements Monitor {
         return id.hashCode();
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

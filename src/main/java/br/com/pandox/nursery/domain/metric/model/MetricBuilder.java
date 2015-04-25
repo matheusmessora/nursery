@@ -1,12 +1,14 @@
 package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
-import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
+import br.com.pandox.nursery.domain.threshold.model.Threshold;
 import com.google.common.base.Optional;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MetricBuilder {
@@ -18,11 +20,13 @@ public class MetricBuilder {
     private Long id;
     private Monitor monitor;
     private Integer maxValue;
-    private Optional<Edge> edge;
+    private Optional<Threshold> edge;
+    private List<Threshold> thresholds;
 
     public MetricBuilder() {
         edge = Optional.absent();
         datas = Optional.absent();
+        thresholds = new ArrayList<>();
     }
 
     public MetricBuilder setId(Long id) {
@@ -55,8 +59,8 @@ public class MetricBuilder {
         return this;
     }
 
-    public MetricBuilder setEdge(Edge edge) {
-        this.edge = Optional.fromNullable(edge);
+    public MetricBuilder threshold(Threshold threshold){
+        this.thresholds.add(threshold);
         return this;
     }
 
@@ -73,9 +77,8 @@ public class MetricBuilder {
         }
 
         Metric metricEntity = new MetricEntity(id, name, type, timeInterval, datas, monitor, maxValue);
-
-        if(edge.isPresent()){
-            metricEntity.addEdge(edge.get());
+        for (Threshold threshold : thresholds) {
+            metricEntity.addThreshold(threshold);
         }
 
         return metricEntity;

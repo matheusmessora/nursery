@@ -1,13 +1,17 @@
 package br.com.pandox.nursery.boot.environment.db;
 
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
+import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.service.MetricService;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.sevice.MonitorService;
+import br.com.pandox.nursery.domain.monitor.service.MonitorService;
+import br.com.pandox.nursery.domain.threshold.factory.ThresholdFactory;
+import br.com.pandox.nursery.domain.threshold.model.Threshold;
 import br.com.pandox.nursery.view.rest.metric.MetricDTO;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
+import br.com.pandox.nursery.view.rest.threshold.ThresholdDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -25,10 +29,16 @@ public class StagingDatabase {
     private MetricService metricService;
 
     @Autowired
+    private MetricLoader metricLoader;
+
+    @Autowired
     private MonitorFactory monitorFactory;
 
     @Autowired
     private MetricFactory metricFactory;
+
+    @Autowired
+    private ThresholdFactory thresholdFactory;
 
     @PostConstruct
     public void init() {
@@ -85,9 +95,18 @@ public class StagingDatabase {
         dto = new MetricDTO();
         dto.setName("ResponseTime");
         dto.setTime_interval(1);
-        dto.setEdgeLowValue(1);
-        dto.setEdgeHighValue(20);
         metric = metricFactory.from(dto);
         metricService.create(metric, monitorId);
+        metric = metricLoader.loadByID(metric.getId(), false);
+
+        ThresholdDTO thresholdDTO = new ThresholdDTO();
+        thresholdDTO.setValue(15);
+        thresholdDTO.setType(Threshold.ThresholdType.ABOVE.name());
+        thresholdDTO.setMetricDTO(new MetricDTO(metric));
+
+        Threshold threshold = thresholdFactory.from(thresholdDTO);
+
+        metric.addThreshold(threshold);
+        metricService.update(metric);
     }
 }

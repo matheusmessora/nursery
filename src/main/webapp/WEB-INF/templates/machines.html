@@ -44,9 +44,9 @@
                     <td>
                         <div th:each="monitor : ${machine.value}">
                             <div th:each="metric : ${monitor.metrics}">
-                                <div th:each="alert : ${metric.alerts}">
-                                    <i class="glyphicon glyphicon-alert"></i> <span th:text="${monitor.name}">Alert</span> <span th:text="${metric.name}">Alert</span> <span th:text="${alert.id}">Alert</span> em <span th:text="${alert.date}">Alert</span>
-                                </div>
+                                <!--<div th:each="alert : ${metric.alerts}">-->
+                                    <!--<i class="glyphicon glyphicon-alert"></i> <span th:text="${monitor.name}">Alert</span> <span th:text="${metric.name}">Alert</span> <span th:text="${alert.id}">Alert</span> em <span th:text="${alert.date}">Alert</span>-->
+                                <!--</div>-->
                             </div>
                         </div>
                     </td>

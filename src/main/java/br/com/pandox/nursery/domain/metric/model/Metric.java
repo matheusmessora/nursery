@@ -2,10 +2,9 @@ package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.Model;
 import br.com.pandox.nursery.domain.alert.Alert;
-import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import com.google.common.base.Optional;
+import br.com.pandox.nursery.domain.threshold.model.Threshold;
 import com.google.common.eventbus.EventBus;
 
 import java.util.List;
@@ -30,9 +29,9 @@ public interface Metric extends Model {
 
 	boolean isDatasLoaded();
 
-	void addEdge(Edge edge);
+	List<Threshold> getThresholds();
 
-	Optional<Edge> getEdge();
+	void addThreshold(Threshold threshold);
 
 	List<Alert> getAlerts();
 

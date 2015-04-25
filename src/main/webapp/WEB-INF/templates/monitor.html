@@ -37,19 +37,21 @@
             var gData = new google.visualization.DataTable();
             gData.addColumn('datetime', 'time');
             gData.addColumn('number', 'point');
+            gData.addColumn('number', 'threshold');
 
 
             $.getJSON("/api/metric/" +id+ "?load=true", {format: "json"})
                     .done(function (metric) {
 
                         var title = metric.name;
+                        var threshold = 85;
 
                         $.each(metric.datas, function (index, data) {
 
                             var x = new Date(data.date_creation);
                             var y = data.value;
 
-                            gData.addRow([x, y]);
+                            gData.addRow([x, y, threshold]);
                         });
 
                         console.log(metric);

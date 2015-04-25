@@ -4,13 +4,12 @@ import br.com.pandox.nursery.domain.alert.Alert;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricEntity;
-import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.factory.impl.MonitorFactoryImpl;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
+import br.com.pandox.nursery.domain.threshold.model.Threshold;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
-import com.google.common.base.Optional;
 import com.google.common.eventbus.EventBus;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -189,14 +188,15 @@ public class MonitorFactoryImplTest {
             return false;
         }
 
-        @Override
-        public void addEdge(Edge edge) {
 
+        @Override
+        public List<Threshold> getThresholds() {
+            return null;
         }
 
         @Override
-        public Optional<Edge> getEdge() {
-            return null;
+        public void addThreshold(Threshold threshold) {
+
         }
 
         @Override

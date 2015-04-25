@@ -1,4 +1,4 @@
-package br.com.pandox.nursery.domain.monitor.sevice;
+package br.com.pandox.nursery.domain.monitor.service;
 
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 

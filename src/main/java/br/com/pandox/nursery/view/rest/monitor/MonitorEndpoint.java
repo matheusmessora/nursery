@@ -5,7 +5,7 @@ import br.com.pandox.nursery.domain.DomainNotFoundException;
 import br.com.pandox.nursery.domain.monitor.factory.MonitorFactory;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.domain.monitor.sevice.MonitorService;
+import br.com.pandox.nursery.domain.monitor.service.MonitorService;
 import br.com.pandox.nursery.view.exception.DomainIllegalAttributeException;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import br.com.pandox.nursery.view.exception.ResourceNotFoundException;

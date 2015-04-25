@@ -2,13 +2,12 @@ package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.alert.Alert;
-import br.com.pandox.nursery.domain.alert.event.DataViolatedThresdhold;
 import br.com.pandox.nursery.domain.alert.model.AlertEntity;
-import br.com.pandox.nursery.domain.metric.model.vo.Edge;
-import br.com.pandox.nursery.domain.metric.model.vo.EdgeImpl;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
 import br.com.pandox.nursery.domain.monitor.model.MonitorEntity;
+import br.com.pandox.nursery.domain.threshold.model.Threshold;
+import br.com.pandox.nursery.domain.threshold.model.ThresholdEntity;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -38,6 +37,7 @@ public class MetricEntity implements Metric {
 
 
     @Id
+    @Column(name = "id")
     @GeneratedValue
     private Long id;
 
@@ -53,12 +53,6 @@ public class MetricEntity implements Metric {
     @Column
     private Integer maxValue;
 
-    @Column
-    private Integer thresholdLowValue;
-
-    @Column
-    private Integer thresholdHighValue;
-
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MonitorEntity.class)
     @JoinColumn(updatable = false, insertable = true, nullable = false)
     private Monitor monitor;
@@ -66,8 +60,12 @@ public class MetricEntity implements Metric {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = MetricDataEntity.class, mappedBy = "metric")
     private List<MetricData> datas;
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = AlertEntity.class, mappedBy = "metric")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = AlertEntity.class, mappedBy = "metric")
     private List<Alert> alerts;
+
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = ThresholdEntity.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "metric_id", referencedColumnName = "id")
+    private List<Threshold> thresholds;
 
     @Transient
     private boolean dataLoaded;
@@ -120,14 +118,14 @@ public class MetricEntity implements Metric {
     }
 
     protected void publishAlertEvent(MetricData data, EventBus eventBus) {
-        if (!getEdge().isPresent()) {
-            return;
-        }
+//        if (!getEdge().isPresent()) {
+//            return;
+//        }
 
-        if (data.getValue() > getEdge().get().getHighest()) {
-            DataViolatedThresdhold event = new DataViolatedThresdhold(this, data);
-            eventBus.post(event);
-        }
+//        if (data.getValue() > getEdge().get().getHighest()) {
+//            DataViolatedThresdhold event = new DataViolatedThresdhold(this, data);
+//            eventBus.post(event);
+//        }
     }
 
     protected void validate(MetricData data) {
@@ -159,21 +157,19 @@ public class MetricEntity implements Metric {
     }
 
     @Override
-    public void addEdge(Edge edge) {
-        Assert.notNull(edge);
-        thresholdLowValue = edge.getLowest();
-        thresholdHighValue = edge.getHighest();
+    public List<Threshold> getThresholds() {
+        if(thresholds == null) {
+            thresholds = new ArrayList<>();
+        }
+
+        return thresholds;
     }
 
     @Override
-    public Optional<Edge> getEdge() {
-        Optional<Edge> edge = Optional.absent();
-        if (hasEdge()) {
-            Edge edge1 = new EdgeImpl(thresholdLowValue, thresholdHighValue);
-            edge = Optional.of(edge1);
-        }
+    public void addThreshold(Threshold threshold) {
+        Assert.notNull(threshold, "threshold must not be null");
 
-        return edge;
+        getThresholds().add(threshold);
     }
 
     @Override
@@ -183,10 +179,6 @@ public class MetricEntity implements Metric {
         }
 
         return Collections.emptyList();
-    }
-
-    private boolean hasEdge() {
-        return thresholdLowValue != null && thresholdHighValue != null;
     }
 
     public void setMonitor(Monitor monitor) {

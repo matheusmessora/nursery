@@ -1,15 +1,15 @@
 package br.com.pandox.nursery.view.rest.metric;
 
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.metric.model.vo.Edge;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
+import br.com.pandox.nursery.domain.threshold.model.Threshold;
 import br.com.pandox.nursery.view.rest.AbstractDTO;
 import br.com.pandox.nursery.view.rest.Link;
 import br.com.pandox.nursery.view.rest.data.DataDTO;
 import br.com.pandox.nursery.view.rest.monitor.MonitorDTO;
+import br.com.pandox.nursery.view.rest.threshold.ThresholdDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +29,6 @@ public class MetricDTO extends AbstractDTO {
 		this.setType(metric.getType());
 		this.setMax_value(metric.getMaxValue());
 
-		Optional<Edge> edge = metric.getEdge();
-		if(edge.isPresent()){
-			this.setEdgeLowValue(edge.get().getLowest());
-			this.setEdgeHighValue(edge.get().getHighest());
-		}
-
 		ArrayList<DataDTO> datas = new ArrayList<>();
 		if(metric.isDatasLoaded()){
 			for (MetricData data : metric.getDatas()) {
@@ -42,6 +36,11 @@ public class MetricDTO extends AbstractDTO {
 			}
 		}
 		this.setDatas(datas);
+
+		this.thresholds = new ArrayList<>();
+		for (Threshold threshold : metric.getThresholds()) {
+			thresholds.add(new ThresholdDTO(threshold));
+		}
 
 		this.addLink(new Link("/api/data", "create-data"));
 		this.addLink(new Link("/api/metric/" + this.getId() + "?load=true", "fetch-data"));
@@ -61,8 +60,11 @@ public class MetricDTO extends AbstractDTO {
 
 	private Integer max_value;
 
-	private Integer edgeLowValue;
-	private Integer edgeHighValue;
+	private List<ThresholdDTO> thresholds;
+
+	public MetricDTO(Long id) {
+		this.id = id;
+	}
 
 	public Integer getMax_value() {
 		return max_value;
@@ -120,22 +122,6 @@ public class MetricDTO extends AbstractDTO {
 		this.datas = datas;
 	}
 
-	public Integer getEdgeHighValue() {
-		return edgeHighValue;
-	}
-
-	public void setEdgeHighValue(Integer edgeHighValue) {
-		this.edgeHighValue = edgeHighValue;
-	}
-
-	public Integer getEdgeLowValue() {
-		return edgeLowValue;
-	}
-
-	public void setEdgeLowValue(Integer edgeLowValue) {
-		this.edgeLowValue = edgeLowValue;
-	}
-
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("MetricDTO{");
@@ -146,9 +132,16 @@ public class MetricDTO extends AbstractDTO {
 		sb.append(", monitor=").append(monitor);
 		sb.append(", datas=").append(datas);
 		sb.append(", max_value=").append(max_value);
-		sb.append(", edgeLowValue=").append(edgeLowValue);
-		sb.append(", edgeHighValue=").append(edgeHighValue);
+		sb.append(", thresholds=").append(thresholds);
 		sb.append('}');
 		return sb.toString();
+	}
+
+	public List<ThresholdDTO> getThresholds() {
+		return thresholds;
+	}
+
+	public void setThresholds(List<ThresholdDTO> thresholds) {
+		this.thresholds = thresholds;
 	}
 }

@@ -3,7 +3,6 @@ package br.com.pandox.nursery.view.rest.data;
 import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metricData.MetricDataService;
 import br.com.pandox.nursery.view.exception.DomainMandatoryAttributeException;
 import br.com.pandox.nursery.view.rest.metric.MetricDTO;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DataEndpoint {
+public class MetricDataEndpoint {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -37,7 +36,7 @@ public class DataEndpoint {
     public ResponseEntity<MetricDTO> save(@RequestBody DataDTO dataDTO) {
         validate(dataDTO);
 
-        MetricData metricData = metricDataService.create(dataDTO.getValue(), dataDTO.getMetric().getId());
+        metricDataService.create(dataDTO.getValue(), dataDTO.getMetric().getId());
 
         Metric metric = metricLoader.loadByID(dataDTO.getMetric().getId(), true);
 

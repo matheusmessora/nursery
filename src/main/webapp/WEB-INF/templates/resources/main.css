@@ -104,7 +104,7 @@ th {
 
 .container-fluid {
     float: left;
-    width: calc(100% - 275px);
+    width: calc(100% - 300px);
     margin-left: 275px;
 }
 #side_menu {

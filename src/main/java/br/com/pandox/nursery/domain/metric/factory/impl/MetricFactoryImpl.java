@@ -4,18 +4,12 @@ import br.com.pandox.nursery.domain.metric.factory.MetricFactory;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricBuilder;
 import br.com.pandox.nursery.domain.metric.model.MetricEntity;
-import br.com.pandox.nursery.domain.metric.model.vo.Edge;
-import br.com.pandox.nursery.domain.metric.model.vo.EdgeImpl;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
-import br.com.pandox.nursery.view.rest.Link;
-import br.com.pandox.nursery.view.rest.data.DataDTO;
 import br.com.pandox.nursery.view.rest.metric.MetricDTO;
-import com.google.common.base.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,10 +51,6 @@ public class MetricFactoryImpl implements MetricFactory {
 				.setType(metricDTO.getType())
 				.setTimeInterval(metricDTO.getTime_interval())
 				.setMaxValue(metricDTO.getMax_value());
-
-		if(metricDTO.getEdgeLowValue() != null && metricDTO.getEdgeHighValue() != null) {
-			builder.setEdge(new EdgeImpl(metricDTO.getEdgeLowValue(), metricDTO.getEdgeHighValue()));
-		}
 
 		return builder.build();
 	}
