@@ -58,7 +58,7 @@ public class MetricEndpoint {
 
     @RequestMapping(value = "/api/metric/{id}")
     public ResponseEntity<MetricDTO> findById(@PathVariable Long id, @RequestParam(required = false, value = "load") boolean loadData) {
-        Metric metric = loader.loadByID(id, loadData);
+        Metric metric = loader.loadByID(id, loadData, false);
         MetricDTO dto = new MetricDTO(metric);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

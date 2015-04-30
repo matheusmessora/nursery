@@ -2,6 +2,7 @@ package br.com.pandox.nursery.domain.metric.model;
 
 import br.com.pandox.nursery.domain.CommandException;
 import br.com.pandox.nursery.domain.alert.Alert;
+import br.com.pandox.nursery.domain.alert.event.DataViolatedThresdhold;
 import br.com.pandox.nursery.domain.alert.model.AlertEntity;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
@@ -123,8 +124,8 @@ public class MetricEntity implements Metric {
 //        }
 
 //        if (data.getValue() > getEdge().get().getHighest()) {
-//            DataViolatedThresdhold event = new DataViolatedThresdhold(this, data);
-//            eventBus.post(event);
+            DataViolatedThresdhold event = new DataViolatedThresdhold(getId(), data);
+            eventBus.post(event);
 //        }
     }
 
@@ -209,4 +210,7 @@ public class MetricEntity implements Metric {
         return id != null ? id.hashCode() : 0;
     }
 
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
+    }
 }

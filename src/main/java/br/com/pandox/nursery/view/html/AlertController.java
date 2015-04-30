@@ -1,6 +1,7 @@
 package br.com.pandox.nursery.view.html;
 
 import br.com.pandox.nursery.domain.alert.Alert;
+import br.com.pandox.nursery.domain.alert.loader.AlertLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.monitor.loader.MonitorLoader;
 import br.com.pandox.nursery.domain.monitor.model.Monitor;
@@ -18,6 +19,9 @@ public class AlertController {
     @Autowired
     private MonitorLoader monitorLoader;
 
+    @Autowired
+    private AlertLoader alertLoader;
+
     @RequestMapping("/alerts")
     public String index(Model model) {
         List<Monitor> monitors = monitorLoader.loadAll(true);
@@ -25,7 +29,7 @@ public class AlertController {
         List<Alert> alerts = new ArrayList<>();
         for (Monitor monitor : monitors) {
             for (Metric metric : monitor.getMetrics()) {
-                alerts.addAll(metric.getAlerts());
+                alerts.addAll(alertLoader.loadByMetricId(metric.getId()));
             }
         }
 

@@ -97,7 +97,7 @@ public class StagingDatabase {
         dto.setTime_interval(1);
         metric = metricFactory.from(dto);
         metricService.create(metric, monitorId);
-        metric = metricLoader.loadByID(metric.getId(), false);
+        metric = metricLoader.loadByID(metric.getId(), false, false);
 
         ThresholdDTO thresholdDTO = new ThresholdDTO();
         thresholdDTO.setValue(15);

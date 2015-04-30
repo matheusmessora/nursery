@@ -1,10 +1,10 @@
 package br.com.pandox.nursery.domain.metric.loader.impl;
 
 import br.com.pandox.nursery.domain.DomainNotFoundException;
+import br.com.pandox.nursery.domain.alert.model.repository.AlertRepository;
 import br.com.pandox.nursery.domain.metric.loader.MetricLoader;
 import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.MetricEntity;
-import br.com.pandox.nursery.domain.metric.model.repository.MetricDataRepository;
 import br.com.pandox.nursery.domain.metric.model.repository.MetricRepository;
 import com.google.common.collect.ImmutableList;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +23,7 @@ public class MetricLoaderImpl implements MetricLoader {
     private MetricRepository repository;
 
     @Autowired
-    private MetricDataRepository metricDataRepository;
+    private AlertRepository alertRepository;
 
     @Override
     public Metric loadByName(String name) {
@@ -36,13 +36,17 @@ public class MetricLoaderImpl implements MetricLoader {
     }
 
     @Override
-    public Metric loadByID(Long id, boolean loadData) {
+    public Metric loadByID(Long id, boolean loadData, boolean loadAlerts) {
         MetricEntity entity;
         if(loadData) {
             entity = repository.findOneLoadDatas(id);
             entity.setDataLoaded(true);
         }else {
             entity = repository.findOne(id);
+        }
+
+        if(loadAlerts){
+            entity.setAlerts(alertRepository.findByMetric_id(id));
         }
 
         if(entity == null) {

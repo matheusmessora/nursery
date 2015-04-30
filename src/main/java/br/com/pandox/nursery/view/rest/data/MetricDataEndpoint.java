@@ -38,7 +38,7 @@ public class MetricDataEndpoint {
 
         metricDataService.create(dataDTO.getValue(), dataDTO.getMetric().getId());
 
-        Metric metric = metricLoader.loadByID(dataDTO.getMetric().getId(), true);
+        Metric metric = metricLoader.loadByID(dataDTO.getMetric().getId(), true, false);
 
         MetricDTO dto = new MetricDTO(metric);
 

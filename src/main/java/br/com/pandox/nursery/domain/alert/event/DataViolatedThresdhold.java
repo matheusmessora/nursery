@@ -1,27 +1,25 @@
 package br.com.pandox.nursery.domain.alert.event;
 
-import br.com.pandox.nursery.domain.metric.model.Metric;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import org.springframework.util.Assert;
 
 public class DataViolatedThresdhold {
 
     private MetricData data;
-    private Metric metric;
+    private Long metricId;
 
 
-    public DataViolatedThresdhold(Metric metric, MetricData data) {
-        Assert.notNull(metric, "metric should not be null");
+    public DataViolatedThresdhold(Long metricId, MetricData data) {
+        Assert.notNull(metricId, "metricId should not be null");
         Assert.notNull(data, "metricData should not be null");
 
-        this.metric = metric;
+        this.metricId = metricId;
         this.data = data;
     }
 
-    public Metric getMetric() {
-        return metric;
+    public Long getMetricId() {
+        return metricId;
     }
-
     public MetricData getData() {
         return data;
     }

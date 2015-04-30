@@ -32,7 +32,7 @@ public class ThresholdEndpoint {
 //        validate(metricDTO);
 
         Threshold threshold = factory.from(dto);
-        Metric metric = metricLoader.loadByID(dto.getMetricDTO().getId(), false);
+        Metric metric = metricLoader.loadByID(dto.getMetricDTO().getId(), false, false);
         metric.addThreshold(threshold);
         metricService.update(metric);
 

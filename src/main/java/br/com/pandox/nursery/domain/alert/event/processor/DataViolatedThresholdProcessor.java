@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Component
-public class CreateAlertFromMetricDataEdgeProcessor {
+public class DataViolatedThresholdProcessor {
 
     @Autowired
     private EventBus eventBus;
@@ -28,7 +28,7 @@ public class CreateAlertFromMetricDataEdgeProcessor {
     @Autowired
     private MetricLoader metricLoader;
 
-    public CreateAlertFromMetricDataEdgeProcessor() {
+    public DataViolatedThresholdProcessor() {
     }
 
     @Deprecated
@@ -43,7 +43,7 @@ public class CreateAlertFromMetricDataEdgeProcessor {
 
     @Subscribe
     public void process(DataViolatedThresdhold event) {
-        Metric metric = event.getMetric();
+        Metric metric = metricLoader.loadByID(event.getMetricId(), false, true);
         if(!metric.getAlerts().isEmpty()){
             return;
         }

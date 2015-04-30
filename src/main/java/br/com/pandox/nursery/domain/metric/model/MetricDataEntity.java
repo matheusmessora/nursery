@@ -67,4 +67,6 @@ public class MetricDataEntity implements MetricData {
     public void setMetric(Metric metric) {
         this.metric = metric;
     }
+
+
 }

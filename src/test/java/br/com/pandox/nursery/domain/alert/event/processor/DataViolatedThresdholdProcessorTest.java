@@ -5,7 +5,6 @@ import br.com.pandox.nursery.domain.alert.event.DataViolatedThresdhold;
 import br.com.pandox.nursery.domain.alert.factory.AlertFactory;
 import br.com.pandox.nursery.domain.alert.service.AlertService;
 import br.com.pandox.nursery.domain.metric.model.Metric;
-import br.com.pandox.nursery.domain.metric.model.MetricEntity;
 import br.com.pandox.nursery.domain.metric.model.vo.MetricData;
 import br.com.pandox.nursery.domain.metricData.model.MetricDataMock;
 import br.com.pandox.nursery.domain.model.AlertMock;
@@ -29,11 +28,11 @@ public class DataViolatedThresdholdProcessorTest {
     private EventBus eventBus;
 
     @InjectMocks
-    private CreateAlertFromMetricDataEdgeProcessor processor;
+    private DataViolatedThresholdProcessor processor;
 
     @BeforeTest
     public void init() {
-        processor = new CreateAlertFromMetricDataEdgeProcessor();
+        processor = new DataViolatedThresholdProcessor();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -49,8 +48,7 @@ public class DataViolatedThresdholdProcessorTest {
 
         AlertServiceMock alertService = new AlertServiceMock();
         processor.injectAlertservice(alertService);
-        DataViolatedThresdhold event = new DataViolatedThresdhold(new MetricEntity(),
-                new MetricDataMock());
+        DataViolatedThresdhold event = new DataViolatedThresdhold(1L, new MetricDataMock());
         processor.process(event);
 
         Assert.assertNotNull(alertService.getCreatedAlert());

@@ -29,7 +29,7 @@ public class ThresholdServiceImpl implements ThresholdService {
 
     private Metric load(Long metricId){
         try {
-            return metricLoader.loadByID(metricId, false);
+            return metricLoader.loadByID(metricId, false, false);
         }catch (DomainNotFoundException e) {
             throw new CommandException(String.format("Given metric with id [%s] not found", metricId));
         }
